@@ -1,8 +1,19 @@
 #! /bin/bash
-/home/blacklight/solrmarc-sw/stanford-sw/scripts/indexNightlyNoEmailNoCrezNoCommit 140318
-/home/blacklight/solrmarc-sw/stanford-sw/scripts/indexNightlyNoEmailNoCrezNoCommit 140319
+/home/blacklight/solrmarc-sw/stanford-sw/scripts/indexNightlyNoEmailNoCrezNoCommit.sh 140308
+/home/blacklight/solrmarc-sw/stanford-sw/scripts/indexNightlyNoEmailNoCrezNoCommit.sh 140309
+/home/blacklight/solrmarc-sw/stanford-sw/scripts/indexNightlyNoEmailNoCrezNoCommit.sh 140310
+/home/blacklight/solrmarc-sw/stanford-sw/scripts/indexNightlyNoEmailNoCrezNoCommit.sh 140311
+/home/blacklight/solrmarc-sw/stanford-sw/scripts/indexNightlyNoEmailNoCrezNoCommit.sh 140312
+/home/blacklight/solrmarc-sw/stanford-sw/scripts/indexNightlyNoEmailNoCrezNoCommit.sh 140313
+/home/blacklight/solrmarc-sw/stanford-sw/scripts/indexNightlyNoEmailNoCrezNoCommit.sh 140314
+/home/blacklight/solrmarc-sw/stanford-sw/scripts/indexNightlyNoEmailNoCrezNoCommit.sh 140315
+/home/blacklight/solrmarc-sw/stanford-sw/scripts/indexNightlyNoEmailNoCrezNoCommit.sh 140316
+/home/blacklight/solrmarc-sw/stanford-sw/scripts/indexNightlyNoEmailNoCrezNoCommit.sh 140317
+/home/blacklight/solrmarc-sw/stanford-sw/scripts/indexNightlyNoEmailNoCrezNoCommit.sh 140318
+/home/blacklight/solrmarc-sw/stanford-sw/scripts/indexNightlyNoEmailNoCrezNoCommit.sh 140319
+/home/blacklight/solrmarc-sw/stanford-sw/scripts/indexNightlyNoEmailNoCrezNoCommit.sh 140320
 # last one should do commit before crez processing
-/home/blacklight/solrmarc-sw/stanford-sw/scripts/indexNightlyNoEmailNoCrez 140320
+/home/blacklight/solrmarc-sw/stanford-sw/scripts/indexNightlyNoEmailNoCrez.sh 140321
 
 # include latest course reserves data IFF it's not done with above scripts
 JRUBY_OPTS="--1.9"
