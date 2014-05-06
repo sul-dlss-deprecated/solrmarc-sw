@@ -1,5 +1,7 @@
-{<img src="https://travis-ci.org/sul-dlss/solrmarc-sw.svg?branch=features/repo-of-record-setup" alt="Build Status" />}[https://travis-ci.org/sul-dlss/solrmarc-sw]
 = solrmarc-sw
+
+{<img src="https://travis-ci.org/sul-dlss/solrmarc-sw.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/sul-dlss/solrmarc-sw]
+{<img src="https://scan.coverity.com/projects/2194/badge.svg" alt="Coverity Scan Build Status" />}[https://scan.coverity.com/projects/2194]
 
 This is a FORK of the SolrMarc** project;  it was streamlined for the single
 purpose of indexing Stanford Marc data for the SearchWorks application
