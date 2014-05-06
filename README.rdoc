@@ -1,3 +1,4 @@
+{<img src="https://travis-ci.org/solrmarc/stanford-solr-marc.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/solrmarc/stanford-solr-marc]
 = solrmarc-sw
 
 This is a FORK of the SolrMarc** project;  it was streamlined for the single
