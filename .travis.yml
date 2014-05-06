@@ -2,6 +2,7 @@ language: java
 env:
   - TEST_SUITE=test_core
   - TEST_SUITE=test_site
+env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
@@ -22,9 +23,7 @@ addons:
     project:
       name: "sul-dlss/solrmarc-sw"
       description: "Stanford SearchWorks fork of SolrMarc"
-    notification_email: 
-     - ndushay@stanford.edu
-     - laneymcg@stanford.edu
+    notification_email: ndushay@stanford.edu
     build_command_prepend:
     build_command: "ant compile_site"
     branch_pattern: coverity_scan
