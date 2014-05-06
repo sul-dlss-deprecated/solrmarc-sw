@@ -7,7 +7,7 @@ env:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
    - secure: "DoAH/3+kHNtoQkb4/iggDsF08PXMdu8FEOSih3w/GgYas93CNsvGs2ymMg4dcazd25zzoGIw9WrYMvTGUUdHY6Hg0k7yKJWr5sNru1AGJ/L/aSrr/2LsM4pGXFsvxQtnWRIDBMS9nzdrf83iUXvpNdVktCoRAK4jvw955M7LCRs="
-script: "ant $TEST_SUITE"
+script: if [ ${COVERITY_SCAN_BRANCH} != 1 ]; then "ant $TEST_SUITE" ; fi
 jdk:
   - openjdk6
   - openjdk7
