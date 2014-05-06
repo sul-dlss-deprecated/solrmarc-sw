@@ -1,4 +1,4 @@
-= stanford-solr-marc
+= solrmarc-sw
 
 This is a FORK of the SolrMarc** project;  it was streamlined for the single
 purpose of indexing Stanford Marc data for the SearchWorks application
@@ -8,16 +8,25 @@ purpose of indexing Stanford Marc data for the SearchWorks application
 
 1. clone the project
 
- git clone git://github.com/solrmarc/stanford-solr-marc.git
+ git clone git://github.com/sul-dlss/solrmarc-sw.git
 
 2. create a Solr instance
  * This is known to work with solr version 4.4.0 and java 1.6
  * see test/solr for a vanilla example of config files, solr war file, solr.xml, etc.
  * see stanford-sw/solr  for config files, solr war file, solr.xml, etc.
  * see Solr project at http://lucene.apache.org/solr
+
 3. run the dist ant task
 
  ant dist
+
+You can see all the ant targets with
+
+ ant -p
+
+or
+
+ ant --projecthelp
 
 4. create a script to run your MARC data through the solrmarc instance to write to a Solr index
 (see examples in stanford-sw/scripts)
