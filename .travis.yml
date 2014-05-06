@@ -1,0 +1,14 @@
+language: java
+env:
+  - TEST_SUITE=test_core
+  - TEST_SUITE=test_site
+script: "ant $TEST_SUITE"
+jdk:
+  - openjdk6
+  - openjdk7
+  - oraclejdk7
+
+notifications:
+  email:
+    - ndushay@stanford.edu
+    - laneymcg@stanford.edu
