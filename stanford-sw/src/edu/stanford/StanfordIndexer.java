@@ -63,7 +63,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         BIZ_SHELBY_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "locations_biz_shelby_list.properties");
         SKIPPED_CALLNUMS = PropertiesUtils.loadPropertiesSet(propertyDirs, "callnums_skipped_list.properties");
         // try to reuse HashSet, etc. objects instead of creating fresh each time
-        formats = new LinkedHashSet<String>();
+        old_formats = new LinkedHashSet<String>();
+        main_formats = new LinkedHashSet<String>();
+        accessMethods = new HashSet<String>();
     	sfxUrls = new LinkedHashSet<String>();
     	fullTextUrls = new LinkedHashSet<String>();
     	buildings = new HashSet<String>();
@@ -75,12 +77,16 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	// variables used in more than one method
 	/** the id of the record - used for error messages in addition to id field */
 	String id = null;
-	/** the formats of the record - used for item_display in addition to format field */
-	Set<String> formats;
+	/** @deprecated the old formats of the record, kept for UI URL continuity */
+	Set<String> old_formats;
+	/** the formats of the record - used for display rules in addition to format field */
+	Set<String> main_formats;
 	/** sfxUrls are used for access_method in addition to sfxUrl field */
 	Set<String> sfxUrls;
 	/** fullTextUrls are used for access_method in addition to fullTextUrl field */
 	Set<String> fullTextUrls;
+	/** accessMethods are used for format in addition to access_method field */
+	Set<String> accessMethods;
 	/** buildings are used for topics due to weird law 655s */
 	Set<String> buildings;
 	/** shelfkeys are used for reverse_shelfkeys */
@@ -157,11 +163,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			}
 		}
 
-		setFormats(record);
-		isSerial = formats.contains(Format.JOURNAL_PERIODICAL.toString());
-		ItemUtils.lopItemCallnums(itemSet, findTranslationMap(LOCATION_MAP_NAME), isSerial);
-		setSFXUrls(); // doesn't need record b/c they come from 999
+		setSFXUrls(); // doesn't need record b/c they come from 999s, which are already in itemSet
 		setFullTextUrls(record);
+		setAccessMethods(record);
+		setOldFormats(record);  // vestigial for continuity in UI URLs for old formats
+		setMainFormats(record);
+		isSerial = main_formats.contains(Format.JOURNAL_PERIODICAL.toString());
+		ItemUtils.lopItemCallnums(itemSet, findTranslationMap(LOCATION_MAP_NAME), isSerial);
 		setBuildings(record);
 		setGovDocCats(record);
 
@@ -215,36 +223,40 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 // Format Methods  --------------- Begin ------------------------ Format Methods
 
 	/**
+	 * keeping these formats around for continuity in UI URLs for old formats
 	 * @return Set of strings containing format values for the resource
 	 * @param record a marc4j Record object
+	 * @deprecated (used for old format only)
 	 */
-	public Set<String> getFormats(final Record record)
+	public Set<String> getOldFormats(final Record record)
 	{
-		return formats;
+		return old_formats;
 	}
 
 	/**
 	 * Assign formats per algorithm and marc bib record
+	 * keeping these formats around for continuity in UI URLs for old formats
 	 *  As of July 28, 2008, algorithms for formats are currently in email
 	 *  message from Vitus Tang to Naomi Dushay, cc Phil Schreur, Margaret
 	 *  Hughes, and Jennifer Vine dated July 23, 2008.
+	 * @deprecated (used for old format only)
 	 */
 	@SuppressWarnings("unchecked")
-	private void setFormats(final Record record)
+	private void setOldFormats(final Record record)
 	{
-		formats.clear();
+		old_formats.clear();
 
 		// assign formats based on leader chars 06, 07 and chars in 008
 		String leaderStr = record.getLeader().marshal();
-		formats.addAll(FormatUtils.getFormatsPerLdrAnd008(leaderStr, cf008));
+		old_formats.addAll(FormatUtils.getFormatsPerLdrAnd008Old(leaderStr, cf008));
 
-		if (formats.isEmpty()) {
+		if (old_formats.isEmpty()) {
 			// see if it's a serial for format assignment
 			char leaderChar07 = leaderStr.charAt(7);
 			VariableField f006 = record.getVariableField("006");
 			String serialFormat = FormatUtils.getSerialFormat(leaderChar07, cf008, f006);
 			if (serialFormat != null)
-				formats.add(serialFormat);
+				old_formats.add(serialFormat);
 		}
 
 		// look for conference proceedings in 6xx
@@ -255,8 +267,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				subList.addAll(MarcUtils.getSubfieldStrings(df, 'v'));
 				for (String s : subList) {
 					if (s.toLowerCase().contains("congresses")) {
-						formats.remove(Format.JOURNAL_PERIODICAL.toString());
-						formats.add(Format.CONFERENCE_PROCEEDINGS.toString());
+						old_formats.remove(FormatOld.JOURNAL_PERIODICAL.toString());
+						old_formats.add(FormatOld.CONFERENCE_PROCEEDINGS.toString());
 					}
 				}
 			}
@@ -268,26 +280,233 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			if (item.getCallnumType() == CallNumberType.OTHER) {
 				String callnum = item.getCallnum();
 				if (callnum.startsWith("MFILM") || callnum.startsWith("MFICHE"))
-					formats.add(Format.MICROFORMAT.toString());
+					old_formats.add(FormatOld.MICROFORMAT.toString());
 				else if (callnum.startsWith("MCD"))
-					formats.add(Format.MUSIC_RECORDING.toString());
+					old_formats.add(FormatOld.MUSIC_RECORDING.toString());
 				else if (callnum.startsWith("ZDVD") || callnum.startsWith("ADVD"))
-					formats.add(Format.VIDEO.toString());
+					old_formats.add(FormatOld.VIDEO.toString());
 			}
 			if (item.getType().equalsIgnoreCase("DATABASE"))
-				formats.add(Format.DATABASE_A_Z.toString());
+				old_formats.add(FormatOld.DATABASE_A_Z.toString());
 		}
 
-		if (FormatUtils.isMicroformat(record))
-			formats.add(Format.MICROFORMAT.toString());
+		if (FormatUtils.isMicroformatOld(record))
+			old_formats.add(FormatOld.MICROFORMAT.toString());
 
-		if (FormatUtils.isThesis(record))
-			formats.add(Format.THESIS.toString());
+		if (!record.getVariableFields("502").isEmpty())
+			old_formats.add(FormatOld.THESIS.toString());
 
 		// if we still don't have a format, it's an "other"
-		if (formats.isEmpty() || formats.size() == 0)
-			formats.add(Format.OTHER.toString());
+		if (old_formats.isEmpty() || old_formats.size() == 0)
+			old_formats.add(FormatOld.OTHER.toString());
 	}
+
+
+	/**
+	 * @return Set of strings containing format values for the resource
+	 * @param record a marc4j Record object
+	 */
+	public Set<String> getMainFormats(final Record record)
+	{
+		return main_formats;
+	}
+
+	/**
+	 * Assign formats per decisions made late fall 2013
+	 */
+	@SuppressWarnings("unchecked")
+	private void setMainFormats(final Record record)
+	{
+		main_formats.clear();
+
+		String updatingDbVal = Format.UPDATING_DATABASE.toString();
+		String updatingWebsiteVal = Format.UPDATING_WEBSITE.toString();
+		String updatingOtherVal = Format.UPDATING_OTHER.toString();
+
+		// assign formats based on leader chars 06, 07 and chars in 008
+		String leaderStr = record.getLeader().marshal();
+		main_formats.addAll(FormatUtils.getFormatsPerLdrAnd008(leaderStr, cf008));
+
+		String journalVal = Format.JOURNAL_PERIODICAL.toString();
+		if (main_formats.isEmpty())
+		{
+			// see if it's a serial for format assignment
+			char leaderChar07 = leaderStr.charAt(7);
+			char cf008c21 = '\u0000';
+			if (cf008 != null)
+				cf008c21 = ((ControlField) cf008).getData().charAt(21);
+
+			VariableField f006 = record.getVariableField("006");
+			String serialFormat = FormatUtils.getMainFormatSerial(leaderChar07, cf008c21, (ControlField) f006);
+			if (serialFormat != null)
+				main_formats.add(serialFormat);
+
+			// see if it's an integrating resource
+			if (main_formats.isEmpty() && leaderChar07 == 'i' &&  cf008c21 != '\u0000')
+			{
+				String integrFormat = FormatUtils.getIntegratingMainFormatFromChar(cf008c21);
+				if (integrFormat != null)
+					main_formats.add(integrFormat);
+			}
+
+			// does updating/integrating resource need to be revised based on SFX url?
+			if (sfxUrls.size() > 0)
+			{
+				String bookSerVal = Format.BOOK_SERIES.toString();
+				if (main_formats.contains(bookSerVal))
+				{
+					main_formats.remove(bookSerVal);
+					main_formats.add(journalVal);
+				}
+				else if (main_formats.contains(updatingDbVal))
+				{
+					main_formats.remove(updatingDbVal);
+					main_formats.add(journalVal);
+				}
+				else if (main_formats.contains(updatingWebsiteVal))
+				{
+					main_formats.remove(updatingWebsiteVal);
+					main_formats.add(journalVal);
+				}
+				else if (main_formats.contains(updatingOtherVal))
+				{
+					main_formats.remove(updatingOtherVal);
+					main_formats.add(journalVal);
+				}
+			}
+		}
+
+		// check for format information from 999 ALPHANUM call numbers
+		// and from itemType (999 subfield t)
+		String dbazVal = Format.DATABASE_A_Z.toString();
+		for (Item item : itemSet) {
+// FIXME:  temporarily not using this
+//			if (item.getCallnumType() == CallNumberType.OTHER) {
+//				String callnum = item.getCallnum();
+//				if (callnum.startsWith("MCD"))
+//					main_formats.add(Format.MUSIC_RECORDING.toString());
+//				else if (callnum.startsWith("ZDVD") || callnum.startsWith("ADVD"))
+//					main_formats.add(Format.VIDEO.toString());
+//			}
+			if (item.getType().equalsIgnoreCase("DATABASE"))
+			{
+				main_formats.add(dbazVal);
+
+				// if it is a Database and a Computer File, and it is not
+				//  "at the library", then it should only be a Database
+				String compFileVal = Format.COMPUTER_FILE.toString();
+				if (main_formats.contains(compFileVal) &&
+					!accessMethods.contains(Access.AT_LIBRARY.toString()))
+					main_formats.remove(compFileVal);
+
+				// remove continuing resource value if it is one of those
+				if (main_formats.contains(updatingDbVal))
+					main_formats.remove(updatingDbVal);
+				else if (main_formats.contains(updatingWebsiteVal))
+					main_formats.remove(updatingWebsiteVal);
+				else if (main_formats.contains(updatingOtherVal))
+					main_formats.remove(updatingOtherVal);
+			}
+		}
+
+		if (FormatUtils.isMarcit(record))
+			main_formats.add(journalVal);
+
+		// if we still don't have a format, it's an "other"
+		if (main_formats.isEmpty() || main_formats.size() == 0)
+			main_formats.add(Format.OTHER.toString());
+	}
+
+	/**
+	 * @return Set of strings containing physical format values for the resource
+	 * @param record a marc4j Record object
+	 */
+	public Set<String> getPhysicalFormats(final Record record)
+	{
+		Set<String> physicalFormats = new HashSet<String>();
+		physicalFormats.addAll(FormatUtils.getPhysicalFormatsPer007(record.getVariableFields("007"), accessMethods));
+
+		String mfilmVal = FormatPhysical.MICROFILM.toString();
+		String mficheVal = FormatPhysical.MICROFICHE.toString();
+
+		// check call numbers for physical format information
+		for (Item item : itemSet) {
+			String callnum = item.getCallnum();
+			if (!physicalFormats.contains(mficheVal) && callnum.startsWith("MFICHE"))
+				physicalFormats.add(mficheVal);
+			if (!physicalFormats.contains(mfilmVal) && callnum.startsWith("MFILM"))
+				physicalFormats.add(mfilmVal);
+		}
+
+		// check for format information in 300
+
+		// check in all alpha subfields
+		Set<String> df300abcSet = MarcUtils.getAllAlphaSubfields(record, "300");
+		for (String df300abc : df300abcSet)
+		{
+			String CDphysform = FormatPhysical.CD.toString();
+			if (!physicalFormats.contains(CDphysform) && FormatUtils.describesCD(df300abc))
+				physicalFormats.add(CDphysform);
+			String vinylPhysform = FormatPhysical.VINYL.toString();
+			if (!physicalFormats.contains(vinylPhysform) && FormatUtils.describesVinyl(df300abc))
+				physicalFormats.add(vinylPhysform);
+		}
+
+		// check subfield a only
+		for	(Object obj300 : record.getVariableFields("300"))
+		{
+			DataField df300 = (DataField) obj300;
+			for (Object subaObj : df300.getSubfields('a'))
+			{
+				String subaStr = ((Subfield) subaObj).getData().toLowerCase();
+				if (subaStr.contains("microfiche") && !physicalFormats.contains(mficheVal))
+					physicalFormats.add(mficheVal);
+				if (subaStr.contains("microfilm") && !physicalFormats.contains(mfilmVal))
+					physicalFormats.add(mfilmVal);
+				String photoValPlain = FormatPhysical.PHOTO.toString();
+				if (subaStr.contains("photograph") && !physicalFormats.contains(photoValPlain))
+					physicalFormats.add(photoValPlain);
+// FIXME:  the "from 300" is temporary
+				String rsiValPlain = FormatPhysical.REMOTE_SENSING_IMAGE.toString();
+				if ((subaStr.contains("remote-sensing image") ||	subaStr.contains("remote sensing image"))
+					&& !physicalFormats.contains(rsiValPlain))
+					physicalFormats.add(rsiValPlain + " from 300");
+				String slideValPlain = FormatPhysical.SLIDE.toString();
+				if (subaStr.contains("slide") && !physicalFormats.contains(slideValPlain))
+					physicalFormats.add(slideValPlain + " from 300");
+			}
+		}
+
+		return physicalFormats;
+	}
+
+
+	public Set<String> getGenres(final Record record)
+	{
+		Set<String> resultSet = new HashSet<String>();
+
+		// look for thesis by existence of 502 field
+		if (!record.getVariableFields("502").isEmpty())
+			resultSet.add(Genre.THESIS.toString());
+
+		// look for conference proceedings in 6xx sub x or v
+		List<DataField> dfList = (List<DataField>) record.getDataFields();
+		for (DataField df : dfList) {
+			if (df.getTag().startsWith("6")) {
+				List<String> subList = MarcUtils.getSubfieldStrings(df, 'x');
+				subList.addAll(MarcUtils.getSubfieldStrings(df, 'v'));
+				for (String s : subList) {
+					if (s.toLowerCase().contains("congresses")) {
+						resultSet.add(Genre.CONFERENCE_PROCEEDINGS.toString());
+					}
+				}
+			}
+		}
+
+		return resultSet;
+	}
+
+
 // Format Methods  ---------------- End ------------------------- Format Methods
 
 // Language Methods ---------------- Begin -------------------- Language Methods
@@ -709,7 +928,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	public Set<String> getDbAZSubjects(final Record record)
 	{
 		Set<String> subjectsSet = new LinkedHashSet<String>();
-		if (formats.contains(Format.DATABASE_A_Z.toString())) {
+		if (main_formats.contains(Format.DATABASE_A_Z.toString())) {
 			subjectsSet = MarcUtils.getFieldList(record, "099a");
 		}
 		// add second value for those codes mapping to two values
@@ -758,21 +977,28 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getAccessMethods(final Record record)
 	{
-		Set<String> resultSet = new HashSet<String>();
+		return accessMethods;
+	}
 
+	/**
+	 * sets the accessMethods for a record.
+	 * @param record a marc4j Record object
+	 * @return Set of Strings containing access facet values.
+	 */
+	private void setAccessMethods(final Record record)
+	{
+		accessMethods.clear();
 		for (Item item : itemSet) {
 			if (item.isOnline())
-				resultSet.add(Access.ONLINE.toString());
+				accessMethods.add(Access.ONLINE.toString());
 			else
-				resultSet.add(Access.AT_LIBRARY.toString());
+				accessMethods.add(Access.AT_LIBRARY.toString());
 		}
 
 		if (fullTextUrls.size() > 0)
-			resultSet.add(Access.ONLINE.toString());
+			accessMethods.add(Access.ONLINE.toString());
 		if (sfxUrls.size() > 0)
-			resultSet.add(Access.ONLINE.toString());
-
-		return resultSet;
+			accessMethods.add(Access.ONLINE.toString());
 	}
 
 // Access Methods -----------------  End  ----------------------- Access Methods

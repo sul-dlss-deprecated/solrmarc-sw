@@ -1,30 +1,25 @@
 package edu.stanford.enumValues;
 
 /**
- * format facet values for Stanford University SearchWorks
+ * OLD format facet values for Stanford University SearchWorks
  * @author - Naomi Dushay
+ * @deprecated
  */
-public enum Format {
+public enum FormatOld {
 	BOOK,
-	/** @deprecated */
-	BOOK_SERIES, // Possibly temporary
 	COMPUTER_FILE,
+	CONFERENCE_PROCEEDINGS,
 	DATABASE_A_Z,
-	DATASET,
 	IMAGE,
 	JOURNAL_PERIODICAL,
 	MANUSCRIPT_ARCHIVE,
-	MAP,
+	MAP_GLOBE,
+	MICROFORMAT,
 	MUSIC_RECORDING,
 	MUSIC_SCORE,
 	NEWSPAPER,
 	SOUND_RECORDING,
-	/** @deprecated */
-	UPDATING_DATABASE, // Possibly temporary
-	/** @deprecated */
-	UPDATING_OTHER, // Possibly temporary
-	/** @deprecated */
-	UPDATING_WEBSITE, // Possibly temporary
+	THESIS,
 	VIDEO,
 	OTHER;
 
@@ -34,28 +29,24 @@ public enum Format {
 	@Override
 	public String toString() {
 		switch (this) {
-			case BOOK_SERIES:
-				return "Book series";
 			case COMPUTER_FILE:
-				return "Software/Multimedia";
+				return "Computer File";
+			case CONFERENCE_PROCEEDINGS:
+				return "Conference Proceedings";
 			case DATABASE_A_Z:
 				return "Database";
 			case JOURNAL_PERIODICAL:
 				return "Journal/Periodical";
 			case MANUSCRIPT_ARCHIVE:
-				return "Archive/Manuscript";
+				return "Manuscript/Archive";
+			case MAP_GLOBE:
+				return "Map/Globe";
 			case MUSIC_RECORDING:
-				return "Music recording";
+				return "Music - Recording";
 			case MUSIC_SCORE:
-				return "Music score";
+				return "Music - Score";
 			case SOUND_RECORDING:
-				return "Sound recording";
-			case UPDATING_DATABASE:
-				return "Updating database";
-			case UPDATING_OTHER:
-				return "Updating other";
-			case UPDATING_WEBSITE:
-				return "Updating website";
+				return "Sound Recording";
 			default:
 				String lc = super.toString().toLowerCase();
 				String firstchar = lc.substring(0, 1).toUpperCase();
