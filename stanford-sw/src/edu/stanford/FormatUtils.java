@@ -402,11 +402,11 @@ public class FormatUtils {
 	/**
 	 * Assign physical formats based on 007, leader chars and 008 chars
 	 *
-	 * @param cf007List - a list of 007 fields as ControlField objects
+	 * @param cf007List - a list of 007 fields as VariableField objects
 	 * @param accessMethods - set of Strings that can be Online or 'At the Library' or both
 	 * @param Set of Strings containing Physical Format enum values as Strings per the given data
 	 */
-	static Set<String> getPhysicalFormatsPer007(List<ControlField> cf007List, Set<String> accessMethods)
+	static Set<String> getPhysicalFormatsPer007(List<VariableField> cf007List, Set<String> accessMethods)
 	{
 		Set<String> result = new HashSet<String>();
 
@@ -414,8 +414,9 @@ public class FormatUtils {
 		// just like java string indexes, so char "6" is at index 6, and is
 		// the seventh character of the field
 
-		for (ControlField cf007 : cf007List)
+		for (VariableField vf007 : cf007List)
 		{
+			ControlField cf007 = (ControlField) vf007;
 			String cf007data = cf007.getData();
 			char cf007_0 = cf007data.charAt(0);
 			char cf007_1 = cf007data.charAt(1);
