@@ -483,6 +483,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 	public Set<String> getGenres(final Record record)
 	{
+		String leaderStr = record.getLeader().marshal();
+		char leaderChar07 = leaderStr.charAt(7);
+		
 		Set<String> resultSet = new HashSet<String>();
 
 		// look for thesis by existence of 502 field
@@ -502,6 +505,20 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				}
 			}
 		}
+		
+		/** Based upon SW-1056, added the following to the algorithm to determine if something is a conference proceeding: 
+		 *  Leader/07 = 'm' or 's' and 008/29 = '1' 
+		 **/
+		if (leaderChar07 == 'm' || leaderChar07 == 's') {
+			// check if it's a conference proceeding based on 008 char 29
+			char c29 = '\u0000';
+			if (cf008 != null && cf008.getData().length() >= 30) {
+				c29 = ((ControlField) cf008).getData().charAt(29);
+				if (c29 == '1')
+					resultSet.add(Genre.CONFERENCE_PROCEEDINGS.toString());
+			}
+		}
+
 
 		return resultSet;
 	}
