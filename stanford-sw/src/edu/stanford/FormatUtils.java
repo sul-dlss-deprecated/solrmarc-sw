@@ -44,7 +44,7 @@ public class FormatUtils {
 		char leaderChar06 = leaderStr.charAt(6);
 		switch (leaderChar06) {
 		case 'a':
-			if (leaderChar07 == 'a' || leaderChar07 == 'm')
+			if (leaderChar07 == 'a'  || leaderChar07 == 'm')
 				result.add(Format.BOOK.toString());
 			break;
 		case 'b':
@@ -91,7 +91,7 @@ public class FormatUtils {
 				result.add(Format.BOOK.toString());
 			break;
 		} // end switch
-
+	
 /* not yet vetted  2010-10-30					
 		// is it an updating database? (leader/07 = "s" or "i" and 008/21 = "d") OR (006/00 = "s" and 006/04 = "d") 
 		// (leader/07 = "s" and 008/21 = "d" handled by getSerialFormat()
@@ -107,7 +107,18 @@ public class FormatUtils {
 			}
 		}
 */
-		
+		/** Based upon SW-1056, added the following to the algorithm to determine if something is a conference proceeding: 
+		 *  Leader/07 = 'm' or 's' and 008/29 = '1' 
+		 **/
+		if (leaderChar07 == 'm' || leaderChar07 == 's') {
+			// check if it's a conference proceeding based on 008 char 29
+			char c29 = '\u0000';
+			if (cf008 != null) {
+				c29 = ((ControlField) cf008).getData().charAt(29);
+				if (c29 == '1')
+					result.add(Format.CONFERENCE_PROCEEDINGS.toString());
+			}
+		}
 		return result;
 	}
 	
