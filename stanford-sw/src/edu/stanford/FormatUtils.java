@@ -113,7 +113,7 @@ public class FormatUtils {
 		if (leaderChar07 == 'm' || leaderChar07 == 's') {
 			// check if it's a conference proceeding based on 008 char 29
 			char c29 = '\u0000';
-			if (cf008 != null) {
+			if (cf008 != null && cf008.getData().length() >= 30) {
 				c29 = ((ControlField) cf008).getData().charAt(29);
 				if (c29 == '1')
 					result.add(Format.CONFERENCE_PROCEEDINGS.toString());
