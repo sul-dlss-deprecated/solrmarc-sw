@@ -112,6 +112,7 @@ public class GenreTests extends AbstractStanfordTest
 		record.addVariableField(df650);
 		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.VIDEO.toString());
 		solrFldMapTest.assertSolrFldValue(record, genreFldName, fldVal);
+		
 		record = factory.newRecord();
 		record.setLeader(factory.newLeader("02958cgm a2200469Ki 4500"));
 		cf008.setData("110504s2011    cau418            vleng d");
@@ -119,6 +120,72 @@ public class GenreTests extends AbstractStanfordTest
 		record.addVariableField(df650);
 		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.VIDEO.toString());
 		solrFldMapTest.assertSolrFldValue(record, genreFldName, fldVal);
+		
+		// test 650|v Congresses
+		record = factory.newRecord();
+	    record.setLeader(factory.newLeader("04473caa a2200313Ia 4500"));
+	    cf008.setData("040202s2003    fi g     b    000 0deng d");
+	    record.addVariableField(cf008);
+	    DataField df650 = factory.newDataField("650", ' ', '0');
+	    df650.addSubfield(factory.newSubfield('a', "Music"));
+	    df650.addSubfield(factory.newSubfield('v', "Congresses."));
+	    record.addVariableField(df650);
+	    solrFldMapTest.assertSolrFldValue(record, genreFldName, fldVal);
+	    
+		// test 600|v Congresses
+		record = factory.newRecord();
+	    record.setLeader(factory.newLeader("04473caa a2200313Ia 4500"));
+	    cf008.setData("040202s2003    fi g     b    000 0deng d");
+	    record.addVariableField(cf008);
+	    DataField df600 = factory.newDataField("600", '1', '0');
+	    df600.addSubfield(factory.newSubfield('a', "Sibelius, Jean,"));
+	    df600.addSubfield(factory.newSubfield('d', "1865-1957"));
+	    df600.addSubfield(factory.newSubfield('v', "Congresses."));
+	    record.addVariableField(df600);
+	    solrFldMapTest.assertSolrFldValue(record, genreFldName, fldVal);
+
+	    // test LeaderChar07 = m and 008/29 = 1
+		record = factory.newRecord();
+	    record.setLeader(factory.newLeader("04473cam a2200313Ia 4500"));
+	    cf008.setData("040202s2003    fi g     b    100 0deng d");
+	    record.addVariableField(cf008);
+	    solrFldMapTest.assertSolrFldValue(record, genreFldName, fldVal);
+
+	    // test LeaderChar07 = s and 008/29 = 1
+	    record = factory.newRecord();
+	    record.setLeader(factory.newLeader("04473cas a2200313Ia 4500"));
+	    cf008.setData("040202s2003    fi g     b    100 0deng d");
+	    record.addVariableField(cf008);
+	    solrFldMapTest.assertSolrFldValue(record, genreFldName, fldVal);
+	    
+	    // test LeaderChar07 = m and 008/29 not 1
+	    record = factory.newRecord();
+	    record.setLeader(factory.newLeader("04473cam a2200313Ia 4500"));
+	    cf008.setData("040202s2003    fi g     b    000 0deng d");
+	    record.addVariableField(cf008);
+	    solrFldMapTest.assertSolrFldHasNoValue(record, genreFldName, fldVal);
+
+	    // test LeaderChar07 = s and 008/29 not 1
+	    record = factory.newRecord();
+	    record.setLeader(factory.newLeader("04473cas a2200313Ia 4500"));
+	    cf008.setData("040202s2003    fi g     b    000 0deng d");
+	    record.addVariableField(cf008);
+	    solrFldMapTest.assertSolrFldHasNoValue(record, genreFldName, fldVal);
+
+	    // test LeaderChar07 not s or m and 008/29 = 1
+	    record = factory.newRecord();
+	    record.setLeader(factory.newLeader("04473caa a2200313Ia 4500"));
+	    cf008.setData("040202s2003    fi g     b    100 0deng d");
+	    record.addVariableField(cf008);
+	    solrFldMapTest.assertSolrFldHasNoValue(record, genreFldName, fldVal);
+	
+	    // test LeaderChar07 not s or m and 008/29 not 1
+	    record = factory.newRecord();
+	    record.setLeader(factory.newLeader("04473caa a2200313Ia 4500"));
+	    cf008.setData("040202s2003    fi g     b    000 0deng d");
+	    record.addVariableField(cf008);
+	    solrFldMapTest.assertSolrFldHasNoValue(record, genreFldName, fldVal);
+
 	}
 
 
