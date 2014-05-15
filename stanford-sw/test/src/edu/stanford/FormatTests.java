@@ -6,6 +6,8 @@ import org.junit.*;
 
 import edu.stanford.enumValues.Format;
 
+import org.marc4j.marc.*;
+
 
 /**
  * junit4 tests for Stanford University format fields 
@@ -18,6 +20,8 @@ public class FormatTests extends AbstractStanfordTest
 	String testFilePath = testDataParentPath + File.separator + testDataFname;
 	String displayFldName = "format";
 	String facetFldName = "format";
+	String fldName = "format";
+	MarcFactory factory = MarcFactory.newInstance();
 
 @Before
 	public final void setup() 
@@ -86,11 +90,82 @@ public class FormatTests extends AbstractStanfordTest
 @Test
 	public final void testConferenceProceedings() 
 	{
-	    String fldVal = Format.CONFERENCE_PROCEEDINGS.toString();
-		solrFldMapTest.assertSolrFldValue(testFilePath, "5666387", facetFldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "5666387", displayFldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "666", facetFldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "666", displayFldName, fldVal);
+
+		String fldVal = Format.CONFERENCE_PROCEEDINGS.toString();
+
+		// test 650|v Congresses
+		Record rec = factory.newRecord();
+	    rec.setLeader(factory.newLeader("04473caa a2200313Ia 4500"));
+	    ControlField cf008 = factory.newControlField("008");
+	    cf008.setData("040202s2003    fi g     b    000 0deng d");
+	    rec.addVariableField(cf008);
+	    DataField df650 = factory.newDataField("650", ' ', '0');
+	    df650.addSubfield(factory.newSubfield('a', "Music"));
+	    df650.addSubfield(factory.newSubfield('v', "Congresses."));
+	    rec.addVariableField(df650);
+	    solrFldMapTest.assertSolrFldValue(rec, fldName, fldVal);
+	    
+		// test 600|v Congresses
+		rec = factory.newRecord();
+	    rec.setLeader(factory.newLeader("04473caa a2200313Ia 4500"));
+	    cf008 = factory.newControlField("008");
+	    cf008.setData("040202s2003    fi g     b    000 0deng d");
+	    rec.addVariableField(cf008);
+	    DataField df600 = factory.newDataField("600", '1', '0');
+	    df600.addSubfield(factory.newSubfield('a', "Sibelius, Jean,"));
+	    df600.addSubfield(factory.newSubfield('d', "1865-1957"));
+	    df600.addSubfield(factory.newSubfield('v', "Congresses."));
+	    rec.addVariableField(df600);
+	    solrFldMapTest.assertSolrFldValue(rec, fldName, fldVal);
+
+	    // test LeaderChar07 = m and 008/29 = 1
+		rec = factory.newRecord();
+	    rec.setLeader(factory.newLeader("04473cam a2200313Ia 4500"));
+	    cf008 = factory.newControlField("008");
+	    cf008.setData("040202s2003    fi g     b    100 0deng d");
+	    rec.addVariableField(cf008);
+	    solrFldMapTest.assertSolrFldValue(rec, fldName, fldVal);
+
+	    // test LeaderChar07 = s and 008/29 = 1
+	    rec = factory.newRecord();
+	    rec.setLeader(factory.newLeader("04473cas a2200313Ia 4500"));
+	    cf008 = factory.newControlField("008");
+	    cf008.setData("040202s2003    fi g     b    100 0deng d");
+	    rec.addVariableField(cf008);
+	    solrFldMapTest.assertSolrFldValue(rec, fldName, fldVal);
+	    
+	    // test LeaderChar07 = m and 008/29 not 1
+	    rec = factory.newRecord();
+	    rec.setLeader(factory.newLeader("04473cam a2200313Ia 4500"));
+	    cf008 = factory.newControlField("008");
+	    cf008.setData("040202s2003    fi g     b    000 0deng d");
+	    rec.addVariableField(cf008);
+	    solrFldMapTest.assertSolrFldHasNoValue(rec, fldName, fldVal);
+
+	    // test LeaderChar07 = s and 008/29 not 1
+	    rec = factory.newRecord();
+	    rec.setLeader(factory.newLeader("04473cas a2200313Ia 4500"));
+	    cf008 = factory.newControlField("008");
+	    cf008.setData("040202s2003    fi g     b    000 0deng d");
+	    rec.addVariableField(cf008);
+	    solrFldMapTest.assertSolrFldHasNoValue(rec, fldName, fldVal);
+
+	    // test LeaderChar07 not s or m and 008/29 = 1
+	    rec = factory.newRecord();
+	    rec.setLeader(factory.newLeader("04473caa a2200313Ia 4500"));
+	    cf008 = factory.newControlField("008");
+	    cf008.setData("040202s2003    fi g     b    100 0deng d");
+	    rec.addVariableField(cf008);
+	    solrFldMapTest.assertSolrFldHasNoValue(rec, fldName, fldVal);
+	
+	    // test LeaderChar07 not s or m and 008/29 not 1
+	    rec = factory.newRecord();
+	    rec.setLeader(factory.newLeader("04473caa a2200313Ia 4500"));
+	    cf008 = factory.newControlField("008");
+	    cf008.setData("040202s2003    fi g     b    000 0deng d");
+	    rec.addVariableField(cf008);
+	    solrFldMapTest.assertSolrFldHasNoValue(rec, fldName, fldVal);
+
 	}
 
 	/**
