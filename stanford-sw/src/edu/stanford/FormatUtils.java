@@ -44,7 +44,7 @@ public class FormatUtils {
 		char leaderChar06 = leaderStr.charAt(6);
 		switch (leaderChar06) {
 		case 'a':
-			if (leaderChar07 == 'a'  || leaderChar07 == 'm')
+			if (leaderChar07 == 'a' || leaderChar07 == 'm')
 				result.add(Format.BOOK.toString());
 			break;
 		case 'b':
