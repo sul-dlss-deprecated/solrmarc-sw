@@ -28,7 +28,6 @@ public class Item {
 	private final String itemType;
 	private final boolean shouldBeSkipped;
 	private final boolean hasGovDocLoc;
-	private final boolean isOnline;
 	private final boolean hasShelbyLoc;
 	private final boolean hasBizShelbyLoc;
 
@@ -37,6 +36,7 @@ public class Item {
 	private String homeLoc;
 	private String currLoc;
 	private String normCallnum;
+	private boolean isOnline = false;
 	private boolean isOnOrder = false;
 	private boolean isInProcess = false;
 	private boolean hasIgnoredCallnum = false;
@@ -142,10 +142,10 @@ public class Item {
 		if (StanfordIndexer.ONLINE_LOCS.contains(currLoc)
 				|| StanfordIndexer.ONLINE_LOCS.contains(homeLoc) //) {
 				|| normCallnum.startsWith(ECALLNUM) ) {
-			isOnline = true;
+			setOnline(true);
 		}
 		else
-			isOnline = false;
+			setOnline(false);
 
 		dealWithXXCallnums(recId);
 	}
@@ -213,6 +213,10 @@ public class Item {
 			return true;
 		else
 			return isOnline;
+	}
+
+	public void setOnline(boolean isOnline) {
+		this.isOnline = isOnline;
 	}
 
 	/**

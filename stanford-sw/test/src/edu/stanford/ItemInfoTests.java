@@ -51,7 +51,6 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	    assertSingleResult("1849258", fldName, "\"Engineering (Terman)\"");
 	    assertSingleResult("2678655", fldName, "Business");
 	    assertSingleResult("3027805", fldName, "\"Marine Biology (Miller)\"");
-	    assertSingleResult("3142611", fldName, "Physics");
 	    assertSingleResult("4258089", fldName, "\"Special Collections\"");
 	    assertSingleResult("4428936", fldName, "\"Philosophy (Tanner)\"");
 	    assertSingleResult("4823592", fldName, "\"Law (Crown)\"");
@@ -131,6 +130,12 @@ public class ItemInfoTests extends AbstractStanfordTest {
 //	    assertSingleResult("6493823", fldName, "Stanford University Libraries");
 //	    assertSingleResult("7117119", fldName, "Stanford University Libraries");
 	    assertZeroResults(fldName, "\"SUL\"");
+
+		// PHYSICS (Physics Library is no longer a valid building)
+//	    assertSingleResult("3142611", fldName, "Physics");
+	    assertZeroResults(fldName, "\"PHYSICS\"");
+
+	
 	}
 
 	/**
@@ -430,16 +435,6 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, CallNumberType.LC, !isSerial, id);
 		fldVal = "36105114964369 -|- MUSIC -|- STACKS -|- " + SEP + "STKS" + SEP +
-				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
-	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-
-		// PHYSICS
-		id = "3142611";
-		callnum = "PS3553 .L337 F76 1978";
-		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.LC, id).toLowerCase();
-		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
-		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, CallNumberType.LC, !isSerial, id);
-		fldVal = "36105017175519 -|- PHYSICS -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 

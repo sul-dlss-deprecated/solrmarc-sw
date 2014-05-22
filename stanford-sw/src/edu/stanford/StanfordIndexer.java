@@ -156,6 +156,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					getBrowseCallnumFromBib = false;
 			}
 		}
+		
 
 		setFormats(record);
 		isSerial = formats.contains(Format.JOURNAL_PERIODICAL.toString());
@@ -180,6 +181,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		}
 
 		deweyCallnums = CallNumUtils.getDeweyNormCallnums(itemSet);
+
+		physicsLibraryFixes();
+
 	}
 
 // Id Methods  -------------------- Begin --------------------------- Id Methods
@@ -1175,6 +1179,30 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		}
 	}
 
+	/**
+	 * SW-849
+     * 1. if a record only has library = Physics and *no* item has location PHYSTEMP, then do NOT index the record. 
+     * 2. if a record only has library = Physics and at least one item has location PHYSTEMP, then index the record but: 
+     *    only include items with location PHYSTEMP 
+     *    do not assign a library facet value (treat like an online record) 
+     * 3. if a record has multiple libraries, and one of them is Physics, then 
+     *    do not assign a library facet value for Physics items (treat like online records) 
+     *    for Physics items, only include the items if they have location PHYSTEMP (and treat as online item) 
+	 */
+	private void physicsLibraryFixes()
+	{
+		for (Iterator<Item> i = itemSet.iterator(); i.hasNext();) {
+		    Item element = i.next();
+			if (element.getLibrary().matches("PHYSICS")) {
+				if (!element.getCurrLoc().matches("PHYSTEMP") && !element.getHomeLoc().matches("PHYSTEMP")) {
+					i.remove();
+				} else {
+					element.setOnline(true);
+				}
+			}
+		}
+	}
+	
 	/**
 	 * @return the barcode for the item to be used as the default choice for
 	 *  nearby-on-shelf display (i.e. when no particular item is selected by

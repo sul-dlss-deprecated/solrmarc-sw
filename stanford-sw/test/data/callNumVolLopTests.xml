@@ -133,49 +133,7 @@
             <subfield code="t">STKS-PERI</subfield>
         </datafield>
     </record>
-    
-    <!-- letter at end of cutter Dewey -->
-    <record>
-        <leader>00774cam a2200193Mi 45 0</leader>
-        <controlfield tag="001">acutterEndsLetDewey</controlfield>
-        <controlfield tag="008">060502s2005    mx            000 0 spa d</controlfield>
-        <datafield tag="245" ind1="1" ind2="3">
-            <subfield code="a">letter at end of cutter Dewey from 2221080 and 370787</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">888.4 .JF78A V.5</subfield>
-            <subfield code="w">DEWEY</subfield>
-            <subfield code="i">36105002486350</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-            <subfield code="t">STKS-MONO</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">888.4 .JF78A V.6</subfield>
-            <subfield code="w">DEWEY</subfield>
-            <subfield code="i">36105005481937</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-            <subfield code="t">STKS-MONO</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">505 .N285B V.241-245 1973</subfield>
-            <subfield code="w">DEWEYPER</subfield>
-            <subfield code="i">36105000923040</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">PHYSICS</subfield>
-            <subfield code="t">PERI</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">505 .N285B V.229-234 1971</subfield>
-            <subfield code="w">DEWEYPER</subfield>
-            <subfield code="i">36105000923156</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">PHYSICS</subfield>
-            <subfield code="t">STKS-MONO</subfield>
-        </datafield>
-    </record>
-    <!-- letter at end of cutter LC -->
+     <!-- letter at end of cutter LC -->
     <record>
         <leader>00774cam a2200193Mi 45 0</leader>
         <controlfield tag="001">acutterEndsLetLC</controlfield>

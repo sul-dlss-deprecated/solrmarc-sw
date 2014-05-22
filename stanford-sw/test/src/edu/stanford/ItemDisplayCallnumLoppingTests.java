@@ -8,7 +8,13 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
+import org.marc4j.marc.ControlField;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.Record;
+import org.marc4j.marc.MarcFactory;
+
 import static org.junit.Assert.assertTrue;
+
 import org.xml.sax.SAXException;
 
 import edu.stanford.enumValues.CallNumberType;
@@ -24,6 +30,8 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	private final String SEP = " -|- ";
 	private final String shelByTitl = "Shelved by title";
 	private String testFilePath = testDataParentPath + File.separator + "callNumVolLopTests.mrc";
+	MarcFactory factory = MarcFactory.newInstance();
+
 
 @Before
 	public void setup() 
@@ -654,16 +662,63 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 @Test
 	public void testCutterEndsLetDeweySuffix() 
 	{
+	
+		Record rec = factory.newRecord();
+		rec.setLeader(factory.newLeader("00774cam a2200193Mi 45 0"));
+		ControlField cf001 = factory.newControlField("001", "acutterEndsLetDewey");
+		rec.addVariableField(cf001);
+		ControlField cf008 = factory.newControlField("008", "060502s2005    mx            000 0 spa d");
+		rec.addVariableField(cf008);
+		DataField df245 = factory.newDataField("245", '1', '3');
+		df245.addSubfield(factory.newSubfield('a', "letter at end of cutter Dewey from 2221080 and 370787"));
+		rec.addVariableField(df245);
+
+		DataField df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "888.4 .JF78A V.5"));
+		df999.addSubfield(factory.newSubfield('w', "DEWEY"));
+		df999.addSubfield(factory.newSubfield('i', "36105002486350"));
+		df999.addSubfield(factory.newSubfield('l', "STACKS"));
+		df999.addSubfield(factory.newSubfield('m', "GREEN"));
+		df999.addSubfield(factory.newSubfield('t', "STKS-MONO"));
+		rec.addVariableField(df999);
+		
+    		df999 = factory.newDataField("999", ' ', ' ');
+    		df999.addSubfield(factory.newSubfield('a', "888.4 .JF78A V.6"));
+    		df999.addSubfield(factory.newSubfield('w', "DEWEY"));
+    		df999.addSubfield(factory.newSubfield('i', "36105005481937"));
+    		df999.addSubfield(factory.newSubfield('l', "STACKS"));
+    		df999.addSubfield(factory.newSubfield('m', "GREEN"));
+    		df999.addSubfield(factory.newSubfield('t', "STKS-MONO"));
+    		rec.addVariableField(df999);
+
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "505 .N285B V.241-245 1973"));
+		df999.addSubfield(factory.newSubfield('w', "DEWEYPER"));
+		df999.addSubfield(factory.newSubfield('i', "36105000923040"));
+		df999.addSubfield(factory.newSubfield('l', "PHYSTEMP"));
+		df999.addSubfield(factory.newSubfield('m', "PHYSICS"));
+		df999.addSubfield(factory.newSubfield('t', "PERI"));
+		rec.addVariableField(df999);
+
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "505 .N285B V.229-234 1971"));
+		df999.addSubfield(factory.newSubfield('w', "DEWEYPER"));
+		df999.addSubfield(factory.newSubfield('i', "36105000923156"));
+		df999.addSubfield(factory.newSubfield('l', "STACKS"));
+		df999.addSubfield(factory.newSubfield('m', "PHYSICS"));
+		rec.addVariableField(df999);
+
+		// letter at end of cutter Dewey
 		String callnum = "505 .N285B V.241-245 1973";
 		String lopped = "505 .N285B ...";
 		String recId = "cutterEndsLetDewey";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.DEWEY, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.DEWEY, !isSerial, recId);
-		String fldVal = "36105000923040 -|- PHYSICS -|- STACKS -|-  -|- PERI -|- " +
+		String fldVal = "36105000923040 -|- PHYSICS -|- PHYSTEMP -|-  -|- PERI -|- " +
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
-	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
-
+	    solrFldMapTest.assertSolrFldHasNoValue(rec, fldName, fldVal);
+	    
 		// dewey cutter invalid: starts 2 letters ...		
 		callnum = "888.4 .JF78A V.5";
 		lopped = "888.4 .JF78A ...";
@@ -672,7 +727,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 		volSort = CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.OTHER, !isSerial, recId);
 		fldVal = "36105002486350 -|- GREEN -|- STACKS -|-  -|- STKS-MONO -|- " +
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
-	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
+	    solrFldMapTest.assertSolrFldValue(rec, fldName, fldVal);
 	}
 
 	/**
