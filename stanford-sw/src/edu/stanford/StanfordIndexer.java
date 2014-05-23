@@ -182,7 +182,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		deweyCallnums = CallNumUtils.getDeweyNormCallnums(itemSet);
 
-		physicsLibraryFixes();
+		physicsLibraryRemoval();
 
 	}
 
@@ -1189,7 +1189,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      *    do not assign a library facet value for Physics items (treat like online records) 
      *    for Physics items, only include the items if they have location PHYSTEMP (and treat as online item) 
 	 */
-	private void physicsLibraryFixes()
+	private void physicsLibraryRemoval()
 	{
 		for (Iterator<Item> i = itemSet.iterator(); i.hasNext();) {
 		    Item element = i.next();

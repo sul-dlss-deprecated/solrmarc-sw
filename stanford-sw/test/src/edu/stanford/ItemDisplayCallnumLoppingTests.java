@@ -73,6 +73,147 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 @Test
 	public void testMonthSuffix() 
 	{
+	
+		Record rec = factory.newRecord();
+		rec.setLeader(factory.newLeader("01139cam a2200229 i 4500"));
+		ControlField cf001 = factory.newControlField("001", "aMonths");
+		rec.addVariableField(cf001);
+		ControlField cf008 = factory.newControlField("008", "790220||||||||||||           ||| | eng  ");
+		rec.addVariableField(cf008);
+		DataField df245 = factory.newDataField("245", '1', '2');
+		df245.addSubfield(factory.newSubfield('a', "Months as suffixes from 6747599"));
+		rec.addVariableField(df245);
+
+		DataField df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "888.4 .JF78A V.5"));
+		df999.addSubfield(factory.newSubfield('w', "DEWEY"));
+		df999.addSubfield(factory.newSubfield('i', "36105002486350"));
+		df999.addSubfield(factory.newSubfield('l', "STACKS"));
+		df999.addSubfield(factory.newSubfield('m', "GREEN"));
+		df999.addSubfield(factory.newSubfield('t', "STKS-MONO"));
+		rec.addVariableField(df999);
+		
+    		df999 = factory.newDataField("999", ' ', ' ');
+    		df999.addSubfield(factory.newSubfield('a', "888.4 .JF78A V.6"));
+    		df999.addSubfield(factory.newSubfield('w', "DEWEY"));
+    		df999.addSubfield(factory.newSubfield('i', "36105005481937"));
+    		df999.addSubfield(factory.newSubfield('l', "STACKS"));
+    		df999.addSubfield(factory.newSubfield('m', "GREEN"));
+    		df999.addSubfield(factory.newSubfield('t', "STKS-MONO"));
+    		rec.addVariableField(df999);
+
+	   <!-- months -->
+	    <record>
+	        <datafield tag="999" ind1=" " ind2=" ">
+	            <subfield code="a">BM198.2 .H85</subfield>
+	            <subfield code="w">LCPER</subfield>
+	            <subfield code="i">6747599-1001</subfield>
+	            <subfield code="l">SEE-OTHER</subfield>
+	            <subfield code="m">SAL3</subfield>
+	            <subfield code="t">STKS-PERI</subfield>
+	        </datafield>
+	        <datafield tag="999" ind1=" " ind2=" ">
+	            <subfield code="a">BM198.2 .H85 OCT 2006</subfield>
+	            <subfield code="w">LCPER</subfield>
+	            <subfield code="i">36105127767619</subfield>
+	            <subfield code="l">STACKS</subfield>
+	            <subfield code="m">SAL3</subfield>
+	            <subfield code="t">STKS-PERI</subfield>
+	        </datafield>
+	        <datafield tag="999" ind1=" " ind2=" ">
+	            <subfield code="a">BM198.2 .H85 NOV 2006</subfield>
+	            <subfield code="w">LCPER</subfield>
+	            <subfield code="i">36105127767627</subfield>
+	            <subfield code="l">STACKS</subfield>
+	            <subfield code="m">SAL3</subfield>
+	            <subfield code="t">STKS-PERI</subfield>
+	        </datafield>
+	        <datafield tag="999" ind1=" " ind2=" ">
+	            <subfield code="a">BM198.2 .H85 DEC 2006</subfield>
+	            <subfield code="w">LCPER</subfield>
+	            <subfield code="i">36105127767635</subfield>
+	            <subfield code="l">STACKS</subfield>
+	            <subfield code="m">SAL3</subfield>
+	            <subfield code="t">STKS-PERI</subfield>
+	        </datafield>
+	        <datafield tag="999" ind1=" " ind2=" ">
+	            <subfield code="a">BM198.2 .H85 JAN 2007</subfield>
+	            <subfield code="w">LCPER</subfield>
+	            <subfield code="i">36105127767643</subfield>
+	            <subfield code="l">STACKS</subfield>
+	            <subfield code="m">SAL3</subfield>
+	            <subfield code="t">STKS-PERI</subfield>
+	        </datafield>
+	        <datafield tag="999" ind1=" " ind2=" ">
+	            <subfield code="a">BM198.2 .H85 FEB 2007</subfield>
+	            <subfield code="w">LCPER</subfield>
+	            <subfield code="i">36105127767650</subfield>
+	            <subfield code="l">STACKS</subfield>
+	            <subfield code="m">SAL3</subfield>
+	            <subfield code="t">STKS-PERI</subfield>
+	        </datafield>
+	        <datafield tag="999" ind1=" " ind2=" ">
+	            <subfield code="a">BM198.2 .H85 MAR 2007</subfield>
+	            <subfield code="w">LCPER</subfield>
+	            <subfield code="i">36105127767668</subfield>
+	            <subfield code="l">STACKS</subfield>
+	            <subfield code="m">SAL3</subfield>
+	            <subfield code="t">STKS-PERI</subfield>
+	        </datafield>
+	        <datafield tag="999" ind1=" " ind2=" ">
+	            <subfield code="a">BM198.2 .H85 APR 2007</subfield>
+	            <subfield code="w">LCPER</subfield>
+	            <subfield code="i">36105122104107</subfield>
+	            <subfield code="l">STACKS</subfield>
+	            <subfield code="m">SAL3</subfield>
+	            <subfield code="t">STKS-PERI</subfield>
+	        </datafield>
+	        <datafield tag="999" ind1=" " ind2=" ">
+	            <subfield code="a">BM198.2 .H85 MAY 2007</subfield>
+	            <subfield code="w">LCPER</subfield>
+	            <subfield code="i">36105122104115</subfield>
+	            <subfield code="l">STACKS</subfield>
+	            <subfield code="m">SAL3</subfield>
+	            <subfield code="t">STKS-PERI</subfield>
+	        </datafield>
+	        <datafield tag="999" ind1=" " ind2=" ">
+	            <subfield code="a">BM198.2 .H85 JUN 2007</subfield>
+	            <subfield code="w">LCPER</subfield>
+	            <subfield code="c">1</subfield>
+	            <subfield code="i">36105122104123</subfield>
+	            <subfield code="l">STACKS</subfield>
+	            <subfield code="m">SAL3</subfield>
+	            <subfield code="t">STKS-PERI</subfield>
+	        </datafield>
+	        <datafield tag="999" ind1=" " ind2=" ">
+	            <subfield code="a">BM198.2 .H85 JUL 2007</subfield>
+	            <subfield code="w">LCPER</subfield>
+	            <subfield code="c">1</subfield>
+	            <subfield code="i">36105122104124</subfield>
+	            <subfield code="l">STACKS</subfield>
+	            <subfield code="m">SAL3</subfield>
+	            <subfield code="t">STKS-PERI</subfield>
+	        </datafield>
+	        <datafield tag="999" ind1=" " ind2=" ">
+	            <subfield code="a">BM198.2 .H85 AUG 2007</subfield>
+	            <subfield code="w">LCPER</subfield>
+	            <subfield code="c">1</subfield>
+	            <subfield code="i">36105122104125</subfield>
+	            <subfield code="l">STACKS</subfield>
+	            <subfield code="m">SAL3</subfield>
+	            <subfield code="t">STKS-PERI</subfield>
+	        </datafield>
+	        <datafield tag="999" ind1=" " ind2=" ">
+	            <subfield code="a">BM198.2 .H85 SEP 2007</subfield>
+	            <subfield code="w">LCPER</subfield>
+	            <subfield code="c">1</subfield>
+	            <subfield code="i">36105122104126</subfield>
+	            <subfield code="l">STACKS</subfield>
+	            <subfield code="m">SAL3</subfield>
+	            <subfield code="t">STKS-PERI</subfield>
+	        </datafield>
+	    </record>
+
 		// LC
 		String callnum = "BM198.2 .H85 OCT 2006";
 		String lopped = "BM198.2 .H85 ...";
