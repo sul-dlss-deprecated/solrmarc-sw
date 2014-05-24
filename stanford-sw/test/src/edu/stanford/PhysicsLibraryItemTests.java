@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
 public class PhysicsLibraryItemTests extends AbstractStanfordTest 
 {
 
-	static String testDataFname = "8230276.xml";
+	static String testDataFname = "physicsRemoval.xml";
 	String testFilePath = testDataParentPath + File.separator + testDataFname;
 
 	private final String fldName = "building_facet";

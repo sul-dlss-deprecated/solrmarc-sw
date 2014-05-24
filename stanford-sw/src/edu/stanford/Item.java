@@ -24,25 +24,26 @@ public class Item {
 	/* immutable instance variables */
 	private final String recId;
 	private final String barcode;
-	private final String library;
 	private final String itemType;
 	private final boolean shouldBeSkipped;
 	private final boolean hasGovDocLoc;
 	private final boolean hasShelbyLoc;
 	private final boolean hasBizShelbyLoc;
+	private final boolean isOnline;
 
 	/* normal instance variables */
 	private CallNumberType callnumType;
 	private String homeLoc;
 	private String currLoc;
 	private String normCallnum;
-	private boolean isOnline = false;
+	private String library;
 	private boolean isOnOrder = false;
 	private boolean isInProcess = false;
 	private boolean hasIgnoredCallnum = false;
 	private boolean hasBadLcLaneCallnum = false;
 	private boolean isMissingLost = false;
 	private boolean hasSeparateBrowseCallnum = false;
+
 	/** call number with volume suffix lopped off the end.  Used to remove
 	 * noise in search results and in browsing */
 	private String loppedCallnum = null;
@@ -142,10 +143,10 @@ public class Item {
 		if (StanfordIndexer.ONLINE_LOCS.contains(currLoc)
 				|| StanfordIndexer.ONLINE_LOCS.contains(homeLoc) //) {
 				|| normCallnum.startsWith(ECALLNUM) ) {
-			setOnline(true);
+			isOnline = true;
 		}
 		else
-			setOnline(false);
+			isOnline = false;
 
 		dealWithXXCallnums(recId);
 	}
@@ -156,6 +157,10 @@ public class Item {
 
 	public String getLibrary() {
 		return library;
+	}
+
+	public void setLibrary(String lib) {
+		library = lib;
 	}
 
 	public String getHomeLoc() {
@@ -213,10 +218,6 @@ public class Item {
 			return true;
 		else
 			return isOnline;
-	}
-
-	public void setOnline(boolean isOnline) {
-		this.isOnline = isOnline;
 	}
 
 	/**

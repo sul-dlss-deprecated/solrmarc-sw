@@ -1197,7 +1197,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				if (!element.getCurrLoc().matches("PHYSTEMP") && !element.getHomeLoc().matches("PHYSTEMP")) {
 					i.remove();
 				} else {
-					element.setOnline(true);
+					element.setLibrary("");
 				}
 			}
 		}
