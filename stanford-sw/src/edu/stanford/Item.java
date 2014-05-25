@@ -29,7 +29,6 @@ public class Item {
 	private final boolean hasGovDocLoc;
 	private final boolean hasShelbyLoc;
 	private final boolean hasBizShelbyLoc;
-	private final boolean isOnline;
 
 	/* normal instance variables */
 	private CallNumberType callnumType;
@@ -37,6 +36,7 @@ public class Item {
 	private String currLoc;
 	private String normCallnum;
 	private String library;
+	private boolean isOnline;
 	private boolean isOnOrder = false;
 	private boolean isInProcess = false;
 	private boolean hasIgnoredCallnum = false;
@@ -153,6 +153,14 @@ public class Item {
 
 	public String getBarcode() {
 		return barcode;
+	}
+
+	public boolean getisOnline() {
+		return isOnline;
+	}
+
+	public void setisOnline(boolean flag) {
+		isOnline=flag;
 	}
 
 	public String getLibrary() {
