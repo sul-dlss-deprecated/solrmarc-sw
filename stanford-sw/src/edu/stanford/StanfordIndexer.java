@@ -1198,6 +1198,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					i.remove();
 				} else {
 					element.setisOnline(true);
+					element.setLibrary("");
 				}
 			}
 		}
