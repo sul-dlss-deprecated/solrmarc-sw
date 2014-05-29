@@ -37,7 +37,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		String fldName = "building_facet";
-		createFreshIx("buildingTests.mrc");
+		createFreshIx("buildingTests.xml");
 
 	    assertSingleResult("229800", fldName, "\"Archive of Recorded Sound\"");
 	    assertSingleResult("345228", fldName, "\"Art & Architecture\"");
@@ -58,7 +58,8 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	    assertSingleResult("5666387", fldName, "Music");
 	    assertSingleResult("6676531", fldName, "\"East Asia\"");
 	    assertSingleResult("2797607", fldName, "Meyer");
-
+	    assertSingleResult("10421123", fldName, "Lathrop");
+	    
 	    // hoover tests are a separate method below
 
 	    Set<String> docIds = new HashSet<String>();
