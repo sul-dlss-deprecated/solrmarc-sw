@@ -760,4 +760,20 @@
       <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
+  <record>
+    <leader>00880cam a2200229K  45 0</leader>
+    <controlfield tag="001">a10421123</controlfield>
+    <controlfield tag="008">870518s1946    bl            000 0 por d</controlfield>
+    <datafield tag="245" ind1="1" ind2="3">
+      <subfield code="a">LATHROP building</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">1/4" TO 1/8" STEREO CABLE</subfield>
+      <subfield code="w">ALPHANUM</subfield>
+      <subfield code="i">36105028197197</subfield>
+      <subfield code="l">STACKS</subfield>
+      <subfield code="m">LATHROP</subfield>
+      <subfield code="t">STKS-MONO</subfield>
+    </datafield>
+  </record>
 </collection>

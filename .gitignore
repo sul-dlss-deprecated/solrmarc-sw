@@ -12,3 +12,4 @@ test/jetty/webapps/*
 test/jetty/solr-webapp/*
 test/jetty/logs/*
 test/logs/*
+.settings/*
