@@ -89,6 +89,13 @@ public class PhysicsLibraryItemTests extends AbstractStanfordTest
     	
 	}
 
+	/** In order to check the exclusion of PHYSICS items without PHYSTEMP locs, a fresh index needs to be created so 
+	 *   these tests require a test file
+	 * @throws ParserConfigurationException
+	 * @throws IOException
+	 * @throws SAXException
+	 * @throws SolrServerException
+	 */
 @Test
 	public void testSomeNotIndexed() throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
@@ -115,7 +122,5 @@ public class PhysicsLibraryItemTests extends AbstractStanfordTest
 
 		// Make sure no records have a building_facet of Physics
 		assertZeroResults("building_facet", "Physics");
-
-		
 	}
 }
