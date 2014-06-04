@@ -611,9 +611,8 @@
         <subfield code='i'>36105210713652</subfield>
         <subfield code='d'>9/14/2009</subfield>
         <subfield code='e'>9/4/2009</subfield>
-        <subfield code="k">CHECKEDOUT</subfield>
-        <subfield code="l">STACKS</subfield>
-        <subfield code="m">GREEN</subfield>
+        <subfield code='k'>PHYSTEMP</subfield>
+        <subfield code='m'>PHYSICS</subfield>
         <subfield code='n'>1</subfield>
         <subfield code='r'>Y</subfield>
         <subfield code='s'>Y</subfield>
@@ -627,8 +626,8 @@
         <subfield code='i'>36105210713652</subfield>
         <subfield code='d'>9/14/2009</subfield>
         <subfield code='e'>9/4/2009</subfield>
-        <subfield code="l">STACKS</subfield>
-        <subfield code="m">CLASSICS</subfield>
+        <subfield code='l'>PHYSTEMP</subfield>
+        <subfield code='m'>PHYSICS</subfield>
         <subfield code='n'>1</subfield>
         <subfield code='r'>Y</subfield>
         <subfield code='s'>Y</subfield>
@@ -760,6 +759,251 @@
         <subfield code="k">CHECKEDOUT</subfield>
         <subfield code="l">STACKS</subfield>
         <subfield code="m">GREEN</subfield>
+        <subfield code='n'>1</subfield>
+        <subfield code='r'>Y</subfield>
+        <subfield code='s'>Y</subfield>
+        <subfield code='t'>STKS</subfield>
+        <subfield code='u'>8/20/2009</subfield>
+    </datafield>
+</record>
+<!-- PHYSICS and no PHYSTEMP with other libraries/buildings so don't index and no building_facet for Physics-->
+<record xmlns='http://www.loc.gov/MARC21/slim'>
+    <leader>01801cam a2200361K  4500</leader>
+    <controlfield tag='001'>adoNotIndexMultAll</controlfield>
+    <controlfield tag='003'>SIRSI</controlfield>
+    <controlfield tag='005'>20140208050005.0</controlfield>
+    <controlfield tag='008'>090724s2009    caua          100 0 eng d</controlfield>
+    <datafield ind1=' ' ind2=' ' tag='020'>
+        <subfield code='a'>9781583816790 (hardback : alk. paper)</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='020'>
+        <subfield code='a'>1583816798 (hardback : alk. paper)</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='020'>
+        <subfield code='a'>9781583816806 (e-bk. : alk. paper)</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='020'>
+        <subfield code='a'>1583816801 (e-bk. : alk. paper)</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='040'>
+        <subfield code='a'>RAO</subfield>
+        <subfield code='c'>RAO</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='050'>
+        <subfield code='a'>QB 479.3 .A67 2009</subfield>
+    </datafield>
+    <datafield ind1='0' ind2='0' tag='245'>
+        <subfield code='a'>Approaching micro-arcsecond resolution with VSOP-2 :</subfield>
+        <subfield code='b'>astrophysics and technology, proceedings of a workshop held at Institute of Space and Astronautical Science, Japan Aerospace Exploration Agency, Sagamihara, Kanagawa, Japan, 03-07 December 2007 /</subfield>
+        <subfield code='c'>edited by Yoshiaki Hagiwara [et. al.]</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='260'>
+        <subfield code='a'>San Francisco, Calif. :</subfield>
+        <subfield code='b'>Astronomical Society of the Pacific,</subfield>
+        <subfield code='c'>2009.</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='300'>
+        <subfield code='a'>xix, 497 p. :</subfield>
+        <subfield code='b'>ill. ;</subfield>
+        <subfield code='c'>24 cm.</subfield>
+    </datafield>
+    <datafield ind1='1' ind2=' ' tag='490'>
+        <subfield code='a'>Astronomical Society of the Pacific (ASP) conference series ;</subfield>
+        <subfield code='v'>v. 402</subfield>
+    </datafield>
+    <datafield ind1='2' ind2='0' tag='610'>
+        <subfield code='a'>VLBI Space Observatory Programme</subfield>
+        <subfield code='v'>Congresses.</subfield>
+        <subfield code=' '>^A1461923</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2='0' tag='650'>
+        <subfield code='a'>VSOP (Artificial satellite)</subfield>
+        <subfield code='v'>Congresses.</subfield>
+        <subfield code=' '>UNAUTHORIZED</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2='0' tag='650'>
+        <subfield code='a'>Very long baseline interferometry</subfield>
+        <subfield code='v'>Congresses.</subfield>
+        <subfield code=' '>^A1073034</subfield>
+    </datafield>
+    <datafield ind1='1' ind2=' ' tag='700'>
+        <subfield code='a'>Hagiwara, Y.</subfield>
+        <subfield code='q'>(Yoshiaki)</subfield>
+        <subfield code=' '>^A2339677</subfield>
+    </datafield>
+    <datafield ind1='1' ind2=' ' tag='700'>
+        <subfield code='a'>Fomalont, Edward.</subfield>
+        <subfield code=' '>UNAUTHORIZED</subfield>
+    </datafield>
+    <datafield ind1='1' ind2=' ' tag='700'>
+        <subfield code='a'>Tsuboi, Masato.</subfield>
+        <subfield code=' '>UNAUTHORIZED</subfield>
+    </datafield>
+    <datafield ind1='1' ind2=' ' tag='700'>
+        <subfield code='a'>Murata, Yasuhiro.</subfield>
+        <subfield code=' '>UNAUTHORIZED</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2='0' tag='830'>
+        <subfield code='a'>Astronomical Society of the Pacific (ASP) conference series ;</subfield>
+        <subfield code='v'>v. 402.</subfield>
+        <subfield code=' '>UNAUTHORIZED</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='994'>
+        <subfield code='a'>Z0</subfield>
+        <subfield code='b'>STF</subfield>
+    </datafield>
+    <datafield ind1='4' ind2='1' tag='856'>
+        <subfield code='z'>Available to Stanford-affiliated users at:</subfield>
+        <subfield code='u'>http://aspbooks.org/a/volumes/table_of_contents/?book_id=95</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='596'>
+        <subfield code='a'>19</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='035'>
+        <subfield code='a'>(OCoLC-M)427649779</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='035'>
+        <subfield code='a'>(OCoLC-I)467493161</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='999'>
+        <subfield code='a'>QB1 .A8133 V.402</subfield>
+        <subfield code='w'>LC</subfield>
+        <subfield code='c'>1</subfield>
+        <subfield code='i'>36105210713652</subfield>
+        <subfield code='d'>9/14/2009</subfield>
+        <subfield code='e'>9/4/2009</subfield>
+        <subfield code='k'>GREEN</subfield>
+        <subfield code='m'>PHYSICS</subfield>
+        <subfield code='n'>1</subfield>
+        <subfield code='r'>Y</subfield>
+        <subfield code='s'>Y</subfield>
+        <subfield code='t'>STKS</subfield>
+        <subfield code='u'>8/20/2009</subfield>
+    </datafield>
+        <datafield ind1=' ' ind2=' ' tag='999'>
+        <subfield code='a'>QB1 .A8133 V.402</subfield>
+        <subfield code='w'>LC</subfield>
+        <subfield code='c'>1</subfield>
+        <subfield code='i'>36105210713652</subfield>
+        <subfield code='d'>9/14/2009</subfield>
+        <subfield code='e'>9/4/2009</subfield>
+        <subfield code="l">STACKS</subfield>
+        <subfield code="m">PHYSICS</subfield>
+        <subfield code='n'>1</subfield>
+        <subfield code='r'>Y</subfield>
+        <subfield code='s'>Y</subfield>
+        <subfield code='t'>STKS</subfield>
+        <subfield code='u'>8/20/2009</subfield>
+    </datafield>
+</record>
+<!-- No PHYSICS library -->
+<record xmlns='http://www.loc.gov/MARC21/slim'>
+    <leader>01801cam a2200361K  4500</leader>
+    <controlfield tag='001'>anoPhysics</controlfield>
+    <controlfield tag='003'>SIRSI</controlfield>
+    <controlfield tag='005'>20140208050005.0</controlfield>
+    <controlfield tag='008'>090724s2009    caua          100 0 eng d</controlfield>
+    <datafield ind1=' ' ind2=' ' tag='020'>
+        <subfield code='a'>9781583816790 (hardback : alk. paper)</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='020'>
+        <subfield code='a'>1583816798 (hardback : alk. paper)</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='020'>
+        <subfield code='a'>9781583816806 (e-bk. : alk. paper)</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='020'>
+        <subfield code='a'>1583816801 (e-bk. : alk. paper)</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='040'>
+        <subfield code='a'>RAO</subfield>
+        <subfield code='c'>RAO</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='050'>
+        <subfield code='a'>QB 479.3 .A67 2009</subfield>
+    </datafield>
+    <datafield ind1='0' ind2='0' tag='245'>
+        <subfield code='a'>Approaching micro-arcsecond resolution with VSOP-2 :</subfield>
+        <subfield code='b'>astrophysics and technology, proceedings of a workshop held at Institute of Space and Astronautical Science, Japan Aerospace Exploration Agency, Sagamihara, Kanagawa, Japan, 03-07 December 2007 /</subfield>
+        <subfield code='c'>edited by Yoshiaki Hagiwara [et. al.]</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='260'>
+        <subfield code='a'>San Francisco, Calif. :</subfield>
+        <subfield code='b'>Astronomical Society of the Pacific,</subfield>
+        <subfield code='c'>2009.</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='300'>
+        <subfield code='a'>xix, 497 p. :</subfield>
+        <subfield code='b'>ill. ;</subfield>
+        <subfield code='c'>24 cm.</subfield>
+    </datafield>
+    <datafield ind1='1' ind2=' ' tag='490'>
+        <subfield code='a'>Astronomical Society of the Pacific (ASP) conference series ;</subfield>
+        <subfield code='v'>v. 402</subfield>
+    </datafield>
+    <datafield ind1='2' ind2='0' tag='610'>
+        <subfield code='a'>VLBI Space Observatory Programme</subfield>
+        <subfield code='v'>Congresses.</subfield>
+        <subfield code=' '>^A1461923</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2='0' tag='650'>
+        <subfield code='a'>VSOP (Artificial satellite)</subfield>
+        <subfield code='v'>Congresses.</subfield>
+        <subfield code=' '>UNAUTHORIZED</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2='0' tag='650'>
+        <subfield code='a'>Very long baseline interferometry</subfield>
+        <subfield code='v'>Congresses.</subfield>
+        <subfield code=' '>^A1073034</subfield>
+    </datafield>
+    <datafield ind1='1' ind2=' ' tag='700'>
+        <subfield code='a'>Hagiwara, Y.</subfield>
+        <subfield code='q'>(Yoshiaki)</subfield>
+        <subfield code=' '>^A2339677</subfield>
+    </datafield>
+    <datafield ind1='1' ind2=' ' tag='700'>
+        <subfield code='a'>Fomalont, Edward.</subfield>
+        <subfield code=' '>UNAUTHORIZED</subfield>
+    </datafield>
+    <datafield ind1='1' ind2=' ' tag='700'>
+        <subfield code='a'>Tsuboi, Masato.</subfield>
+        <subfield code=' '>UNAUTHORIZED</subfield>
+    </datafield>
+    <datafield ind1='1' ind2=' ' tag='700'>
+        <subfield code='a'>Murata, Yasuhiro.</subfield>
+        <subfield code=' '>UNAUTHORIZED</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2='0' tag='830'>
+        <subfield code='a'>Astronomical Society of the Pacific (ASP) conference series ;</subfield>
+        <subfield code='v'>v. 402.</subfield>
+        <subfield code=' '>UNAUTHORIZED</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='994'>
+        <subfield code='a'>Z0</subfield>
+        <subfield code='b'>STF</subfield>
+    </datafield>
+    <datafield ind1='4' ind2='1' tag='856'>
+        <subfield code='z'>Available to Stanford-affiliated users at:</subfield>
+        <subfield code='u'>http://aspbooks.org/a/volumes/table_of_contents/?book_id=95</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='596'>
+        <subfield code='a'>19</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='035'>
+        <subfield code='a'>(OCoLC-M)427649779</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='035'>
+        <subfield code='a'>(OCoLC-I)467493161</subfield>
+    </datafield>
+    <datafield ind1=' ' ind2=' ' tag='999'>
+        <subfield code='a'>QB1 .A8133 V.402</subfield>
+        <subfield code='w'>LC</subfield>
+        <subfield code='c'>1</subfield>
+        <subfield code='i'>36105210713652</subfield>
+        <subfield code='d'>9/14/2009</subfield>
+        <subfield code='e'>9/4/2009</subfield>
+        <subfield code='k'>GREEN</subfield>
+        <subfield code='m'>STACKS</subfield>
         <subfield code='n'>1</subfield>
         <subfield code='r'>Y</subfield>
         <subfield code='s'>Y</subfield>
