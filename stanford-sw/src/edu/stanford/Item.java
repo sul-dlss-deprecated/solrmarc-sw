@@ -24,9 +24,11 @@ public class Item {
 	/* immutable instance variables */
 	private final String recId;
 	private final String barcode;
+	private final String library;
 	private final String itemType;
 	private final boolean shouldBeSkipped;
 	private final boolean hasGovDocLoc;
+	private final boolean isOnline;
 	private final boolean hasShelbyLoc;
 	private final boolean hasBizShelbyLoc;
 
@@ -35,15 +37,12 @@ public class Item {
 	private String homeLoc;
 	private String currLoc;
 	private String normCallnum;
-	private String library;
-	private boolean isOnline;
 	private boolean isOnOrder = false;
 	private boolean isInProcess = false;
 	private boolean hasIgnoredCallnum = false;
 	private boolean hasBadLcLaneCallnum = false;
 	private boolean isMissingLost = false;
 	private boolean hasSeparateBrowseCallnum = false;
-
 	/** call number with volume suffix lopped off the end.  Used to remove
 	 * noise in search results and in browsing */
 	private String loppedCallnum = null;
@@ -155,20 +154,8 @@ public class Item {
 		return barcode;
 	}
 
-	public boolean getisOnline() {
-		return isOnline;
-	}
-
-	public void setisOnline(boolean flag) {
-		isOnline=flag;
-	}
-
 	public String getLibrary() {
 		return library;
-	}
-
-	public void setLibrary(String lib) {
-		library = lib;
 	}
 
 	public String getHomeLoc() {
