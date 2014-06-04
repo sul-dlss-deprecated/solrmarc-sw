@@ -8,10 +8,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
-import org.marc4j.marc.ControlField;
-import org.marc4j.marc.DataField;
-import org.marc4j.marc.Record;
-import org.marc4j.marc.MarcFactory;
+import org.marc4j.marc.*;
 
 import static org.junit.Assert.assertTrue;
 
