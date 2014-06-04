@@ -1196,9 +1196,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			if (element.getLibrary().matches("PHYSICS")) {
 				if (!element.getCurrLoc().matches("PHYSTEMP") && !element.getHomeLoc().matches("PHYSTEMP")) {
 					i.remove();
-//				} else {
-//					element.setisOnline(true);
-//					element.setLibrary("");
 				}
 			}
 		}
