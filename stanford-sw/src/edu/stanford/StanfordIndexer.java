@@ -354,13 +354,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			// does updating/integrating resource need to be revised based on SFX url?
 			if (sfxUrls.size() > 0)
 			{
-				String bookSerVal = Format.BOOK_SERIES.toString();
-				if (main_formats.contains(bookSerVal))
-				{
-					main_formats.remove(bookSerVal);
-					main_formats.add(journalVal);
-				}
-				else if (main_formats.contains(updatingDbVal))
+				if (main_formats.contains(updatingDbVal))
 				{
 					main_formats.remove(updatingDbVal);
 					main_formats.add(journalVal);
