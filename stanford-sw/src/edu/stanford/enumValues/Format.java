@@ -6,8 +6,6 @@ package edu.stanford.enumValues;
  */
 public enum Format {
 	BOOK,
-	/** @deprecated */
-	BOOK_SERIES, // Possibly temporary
 	COMPUTER_FILE,
 	DATABASE_A_Z,
 	DATASET,
@@ -34,8 +32,6 @@ public enum Format {
 	@Override
 	public String toString() {
 		switch (this) {
-			case BOOK_SERIES:
-				return "Book series";
 			case COMPUTER_FILE:
 				return "Software/Multimedia";
 			case DATABASE_A_Z:

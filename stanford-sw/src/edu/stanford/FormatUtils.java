@@ -234,8 +234,7 @@ public class FormatUtils {
 		if (ch != '\u0000')
 			switch (ch) {
 				case 'm': // monographic series
-					return Format.BOOK_SERIES.toString();  // FIXME: temporary format
-//					return Format.BOOK.toString();
+					return Format.BOOK.toString();
 				case 'n':
 					return Format.NEWSPAPER.toString();
 				case 'p':
@@ -255,8 +254,7 @@ public class FormatUtils {
 		if (ch != '\u0000')
 			switch (ch) {
 				case 'm': // monographic series
-					return Format.BOOK_SERIES.toString();  // FIXME: temporary format
-//					return Format.BOOK.toString();
+					return Format.BOOK.toString();
 				case 'n':
 					return Format.NEWSPAPER.toString();
 				case 'p':

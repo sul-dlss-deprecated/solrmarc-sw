@@ -69,48 +69,15 @@ public class FormatMainTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06t07a", fldName, bookVal);
 
 		// monographic series
-// FIXME:  temporary for format redo
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07s00821m", fldName, fldVal);
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "5987319", fldName, fldVal);
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "5598989", fldName, fldVal);
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "223344", fldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07s00821m", fldName, bookVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5987319", fldName, bookVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5598989", fldName, bookVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "223344", fldName, bookVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "5666387", fldName, bookVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "666", fldName, bookVal);
 
 		// formerly believed to be monographic series
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "leader07b00600s00821m", fldName, bookVal);
-	}
-
-	/**
-	 * if a continuing monographic resource (a book series) has an SFX link,
-	 * then it should be format Journal.
-	 */
-@Test
-	public final void testBookSeriesAsJournal()
-	{
-		String bookSeriesVal = Format.BOOK_SERIES.toString();
-		// based on 9343812 - SFX link
-		Record record = factory.newRecord();
-		record.setLeader(factory.newLeader("01937cas a2200433 a 4500"));
-		cf008.setData("070207c20109999mauqr m o     0   a0eng c");
-		record.addVariableField(cf008);
-		record.addVariableField(df956sfx);
-		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
-
-		// based on 9138750 - no SFX link
-		record = factory.newRecord();
-		record.setLeader(factory.newLeader("01750cas a2200409 a 4500"));
-		cf008.setData("101213c20109999dcufr m bs   i0    0eng c");
-		record.addVariableField(cf008);
-		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, fldName, bookSeriesVal);
-
-		// monographic series without SFX links
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07s00821m", fldName, bookSeriesVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "5987319", fldName, bookSeriesVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "5598989", fldName, bookSeriesVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "223344", fldName, bookSeriesVal);
 	}
 
 	/**
