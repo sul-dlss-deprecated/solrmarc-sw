@@ -8,7 +8,10 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
+import org.marc4j.marc.*;
+
 import static org.junit.Assert.assertTrue;
+
 import org.xml.sax.SAXException;
 
 import edu.stanford.enumValues.CallNumberType;
@@ -17,19 +20,21 @@ import edu.stanford.enumValues.CallNumberType;
  * junit4 tests for Stanford University call number fields for blacklight index
  * @author Naomi Dushay
  */
-public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest 
+public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 {
 	private final String fldName = "item_display";
 	private final boolean isSerial = true;
 	private final String SEP = " -|- ";
 	private final String shelByTitl = "Shelved by title";
 	private String testFilePath = testDataParentPath + File.separator + "callNumVolLopTests.mrc";
+	MarcFactory factory = MarcFactory.newInstance();
+
 
 @Before
-	public void setup() 
+	public void setup()
 	{
 		mappingTestInit();
-	}	
+	}
 
 	/**
 	 * test that volume number for serial is reverse in the full call number
@@ -37,7 +42,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	 */
 @Test
 	public void testSerialSuffixIsReverse()
-			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		createFreshIx("callNumVolLopTests.mrc");
 		String callnum = "TX519 .D26S 1954 V.2";
@@ -63,7 +68,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	 * test vol lopping of month suffix
 	 */
 @Test
-	public void testMonthSuffix() 
+	public void testMonthSuffix()
 	{
 		// LC
 		String callnum = "BM198.2 .H85 OCT 2006";
@@ -136,7 +141,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	 * test vol lopping when call number has BOX suffix
 	 */
 @Test
-	public void testBoxSuffix() 
+	public void testBoxSuffix()
 	{
 		String callnum = "M1522 BOX 1";
 		String lopped = "M1522 ...";
@@ -148,12 +153,12 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
-	
+
 	/**
 	 * test vol lopping when call number has carton suffix
 	 */
 @Test
-	public void testCartonSuffix() 
+	public void testCartonSuffix()
 	{
 		String callnum = "M1479 CARTON 1";
 		String lopped = "M1479 ...";
@@ -165,12 +170,12 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
 	}
-	
+
 	/**
 	 * test vol lopping when call number has flat box suffix
 	 */
 @Test
-	public void testFlatBoxSuffix() 
+	public void testFlatBoxSuffix()
 	{
 		String callnum = "M1522 FLAT BOX 17";
 		String lopped = "M1522 ...";
@@ -182,12 +187,12 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
 	}
-	
+
 	/**
 	 * test vol lopping when call number has half box suffix
 	 */
 @Test
-	public void testHalfBoxSuffix() 
+	public void testHalfBoxSuffix()
 	{
 		String callnum = "M1522 HALF BOX 1";
 		String lopped = "M1522 ...";
@@ -204,7 +209,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	 * test vol lopping when call number has half carton suffix
 	 */
 @Test
-	public void testHalfCartonSuffix() 
+	public void testHalfCartonSuffix()
 	{
 		String callnum = "M1522 HALF CARTON 1";
 		String lopped = "M1522 ...";
@@ -221,7 +226,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	 * test vol lopping when call number has carton suffix
 	 */
 @Test
-	public void testIndexSuffix() 
+	public void testIndexSuffix()
 	{
 		String callnum = "ML1 .I614 INDEX 1969-1986";
 		String lopped = "ML1 .I614 ...";
@@ -233,12 +238,12 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
 	}
-	
+
 	/**
 	 * test vol lopping when call number has large map folder suffix
 	 */
 @Test
-	public void testLargeMapFolderSuffix() 
+	public void testLargeMapFolderSuffix()
 	{
 		String callnum = "M1522 LARGE MAP FOLDER 26";
 		String lopped = "M1522 ...";
@@ -250,12 +255,12 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
 	}
-	
+
 	/**
 	 * test vol lopping when call number has large folder suffix
 	 */
 @Test
-	public void testLargeFolderSuffix() 
+	public void testLargeFolderSuffix()
 	{
 		String callnum = "M1522 LARGE FOLDER 26";
 		String lopped = "M1522 ...";
@@ -272,7 +277,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	 * test vol lopping when call number has map folder suffix
 	 */
 @Test
-	public void testMapFolderSuffix() 
+	public void testMapFolderSuffix()
 	{
 		String callnum = "M1522 MAP FOLDER 26";
 		String lopped = "M1522 ...";
@@ -284,12 +289,12 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
 	}
-		
+
 	/**
 	 * test vol lopping when call number has mfilm reel suffix
 	 */
 @Test
-	public void testMfilmReelSuffix() 
+	public void testMfilmReelSuffix()
 	{
 		String callnum = "CD3031 .A35 T-60 MFILM REEL 3";
 		String lopped = "CD3031 .A35 T-60 MFILM ...";
@@ -301,12 +306,12 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
 	}
-	
+
 	/**
 	 * test vol lopping when call number has os box suffix
 	 */
 @Test
-	public void testOSBoxSuffix() 
+	public void testOSBoxSuffix()
 	{
 		String callnum = "M1522 OS BOX 26";
 		String lopped = "M1522 ...";
@@ -323,7 +328,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	 * test vol lopping when call number has os folder suffix
 	 */
 @Test
-	public void testOSFolderSuffix() 
+	public void testOSFolderSuffix()
 	{
 		String callnum = "M1522 OS FOLDER 26";
 		String lopped = "M1522 ...";
@@ -340,7 +345,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	 * test vol lopping when call number has small map folder suffix
 	 */
 @Test
-	public void testSmallMapFolderSuffix() 
+	public void testSmallMapFolderSuffix()
 	{
 		String callnum = "M1522 SMALL MAP FOLDER 26";
 		String lopped = "M1522 ...";
@@ -352,12 +357,12 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
 	}
-	
+
 	/**
 	 * test vol lopping when call number has small folder suffix
 	 */
 @Test
-	public void testSmallFolderSuffix() 
+	public void testSmallFolderSuffix()
 	{
 		String callnum = "M1522 SMALL FOLDER 26";
 		String lopped = "M1522 ...";
@@ -374,7 +379,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	 * test vol lopping when call number has tube suffix
 	 */
 @Test
-	public void testTubeSuffix() 
+	public void testTubeSuffix()
 	{
 		String callnum = "M1522 TUBE 26";
 		String lopped = "M1522 ...";
@@ -391,7 +396,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	 * test vol lopping when call number has Series Box Suffix
 	 */
 @Test
-	public void testSeriesBoxSuffix() 
+	public void testSeriesBoxSuffix()
 	{
 		String callnum = "SC 165 SERIES 5 BOX 1";
 		String lopped = "SC 165 ...";
@@ -407,7 +412,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 		fldVal = "36105116222998 -|- SPEC-COLL -|- UARCH-30 -|-  -|- NONCIRC -|- " +
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
-		
+
 	    recId = "seriesBox2";
 		callnum = "M1090 SERIES 24 BOX 1";
 		lopped = "M1090 ...";
@@ -428,7 +433,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	 * test vol lopping when call number has series half suffix
 	 */
 @Test
-	public void testSeriesHalfBoxSuffix() 
+	public void testSeriesHalfBoxSuffix()
 	{
 		String callnum = "M1090 SERIES 16 HALF BOX 1.1";
 		String lopped = "M1090 ...";
@@ -451,7 +456,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	 * test vol lopping when call number has Series Model Suffix
 	 */
 @Test
-	public void testSeriesModelSuffix() 
+	public void testSeriesModelSuffix()
 	{
 		String callnum = "M1090 SERIES 19 MODEL 124";
 		String lopped = "M1090 ...";
@@ -468,7 +473,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	 * test vol lopping when call number has series os folder suffix
 	 */
 @Test
-	public void testSeriesOSFolderSuffix() 
+	public void testSeriesOSFolderSuffix()
 	{
 		String callnum = "M1090 SERIES 16 OS FOLDER 276.3";
 		String lopped = "M1090 ...";
@@ -485,7 +490,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	 * test vol lopping when call number has series small folder suffix
 	 */
 @Test
-	public void testSeriesSmallFolderSuffix() 
+	public void testSeriesSmallFolderSuffix()
 	{
 		String callnum = "M1090 SERIES 16 SMALL FOLDER 72.06";
 		String lopped = "M1090 ...";
@@ -502,7 +507,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	 * test vol lopping when call number has series small map folder suffix
 	 */
 @Test
-	public void testSeriesSmallMapFolderSuffix() 
+	public void testSeriesSmallMapFolderSuffix()
 	{
 		String callnum = "M1090 SERIES 16 SMALL MAP FOLDER 72.02";
 		String lopped = "M1090 ...";
@@ -514,12 +519,12 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
 	}
-	
+
 	/**
 	 * test vol lopping when call number has series large map folder suffix
 	 */
 @Test
-	public void testSeriesLargMapFolderSuffix() 
+	public void testSeriesLargMapFolderSuffix()
 	{
 		String callnum = "M1090 SERIES 16 LARGE MAP FOLDER 276.5";
 		String lopped = "M1090 ...";
@@ -536,7 +541,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	 * test vol lopping when serial and call number has 4 digit year suffix
 	 */
 @Test
-	public void testSerialYearSuffix() 
+	public void testSerialYearSuffix()
 	{
 		String callnum = "QD1 .C59 1975:P.1-742";
 		String lopped = "QD1 .C59 ...";
@@ -559,9 +564,9 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	 * test vol lopping when not serial and call number has 4 digit year suffix
 	 */
 @Test
-	public void testNonSerialYearSuffix() 
+	public void testNonSerialYearSuffix()
 	{
-// FIXME:  shouldn't these be lopped??	
+// FIXME:  shouldn't these be lopped??
 		String callnum = "QD1 .C59 1975:P.1-742";
 		String lopped = "QD1 .C59 1975:P.1-742";
 		String recId = "year4digitNonSerial";
@@ -586,7 +591,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	 * test vol lopping when call number is california gov doc
 	 */
 @Test
-	public void testCalifGovDocSuffix() 
+	public void testCalifGovDocSuffix()
 	{
 		String callnum = "CALIF T900 .J6 V.1-2";
 		String lopped = "CALIF T900 .J6 ...";
@@ -613,7 +618,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	 * test vol lopping when LC call number has cutter ending in letter(s)
 	 */
 @Test
-	public void testCutterEndsLetLCSuffix() 
+	public void testCutterEndsLetLCSuffix()
 	{
 		String callnum = "TX519 .D26S 1954 V.1";
 		String lopped = "TX519 .D26S 1954 ...";
@@ -635,7 +640,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 		fldVal = "36105049317907 -|- EDUCATION -|- STACKS -|-  -|- STKS-MONO -|- " +
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
-		
+
 		// grade
 		callnum = "TX519 .L18ST GRADE 1";
 		lopped = "TX519 .L18ST ...";
@@ -647,24 +652,68 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
 	}
-	
+
 	/**
 	 * test vol lopping when Dewey call number has cutter ending in letter(s)
 	 */
 @Test
-	public void testCutterEndsLetDeweySuffix() 
+	public void testCutterEndsLetDeweySuffix()
 	{
+		Record rec = factory.newRecord();
+		rec.setLeader(factory.newLeader("00774cam a2200193Mi 45 0"));
+		ControlField cf001 = factory.newControlField("001", "acutterEndsLetDewey");
+		rec.addVariableField(cf001);
+		ControlField cf008 = factory.newControlField("008", "060502s2005    mx            000 0 spa d");
+		rec.addVariableField(cf008);
+
+		DataField df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "888.4 .JF78A V.5"));
+		df999.addSubfield(factory.newSubfield('w', "DEWEY"));
+		df999.addSubfield(factory.newSubfield('i', "36105002486350"));
+		df999.addSubfield(factory.newSubfield('l', "STACKS"));
+		df999.addSubfield(factory.newSubfield('m', "GREEN"));
+		df999.addSubfield(factory.newSubfield('t', "STKS-MONO"));
+		rec.addVariableField(df999);
+
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "888.4 .JF78A V.6"));
+		df999.addSubfield(factory.newSubfield('w', "DEWEY"));
+		df999.addSubfield(factory.newSubfield('i', "36105002486351"));
+		df999.addSubfield(factory.newSubfield('l', "STACKS"));
+		df999.addSubfield(factory.newSubfield('m', "GREEN"));
+		df999.addSubfield(factory.newSubfield('t', "STKS-MONO"));
+		rec.addVariableField(df999);
+
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "505 .N285B V.241-245 1973"));
+		df999.addSubfield(factory.newSubfield('w', "DEWEYPER"));
+		df999.addSubfield(factory.newSubfield('i', "36105000923040"));
+		df999.addSubfield(factory.newSubfield('l', "STACKS"));
+		df999.addSubfield(factory.newSubfield('m', "GREEN"));
+		df999.addSubfield(factory.newSubfield('t', "PERI"));
+		rec.addVariableField(df999);
+
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "505 .N285B V.241-245 1975"));
+		df999.addSubfield(factory.newSubfield('w', "DEWEYPER"));
+		df999.addSubfield(factory.newSubfield('i', "36105000923041"));
+		df999.addSubfield(factory.newSubfield('l', "STACKS"));
+		df999.addSubfield(factory.newSubfield('m', "GREEN"));
+		df999.addSubfield(factory.newSubfield('t', "PERI"));
+		rec.addVariableField(df999);
+
+		// letter at end of cutter Dewey
 		String callnum = "505 .N285B V.241-245 1973";
 		String lopped = "505 .N285B ...";
 		String recId = "cutterEndsLetDewey";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.DEWEY, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.DEWEY, !isSerial, recId);
-		String fldVal = "36105000923040 -|- PHYSICS -|- STACKS -|-  -|- PERI -|- " +
+		String fldVal = "36105000923040 -|- GREEN -|- STACKS -|-  -|- PERI -|- " +
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
-	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
+	    solrFldMapTest.assertSolrFldValue(rec, fldName, fldVal);
 
-		// dewey cutter invalid: starts 2 letters ...		
+		// dewey cutter invalid: starts 2 letters ...
 		callnum = "888.4 .JF78A V.5";
 		lopped = "888.4 .JF78A ...";
 		shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
@@ -672,14 +721,14 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 		volSort = CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.OTHER, !isSerial, recId);
 		fldVal = "36105002486350 -|- GREEN -|- STACKS -|-  -|- STKS-MONO -|- " +
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
-	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
+	    solrFldMapTest.assertSolrFldValue(rec, fldName, fldVal);
 	}
 
 	/**
 	 * test vol lopping when LC call number has colon in vol suffix
 	 */
 @Test
-	public void testColonLCSuffix() 
+	public void testColonLCSuffix()
 	{
 		String callnum = "Q1 .N2 V.434:NO.7031 2005:MAR.17";
 		String lopped = "Q1 .N2 ...";
@@ -717,10 +766,10 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 	}
 
 	/**
-	 * test vol lopping when Dewey call number has colon in vol suffix 
+	 * test vol lopping when Dewey call number has colon in vol suffix
 	 */
 @Test
-	public void testColonDeweySuffix() 
+	public void testColonDeweySuffix()
 	{
 		// Note:  these are Shelbytitle
 		// String callnum = "505 .N285 V.434:1-680 2005";
@@ -742,12 +791,12 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 				shelByTitl + SEP + shelfkey + SEP + reversekey + SEP + fullItemCallnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
 	}
-	
+
 	/**
 	 * test vol lopping when call number is only the volume info
 	 */
 @Test
-	public void testCallNumVolOnlySuffix() 
+	public void testCallNumVolOnlySuffix()
 	{
 		String callnum = " V.432: NO.7013-7017-7020 2004";
 		String volSuffix = callnum.trim();
@@ -778,5 +827,5 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 				shelByTitl + SEP + shelfkey + SEP + reversekey + SEP + fullItemCallnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
 	}
-	
+
 }
