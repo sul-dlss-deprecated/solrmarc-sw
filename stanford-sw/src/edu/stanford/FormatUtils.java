@@ -512,4 +512,19 @@ public class FormatUtils {
 		else
 			return false;
 	}
+	
+	/**
+	 * use regex to determine if equipment based upon value in 914
+	 * @param record - marc4j record object
+	 * @return true if there is a 914a that contains the string "EQUIP",
+	 *  false otherwise
+	 */
+	static boolean isEquipment(Record record) {
+		Set<String> equipA = MarcUtils.getSubfieldDataAsSet(record, "914", "a", " ");
+		if (Utils.setItemContains(equipA, "EQUIP"))
+			return true;
+		else
+			return false;
+	}
+
 }
