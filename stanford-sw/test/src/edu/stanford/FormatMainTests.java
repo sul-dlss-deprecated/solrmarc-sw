@@ -229,7 +229,64 @@ public class FormatMainTests extends AbstractStanfordTest
 	}
 
 
-	/**
+/**
+ * test format population of Equipment - if 914$a = "EQUIP"
+ */
+@Test
+public final void testEquipment()
+{
+	Leader LEADER = factory.newLeader("02441cms a2200517 a 4500");
+	cf008.setData("920901d19912002pauuu1n    m  0   a0eng  ");
+
+	// Equipment
+	Record record = factory.newRecord();
+	record.setLeader(LEADER);
+	record.addVariableField(cf008);
+	DataField df914 = factory.newDataField("914", ' ', ' ');
+	df914.addSubfield(factory.newSubfield('a', "EQUIP"));
+	record.addVariableField(df914);
+	DataField df999 = factory.newDataField("999", ' ', ' ');
+	df999.addSubfield(factory.newSubfield('a', "F152 .A28"));
+	df999.addSubfield(factory.newSubfield('w', "LC"));
+	df999.addSubfield(factory.newSubfield('i', "36105018746623"));
+	df999.addSubfield(factory.newSubfield('l', "HAS-DIGIT"));
+	df999.addSubfield(factory.newSubfield('m', "GREEN"));
+	record.addVariableField(df999);
+	solrFldMapTest.assertSolrFldValue(record, fldName, Format.EQUIPMENT.toString());
+
+	// not Equipment
+	Record recordnot = factory.newRecord();
+	recordnot.setLeader(factory.newLeader("02808cas a22005778a 4500"));
+	cf008.setData("050127c20149999enkfr p       |   a0eng c");
+	recordnot.addVariableField(cf008);
+	DataField df914not = factory.newDataField("914", ' ', ' ');
+	df914not.addSubfield(factory.newSubfield('a', "JUNK"));
+	recordnot.addVariableField(df914not);
+	DataField df999not = factory.newDataField("999", ' ', ' ');
+	df999not.addSubfield(factory.newSubfield('a', "F152 .A28"));
+	df999not.addSubfield(factory.newSubfield('w', "LC"));
+	df999not.addSubfield(factory.newSubfield('i', "36105018746623"));
+	df999not.addSubfield(factory.newSubfield('l', "HAS-DIGIT"));
+	df999not.addSubfield(factory.newSubfield('m', "GREEN"));
+	recordnot.addVariableField(df999not);
+	solrFldMapTest.assertSolrFldHasNoValue(recordnot, fldName, Format.EQUIPMENT.toString());
+
+	// no 914$a
+	Record recordnone = factory.newRecord();
+	recordnone.setLeader(LEADER);
+	recordnone.addVariableField(cf008);
+	DataField df999none = factory.newDataField("999", ' ', ' ');
+	df999none.addSubfield(factory.newSubfield('a', "F152 .A28"));
+	df999none.addSubfield(factory.newSubfield('w', "LC"));
+	df999none.addSubfield(factory.newSubfield('i', "36105018746623"));
+	df999none.addSubfield(factory.newSubfield('l', "HAS-DIGIT"));
+	df999none.addSubfield(factory.newSubfield('m', "GREEN"));
+	recordnone.addVariableField(df999none);
+	solrFldMapTest.assertSolrFldHasNoValue(recordnot, fldName, Format.EQUIPMENT.toString());
+
+}
+
+/**
 	 * Image format tests
 	 */
 @Test
