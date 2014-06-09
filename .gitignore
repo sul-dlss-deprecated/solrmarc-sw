@@ -14,3 +14,4 @@ test/jetty/logs/*
 test/logs/*
 /bin
 .settings/*
+.settings
