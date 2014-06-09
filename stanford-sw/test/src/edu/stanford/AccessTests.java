@@ -117,7 +117,6 @@ public class AccessTests extends AbstractStanfordTest {
 	 	// formerly "On campus"
 		solrFldMapTest.assertSolrFldValue(testFilePath, "115472", fldName, atLibraryFldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "2442876", fldName, atLibraryFldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "3142611", fldName, atLibraryFldVal);
 	 	// formerly "Upon request"
 	 	// SAL1 & 2
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1033119", fldName, atLibraryFldVal);

@@ -1,0 +1,209 @@
+<records xmlns='http://www.loc.gov/MARC21/slim'>
+	<!-- PHYSICS only with PHYSTEMP in 999$l so index but no building_facet -->
+	<record>
+	    <leader>01801cam a2200361K  4500</leader>
+	    <controlfield tag='001'>aindexL</controlfield>
+	    <controlfield tag='008'>090724s2009    caua          100 0 eng d</controlfield>
+	    <datafield ind1='0' ind2='0' tag='245'>
+	        <subfield code='a'>PHYSICS only with PHYSTEMP in 999$l so index but no building_facet</subfield>
+	    </datafield>
+	    <datafield ind1='4' ind2='1' tag='856'>
+	        <subfield code='z'>Available to Stanford-affiliated users at:</subfield>
+	        <subfield code='u'>http://aspbooks.org/a/volumes/table_of_contents/?book_id=95</subfield>
+	    </datafield>
+	    <datafield ind1=' ' ind2=' ' tag='999'>
+	        <subfield code='a'>QB1 .A8133 V.402</subfield>
+	        <subfield code='w'>LC</subfield>
+	        <subfield code='c'>1</subfield>
+	        <subfield code='i'>36105210713652</subfield>
+	        <subfield code='l'>PHYSTEMP</subfield>
+	        <subfield code='m'>PHYSICS</subfield>
+	        <subfield code='t'>STKS</subfield>
+	    </datafield>
+	</record>
+	<!-- PHYSICS only with PHYSTEMP in 999$k so index but no building_facet -->
+	<record>
+	    <leader>01801cam a2200361K  4500</leader>
+	    <controlfield tag='001'>aindexK</controlfield>
+	    <controlfield tag='008'>090724s2009    caua          100 0 eng d</controlfield>
+	    <datafield ind1='0' ind2='0' tag='245'>
+	        <subfield code='a'>PHYSICS only with PHYSTEMP in 999$k so index but no building_facet</subfield>
+	    </datafield>
+	    <datafield ind1='4' ind2='1' tag='856'>
+	        <subfield code='z'>Available to Stanford-affiliated users at:</subfield>
+	        <subfield code='u'>http://aspbooks.org/a/volumes/table_of_contents/?book_id=95</subfield>
+	    </datafield>
+	    <datafield ind1=' ' ind2=' ' tag='999'>
+	        <subfield code='a'>QB1 .A8133 V.402</subfield>
+	        <subfield code='w'>LC</subfield>
+	        <subfield code='c'>1</subfield>
+	        <subfield code='i'>36105210713652</subfield>
+	        <subfield code='k'>PHYSTEMP</subfield>
+	        <subfield code='m'>PHYSICS</subfield>
+	        <subfield code='t'>STKS</subfield>
+	    </datafield>
+	</record>
+	<!-- PHYSICS only but no PHYSTEMP so do not index -->
+	<record>
+	    <leader>01801cam a2200361K  4500</leader>
+	    <controlfield tag='001'>adoNotIndex</controlfield>
+	    <controlfield tag='008'>090724s2009    caua          100 0 eng d</controlfield>
+	    <datafield ind1='0' ind2='0' tag='245'>
+	        <subfield code='a'>PHYSICS only but no PHYSTEMP so do not index</subfield>
+	    </datafield>
+	    <datafield ind1=' ' ind2=' ' tag='999'>
+	        <subfield code='a'>QB1 .A8133 V.402</subfield>
+	        <subfield code='w'>LC</subfield>
+	        <subfield code='c'>1</subfield>
+	        <subfield code='i'>36105210713652</subfield>
+	        <subfield code='l'>STACKS</subfield>
+	        <subfield code='m'>PHYSICS</subfield>
+	        <subfield code='t'>STKS</subfield>
+	    </datafield>
+	</record>
+	<!-- PHYSICS and PHYSTEMP in 999$l with other libraries/buildings so index but no building_facet for Physics-->
+	<record>
+	    <leader>01801cam a2200361K  4500</leader>
+	    <controlfield tag='001'>aindexMultL</controlfield>
+	    <controlfield tag='008'>090724s2009    caua          100 0 eng d</controlfield>
+	    <datafield ind1='0' ind2='0' tag='245'>
+	        <subfield code='a'>PHYSICS and PHYSTEMP in 999$l with other libraries/buildings so index but no building_facet for Physics</subfield>
+	    </datafield>
+	    <datafield ind1=' ' ind2=' ' tag='999'>
+	        <subfield code='a'>QB1 .A8133 V.402</subfield>
+	        <subfield code='w'>LC</subfield>
+	        <subfield code='c'>1</subfield>
+	        <subfield code='i'>36105210713652</subfield>
+	        <subfield code='l'>PHYSTEMP</subfield>
+	        <subfield code='m'>PHYSICS</subfield>
+	        <subfield code='t'>STKS</subfield>
+	    </datafield>
+	        <datafield ind1=' ' ind2=' ' tag='999'>
+	        <subfield code='a'>QB1 .A8133 V.402</subfield>
+	        <subfield code='w'>LC</subfield>
+	        <subfield code='c'>1</subfield>
+	        <subfield code='i'>36105210713652</subfield>
+	        <subfield code="k">CHECKEDOUT</subfield>
+	        <subfield code="l">STACKS</subfield>
+	        <subfield code="m">GREEN</subfield>
+	        <subfield code='t'>STKS</subfield>
+	    </datafield>
+	    <datafield ind1=' ' ind2=' ' tag='999'>
+	        <subfield code='a'>QB1 .A8133 V.402</subfield>
+	        <subfield code='w'>LC</subfield>
+	        <subfield code='c'>1</subfield>
+	        <subfield code='i'>36105210713652</subfield>
+	        <subfield code="l">STACKS</subfield>
+	        <subfield code="m">CLASSICS</subfield>
+	        <subfield code='t'>STKS</subfield>
+	    </datafield>
+	</record>
+	<!-- PHYSICS and PHYSTEMP in 999$k with other libraries/buildings so index but no building_facet for Physics-->
+	<record>
+	    <leader>01801cam a2200361K  4500</leader>
+	    <controlfield tag='001'>aindexMultK</controlfield>
+	    <controlfield tag='008'>090724s2009    caua          100 0 eng d</controlfield>
+	    <datafield ind1='0' ind2='0' tag='245'>
+	        <subfield code='a'>PHYSICS and PHYSTEMP in 999$k with other libraries/buildings so index but no building_facet for Physics</subfield>
+	    </datafield>
+	    <datafield ind1=' ' ind2=' ' tag='999'>
+	        <subfield code='a'>QB1 .A8133 V.402</subfield>
+	        <subfield code='w'>LC</subfield>
+	        <subfield code='c'>1</subfield>
+	        <subfield code='i'>36105210713652</subfield>
+	        <subfield code='k'>PHYSTEMP</subfield>
+	        <subfield code='m'>PHYSICS</subfield>
+	        <subfield code='t'>STKS</subfield>
+	    </datafield>
+	        <datafield ind1=' ' ind2=' ' tag='999'>
+	        <subfield code='a'>QB1 .A8133 V.402</subfield>
+	        <subfield code='w'>LC</subfield>
+	        <subfield code='c'>1</subfield>
+	        <subfield code='i'>36105210713652</subfield>
+	        <subfield code='k'>PHYSTEMP</subfield>
+	        <subfield code='m'>PHYSICS</subfield>
+	        <subfield code='t'>STKS</subfield>
+	    </datafield>
+	    <datafield ind1=' ' ind2=' ' tag='999'>
+	        <subfield code='a'>QB1 .A8133 V.402</subfield>
+	        <subfield code='w'>LC</subfield>
+	        <subfield code='c'>1</subfield>
+	        <subfield code='i'>36105210713652</subfield>
+	        <subfield code='l'>PHYSTEMP</subfield>
+	        <subfield code='m'>PHYSICS</subfield>
+	        <subfield code='t'>STKS</subfield>
+	    </datafield>
+	</record>
+	<record>
+	    <leader>01801cam a2200361K  4500</leader>
+	    <controlfield tag='001'>adoNotIndexMult</controlfield>
+	    <controlfield tag='008'>090724s2009    caua          100 0 eng d</controlfield>
+	    <datafield ind1='0' ind2='0' tag='245'>
+	        <subfield code='a'>PHYSICS and no PHYSTEMP with other libraries/buildings so don't index and no building_facet for Physics</subfield>
+	    </datafield>
+	    <datafield ind1=' ' ind2=' ' tag='999'>
+	        <subfield code='a'>QB1 .A8133 V.402</subfield>
+	        <subfield code='w'>LC</subfield>
+	        <subfield code='c'>1</subfield>
+	        <subfield code='i'>36105210713652</subfield>
+	        <subfield code='k'>SOMEWHERE</subfield>
+	        <subfield code='m'>PHYSICS</subfield>
+	        <subfield code='t'>STKS</subfield>
+	    </datafield>
+	        <datafield ind1=' ' ind2=' ' tag='999'>
+	        <subfield code='a'>QB1 .A8133 V.402</subfield>
+	        <subfield code='w'>LC</subfield>
+	        <subfield code='c'>1</subfield>
+	        <subfield code='i'>36105210713652</subfield>
+	        <subfield code="k">CHECKEDOUT</subfield>
+	        <subfield code="l">STACKS</subfield>
+	        <subfield code="m">GREEN</subfield>
+	        <subfield code='t'>STKS</subfield>
+	    </datafield>
+	</record>
+	<!-- PHYSICS and no PHYSTEMP with other libraries/buildings so don't index and no building_facet for Physics-->
+	<record>
+	    <leader>01801cam a2200361K  4500</leader>
+	    <controlfield tag='001'>adoNotIndexMultAll</controlfield>
+	    <controlfield tag='008'>090724s2009    caua          100 0 eng d</controlfield>
+	    <datafield ind1='0' ind2='0' tag='245'>
+	        <subfield code='a'>PHYSICS and no PHYSTEMP with other libraries/buildings so don't index and no building_facet for Physics</subfield>
+	    </datafield>
+	    <datafield ind1=' ' ind2=' ' tag='999'>
+	        <subfield code='a'>QB1 .A8133 V.402</subfield>
+	        <subfield code='w'>LC</subfield>
+	        <subfield code='c'>1</subfield>
+	        <subfield code='i'>36105210713652</subfield>
+	        <subfield code='k'>STACKS</subfield>
+	        <subfield code='m'>PHYSICS</subfield>
+	        <subfield code='t'>STKS</subfield>
+	    </datafield>
+	        <datafield ind1=' ' ind2=' ' tag='999'>
+	        <subfield code='a'>QB1 .A8133 V.402</subfield>
+	        <subfield code='w'>LC</subfield>
+	        <subfield code='c'>1</subfield>
+	        <subfield code='i'>36105210713652</subfield>
+	        <subfield code="l">SOMEWHERE</subfield>
+	        <subfield code="m">PHYSICS</subfield>
+	        <subfield code='t'>STKS</subfield>
+	    </datafield>
+	</record>
+	<!-- No PHYSICS library -->
+	<record>
+	    <leader>01801cam a2200361K  4500</leader>
+	    <controlfield tag='001'>anoPhysics</controlfield>
+	    <controlfield tag='008'>090724s2009    caua          100 0 eng d</controlfield>
+	    <datafield ind1='0' ind2='0' tag='245'>
+	        <subfield code='a'>No PHYSICS library</subfield>
+	    </datafield>
+	    <datafield ind1=' ' ind2=' ' tag='999'>
+	        <subfield code='a'>QB1 .A8133 V.402</subfield>
+	        <subfield code='w'>LC</subfield>
+	        <subfield code='c'>1</subfield>
+	        <subfield code='i'>36105210713652</subfield>
+	        <subfield code='k'>STACKS</subfield>
+	        <subfield code='m'>GREEN</subfield>
+	        <subfield code='t'>STKS</subfield>
+	    </datafield>
+	</record>
+</records>

@@ -43,6 +43,7 @@ import org.junit.runners.Suite;
         MiscellaneousFieldTests.class,
         NoteFieldsTests.class,
         PhysicalTests.class,
+        PhysicsLibraryItemTests.class,
         PublicationTests.class,
         PublicationUtilsUnitTests.class,
         SeriesTests.class,
