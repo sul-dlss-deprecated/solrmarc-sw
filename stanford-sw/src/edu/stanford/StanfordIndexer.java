@@ -352,13 +352,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			// does updating/integrating resource need to be revised based on SFX url?
 			if (sfxUrls.size() > 0)
 			{
-				String bookSerVal = Format.BOOK_SERIES.toString();
-				if (main_formats.contains(bookSerVal))
-				{
-					main_formats.remove(bookSerVal);
-					main_formats.add(journalVal);
-				}
-				else if (main_formats.contains(updatingDbVal))
+				if (main_formats.contains(updatingDbVal))
 				{
 					main_formats.remove(updatingDbVal);
 					main_formats.add(journalVal);
@@ -485,7 +479,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	{
 		String leaderStr = record.getLeader().marshal();
 		char leaderChar07 = leaderStr.charAt(7);
-		
+
 		Set<String> resultSet = new HashSet<String>();
 
 		// look for thesis by existence of 502 field
@@ -505,9 +499,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				}
 			}
 		}
-		
-		/** Based upon SW-1056, added the following to the algorithm to determine if something is a conference proceeding: 
-		 *  Leader/07 = 'm' or 's' and 008/29 = '1' 
+
+		/** Based upon SW-1056, added the following to the algorithm to determine if something is a conference proceeding:
+		 *  Leader/07 = 'm' or 's' and 008/29 = '1'
 		 **/
 		if (leaderChar07 == 'm' || leaderChar07 == 's') {
 			// check if it's a conference proceeding based on 008 char 29
