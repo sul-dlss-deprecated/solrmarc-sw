@@ -68,12 +68,7 @@ public class FormatMainTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06a07m", fldName, bookVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06t07a", fldName, bookVal);
 
-		// monographic series
-// FIXME:  temporary for format redo
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07s00821m", fldName, fldVal);
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "5987319", fldName, fldVal);
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "5598989", fldName, fldVal);
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "223344", fldName, fldVal);
+		// monographic series (?)
 		solrFldMapTest.assertSolrFldValue(testFilePath, "5666387", fldName, bookVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "666", fldName, bookVal);
 
@@ -82,13 +77,13 @@ public class FormatMainTests extends AbstractStanfordTest
 	}
 
 	/**
-	 * if a continuing monographic resource (a book series) has an SFX link,
-	 * then it should be format Journal.
-	 */
+     * if a continuing monographic resource (a book series) has an SFX link,
+     * then it should be format Journal.
+     */
 @Test
-	public final void testBookSeriesAsJournal()
+	public final void testBookSeriesAsBook()
 	{
-		String bookSeriesVal = Format.BOOK_SERIES.toString();
+		String bookSeriesVal = Format.BOOK.toString();
 		// based on 9343812 - SFX link
 		Record record = factory.newRecord();
 		record.setLeader(factory.newLeader("01937cas a2200433 a 4500"));
@@ -96,7 +91,7 @@ public class FormatMainTests extends AbstractStanfordTest
 		record.addVariableField(cf008);
 		record.addVariableField(df956sfx);
 		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookSeriesVal);
 
 		// based on 9138750 - no SFX link
 		record = factory.newRecord();
@@ -111,7 +106,7 @@ public class FormatMainTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(testFilePath, "5987319", fldName, bookSeriesVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "5598989", fldName, bookSeriesVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "223344", fldName, bookSeriesVal);
-	}
+    }
 
 	/**
 	 * Computer File format tests
@@ -183,7 +178,7 @@ public class FormatMainTests extends AbstractStanfordTest
 	    df650.addSubfield(factory.newSubfield('v', "Congresses."));
 	    rec.addVariableField(df650);
 	    solrFldMapTest.assertSolrFldHasNoValue(rec, fldName, fldVal);
-	    
+
 		// test 600|v Congresses
 		rec = factory.newRecord();
 	    rec.setLeader(factory.newLeader("04473caa a2200313Ia 4500"));
