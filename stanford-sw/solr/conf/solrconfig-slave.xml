@@ -287,6 +287,7 @@
         isbn_search^1.5
         issn_search^1.5
         id
+        druid
         oclc
         barcode_search
         physical                       vern_physical
@@ -1024,8 +1025,8 @@
         crez_course_info,
         db_az_subject,
         display_type,
+        file_id,
         format,
-        img_info,
         imprint_display,
         isbn_display,
         item_display,
