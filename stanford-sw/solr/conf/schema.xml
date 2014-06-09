@@ -209,7 +209,7 @@
     <!-- lib -|- location -|- note -|- holdings summary -|- last received  -->
     <field name="mhld_display" type="string" indexed="false" stored="true" multiValued="true" />
 
-    <!-- Course ReserveFields -->
+    <!-- Course Reserve Fields -->
     <field name="crez_course_id_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="crez_course_name_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="crez_instructor_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
@@ -227,15 +227,16 @@
     <field name="modsxml" type="string" indexed="false" stored="true" />
     <!-- collection (facet and display): "sirsi" or, for DOR items, the id of their parent coll -->
     <field name="collection" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
+    <!-- collection_with_title: easy way to indicate item's parent coll title in UI (may be deprecated in future) -->
+    <field name="collection_with_title" type="string" indexed="false" stored="true" multiValued="true" />
     <!-- collection_search: allow searching within collections for aggr. colls -->
     <field name="collection_search" type="string_punct_stop" indexed="true" stored="false" multiValued="true" omitNorms="true" />
-    <!-- display_type is used by UI code, e.g. for Hydrus objects -->
+    <!-- display_type: used by UI code, e.g. 'file' or 'image' -->
     <field name="display_type" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
     <!--  used to determine when something is a digital collection -->
     <field name="collection_type" type="string" indexed="true" stored="true" multiValued="true" />
-    <!--  easy way to indicate collection's parent in UI (may be deprecated in future) -->
-    <field name="collection_with_title" type="string" indexed="false" stored="true" multiValued="true" />
-    <field name="img_info" type="string" indexed="false" stored="true" multiValued="true"/>
+    <!-- file_id:  ids of files (including images) in the digital stacks -->
+    <field name="file_id" type="string" indexed="false" stored="true" multiValued="true"/>
 
     <!-- *************** dynamic field types  ****************** -->
 <!--
@@ -243,12 +244,16 @@
     <dynamicField name="*_search" type="text" stored="false" indexed="true" multiValued="true" />
     <dynamicField name="*_facet" type="string" stored="false" indexed="true" multiValued="true" />
     <dynamicField name="*_display" type="string" stored="true" indexed="false" multiValued="true"/>
-    <dynamicField name="*_sort" type="alphaSort" stored="false" indexed="true"/>
 -->
+    <dynamicField name="*_si" type="string" stored="false" indexed="true" omitNorms="true" />
+    <dynamicField name="*_sim" type="string" stored="false" indexed="true" multiValued="true" omitNorms="true" />
+    <dynamicField name="*_ss" type="string" stored="true" indexed="false" omitNorms="true" />
+    <dynamicField name="*_ssm" type="string" stored="true" indexed="false" multiValued="true" omitNorms="true" />
     <dynamicField name="*_ssi" type="string" stored="true" indexed="true" omitNorms="true" />
     <dynamicField name="*_ssim" type="string" stored="true" indexed="true" multiValued="true" omitNorms="true" />
     <dynamicField name="*_isi" type="tint" stored="true" indexed="true" omitNorms="true" />
     <dynamicField name="*_isim" type="tint" stored="true" indexed="true" multiValued="true" omitNorms="true" />
+    <dynamicField name="*_sort" type="alphaSort" stored="false" indexed="true"/>
     <dynamicField name="cjk_*" type="text_cjk" stored="false" indexed="true" multiValued="true" />
   </fields>
 
