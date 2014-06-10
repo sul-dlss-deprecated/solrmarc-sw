@@ -48,6 +48,10 @@ public class FormatUtils {
 		case 'a':
 			if (leaderChar07 == 'a' || leaderChar07 == 'm')
 				result.add(Format.BOOK.toString());
+			// INDEX-75 Move "Other" collections to Archive/Manuscript 
+			// look for Leader/06 = a and Leader/07 = c
+			if (leaderChar07 == 'c')
+				result.add(Format.MANUSCRIPT_ARCHIVE.toString());
 			break;
 		case 'b':
 		case 'p':
