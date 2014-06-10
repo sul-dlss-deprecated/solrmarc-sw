@@ -109,6 +109,24 @@ public class FormatMainTests extends AbstractStanfordTest
     }
 
 	/**
+	 * Collection from "Other" format tests
+	 */
+	@Test
+	public final void testCollectionFromOther()
+	{
+		String fldVal = Format.MANUSCRIPT_ARCHIVE.toString();
+		String otherFldVal = Format.OTHER.toString();
+
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01529cac a2200397Ia 4500"));
+		cf008.setData("081215c200u9999xx         b        eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, otherFldVal);
+
+	}
+	
+	/**
 	 * Computer File format tests
 	 */
 @Test
