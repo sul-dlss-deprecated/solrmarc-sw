@@ -277,12 +277,13 @@ public class FormatUtils {
 	 *  the 008 field or the 4th char from an 006 field, return the format
 	 *  (assuming that there is an indication that the record is for a serial).
 	 *  return null if no format is determined.
+	 *  INDEX-14 updating database being folded into Database
 	 */
 	protected static String getIntegratingMainFormatFromChar(char ch) {
 		if (ch != '\u0000')
 			switch (ch) {
 				case 'd':
-					return Format.UPDATING_DATABASE.toString();  // FIXME: temporary format
+					return Format.DATABASE_A_Z.toString();
 				case 'l':
 					return Format.BOOK.toString();
 				case 'w':
