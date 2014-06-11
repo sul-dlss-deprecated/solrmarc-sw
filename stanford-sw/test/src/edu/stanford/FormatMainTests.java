@@ -578,13 +578,12 @@ public final void testEquipment()
 	}
 
 	/**
-	 * Updating Database can be a serial or integrating resource.
-	 * If they have an SFX url, then we will call them a journal.
+	 * INDEX-14 Updating Database being folded into Database 
+	 * regardless of the existence of sfx urls
 	 */
 @Test
 	public final void testUpdatingDatabase()
 	{
-		String uDbVal = Format.UPDATING_DATABASE.toString();
 
 		// based on 9366507 - integrating, SFX
 		Record record = factory.newRecord();
@@ -593,7 +592,7 @@ public final void testEquipment()
 		record.addVariableField(cf008);
 		record.addVariableField(df956sfx);
 		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
+		solrFldMapTest.assertSolrFldValue(record, fldName, dbazVal);
 
 		// based on 6735313 - integrating, no SFX
 		record = factory.newRecord();
@@ -601,7 +600,7 @@ public final void testEquipment()
 		cf008.setData("061227c20069999vau x dss    f0    2eng c");
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, fldName, uDbVal);
+		solrFldMapTest.assertSolrFldValue(record, fldName, dbazVal);
 
 		// integrating, db a-z
 		record.addVariableField(df999dbaz);
@@ -615,7 +614,7 @@ public final void testEquipment()
 		record.addVariableField(cf008);
 		record.addVariableField(df956sfx);
 		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
+		solrFldMapTest.assertSolrFldValue(record, fldName, dbazVal);
 
 		// serial, no SFX
 		record = factory.newRecord();
@@ -623,7 +622,7 @@ public final void testEquipment()
 		cf008.setData("061227c20069999vau x dss    f0    2eng c");
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, fldName, uDbVal);
+		solrFldMapTest.assertSolrFldValue(record, fldName, dbazVal);
 
 		// serial, db a-z
 		record.addVariableField(df999dbaz);
