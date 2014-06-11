@@ -938,6 +938,11 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		if (main_formats.contains(Format.DATABASE_A_Z.toString())) {
 			subjectsSet = MarcUtils.getFieldList(record, "099a");
 		}
+
+		// INDEX-14 If there is no 099, set subject to "Uncategorized"
+		if (record.getVariableFields("099").isEmpty())
+            subjectsSet.add("Uncategorized");
+
 		// add second value for those codes mapping to two values
 		if (subjectsSet.contains("BP"))
 			subjectsSet.add("BP2");
