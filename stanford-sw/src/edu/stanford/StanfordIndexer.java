@@ -313,13 +313,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 	/**
 	 * Assign formats per decisions made late fall 2013
+	 * INDEX-14 Updating database folded into Database
 	 */
 	@SuppressWarnings("unchecked")
 	private void setMainFormats(final Record record)
 	{
 		main_formats.clear();
 
-		String updatingDbVal = Format.UPDATING_DATABASE.toString();
 		String updatingWebsiteVal = Format.UPDATING_WEBSITE.toString();
 		String updatingOtherVal = Format.UPDATING_OTHER.toString();
 
@@ -352,12 +352,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			// does updating/integrating resource need to be revised based on SFX url?
 			if (sfxUrls.size() > 0)
 			{
-				if (main_formats.contains(updatingDbVal))
-				{
-					main_formats.remove(updatingDbVal);
-					main_formats.add(journalVal);
-				}
-				else if (main_formats.contains(updatingWebsiteVal))
+				if (main_formats.contains(updatingWebsiteVal))
 				{
 					main_formats.remove(updatingWebsiteVal);
 					main_formats.add(journalVal);
@@ -394,9 +389,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					main_formats.remove(compFileVal);
 
 				// remove continuing resource value if it is one of those
-				if (main_formats.contains(updatingDbVal))
-					main_formats.remove(updatingDbVal);
-				else if (main_formats.contains(updatingWebsiteVal))
+				if (main_formats.contains(updatingWebsiteVal))
 					main_formats.remove(updatingWebsiteVal);
 				else if (main_formats.contains(updatingOtherVal))
 					main_formats.remove(updatingOtherVal);
