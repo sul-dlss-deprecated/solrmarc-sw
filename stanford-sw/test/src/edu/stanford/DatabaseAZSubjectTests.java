@@ -96,35 +96,6 @@ public class DatabaseAZSubjectTests extends AbstractStanfordTest
 	}
 
 	/**
-	 * test that an A-Z database with no subjects doesn't get any
-	 */
-@Test
-	public final void testSubjectsWithOtherDatabase()
-	{
-	
-		Record record = factory.newRecord();
-		record.setLeader(factory.newLeader("01541cai a2200349Ia 4500"));
-		ControlField cf008 = factory.newControlField("008");
-		cf008.setData("040727c20049999nyuuu dss     0    2eng d");
-		record.addVariableField(cf008);
-		DataField df245 = factory.newDataField("245", '0', '0');
-		df245.addSubfield(factory.newSubfield('a', "database NOT from 999t with 099a"));
-		record.addVariableField(df245);
-		DataField df099 = factory.newDataField("099", ' ', ' ');
-		df099.addSubfield(factory.newSubfield('a', "Q"));
-		record.addVariableField(df099);
-		DataField df999 = factory.newDataField("999", ' ', ' ');
-		df999.addSubfield(factory.newSubfield('a', "INTERNET RESOURCE"));
-		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
-		df999.addSubfield(factory.newSubfield('i', "1"));
-		df999.addSubfield(factory.newSubfield('l', "INTERNET"));
-		df999.addSubfield(factory.newSubfield('m', "SUL"));
-		record.addVariableField(df999);
-	
-		solrFldMapTest.assertNoSolrFld(record, facetFldName);
-	}
-
-	/**
 	 * test that double assigned subject codes get both their values
 	 */
 @Test
