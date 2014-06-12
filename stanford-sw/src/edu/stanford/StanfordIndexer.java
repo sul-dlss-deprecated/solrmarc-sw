@@ -314,13 +314,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/**
 	 * Assign formats per decisions made late fall 2013
 	 * INDEX-14 updating database being folded into Database_A_Z
+	 *  INDEX-16 updating website being folded into Journal_Periodical
+	 *  INDEX-15 updating other (default) being folded into Book
 	 */
 	@SuppressWarnings("unchecked")
 	private void setMainFormats(final Record record)
 	{
 		main_formats.clear();
-
-		String updatingOtherVal = Format.UPDATING_OTHER.toString();
 
 		// assign formats based on leader chars 06, 07 and chars in 008
 		String leaderStr = record.getLeader().marshal();
@@ -348,15 +348,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					main_formats.add(integrFormat);
 			}
 
-			// does updating/integrating resource need to be revised based on SFX url?
-			if (sfxUrls.size() > 0)
-			{
-				if (main_formats.contains(updatingOtherVal))
-				{
-					main_formats.remove(updatingOtherVal);
-					main_formats.add(journalVal);
-				}
-			}
 		}
 
 		// check for format information from 999 ALPHANUM call numbers
@@ -381,10 +372,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				if (main_formats.contains(compFileVal) &&
 					!accessMethods.contains(Access.AT_LIBRARY.toString()))
 					main_formats.remove(compFileVal);
-
-				// remove continuing resource value if it is one of those
-				if (main_formats.contains(updatingOtherVal))
-					main_formats.remove(updatingOtherVal);
 			}
 		}
 
