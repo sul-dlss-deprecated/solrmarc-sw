@@ -320,7 +320,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	{
 		main_formats.clear();
 
-		String updatingWebsiteVal = Format.UPDATING_WEBSITE.toString();
 		String updatingOtherVal = Format.UPDATING_OTHER.toString();
 
 		// assign formats based on leader chars 06, 07 and chars in 008
@@ -352,12 +351,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			// does updating/integrating resource need to be revised based on SFX url?
 			if (sfxUrls.size() > 0)
 			{
-				if (main_formats.contains(updatingWebsiteVal))
-				{
-					main_formats.remove(updatingWebsiteVal);
-					main_formats.add(journalVal);
-				}
-				else if (main_formats.contains(updatingOtherVal))
+				if (main_formats.contains(updatingOtherVal))
 				{
 					main_formats.remove(updatingOtherVal);
 					main_formats.add(journalVal);
@@ -389,9 +383,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					main_formats.remove(compFileVal);
 
 				// remove continuing resource value if it is one of those
-				if (main_formats.contains(updatingWebsiteVal))
-					main_formats.remove(updatingWebsiteVal);
-				else if (main_formats.contains(updatingOtherVal))
+				if (main_formats.contains(updatingOtherVal))
 					main_formats.remove(updatingOtherVal);
 			}
 		}
