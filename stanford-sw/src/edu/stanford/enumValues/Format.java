@@ -20,8 +20,6 @@ public enum Format {
 	SOUND_RECORDING,
 	/** @deprecated */
 	UPDATING_OTHER, // Possibly temporary
-	/** @deprecated */
-	UPDATING_WEBSITE, // Possibly temporary
 	VIDEO,
 	OTHER;
 
@@ -47,8 +45,6 @@ public enum Format {
 				return "Sound recording";
 			case UPDATING_OTHER:
 				return "Updating other";
-			case UPDATING_WEBSITE:
-				return "Updating website";
 			default:
 				String lc = super.toString().toLowerCase();
 				String firstchar = lc.substring(0, 1).toUpperCase();
