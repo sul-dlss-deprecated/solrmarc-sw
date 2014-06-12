@@ -1113,8 +1113,6 @@ public final void testEquipment()
 @Test
 	public final void testUpdatingWebsite()
 	{
-		String uWebVal = Format.UPDATING_WEBSITE.toString();
-
 		// based on 10094805 - integrating, SFX
 		Record record = factory.newRecord();
 		record.setLeader(factory.newLeader("02015cai a2200385 a 4500"));
@@ -1130,11 +1128,11 @@ public final void testEquipment()
 		cf008.setData("040730d19uu2012dcuar w os   f0    2eng d");
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, fldName, uWebVal);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
 
 		// integrating, db a-z
 		record.addVariableField(df999dbaz);
-		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
+		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 2);
 		solrFldMapTest.assertSolrFldValue(record, fldName, dbazVal);
 
 		// serial, SFX
@@ -1152,11 +1150,11 @@ public final void testEquipment()
 		cf008.setData("040730d19uu2012dcuar w os   f0    2eng d");
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, fldName, uWebVal);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
 
 		// serial, db a-z
 		record.addVariableField(df999dbaz);
-		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
+		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 2);
 		solrFldMapTest.assertSolrFldValue(record, fldName, dbazVal);
 
 		// leader/07 b, 006/00 s, 006/04 w, 008/21 n - Other -->
@@ -1169,7 +1167,7 @@ public final void testEquipment()
 		DataField df245 = factory.newDataField("245", '1', '0');
 		df245.addSubfield(factory.newSubfield('a', "Other: leader/07 b, 006/00 s 006/04 w and 008/21 n"));
 		record.addVariableField(df245);
-		solrFldMapTest.assertSolrFldValue(record, fldName, uWebVal);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
 		
 		// leader/07 s, no 006, 008/21 w - other (web site)
 		record = factory.newRecord();
@@ -1179,7 +1177,7 @@ public final void testEquipment()
 		df245 = factory.newDataField("245", '1', '0');
 		df245.addSubfield(factory.newSubfield('a', "other (web site): leader/07s, no 006, and 008/21 w"));
 		record.addVariableField(df245);
-		solrFldMapTest.assertSolrFldValue(record, fldName, uWebVal);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
 		
 		// leader/07 b, 006/00 s, 008/21 w - other (web site)
 		record = factory.newRecord();
@@ -1191,7 +1189,7 @@ public final void testEquipment()
 		df245 = factory.newDataField("245", '1', '0');
 		df245.addSubfield(factory.newSubfield('a', "other (web site): leader/07 b, 006/00 s and 008/21 w"));
 		record.addVariableField(df245);
-		solrFldMapTest.assertSolrFldValue(record, fldName, uWebVal);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
 	}
 
 	/**
