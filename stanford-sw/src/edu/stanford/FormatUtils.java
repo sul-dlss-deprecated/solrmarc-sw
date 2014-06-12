@@ -287,7 +287,7 @@ public class FormatUtils {
 				case 'l':
 					return Format.BOOK.toString();
 				case 'w':
-					return Format.UPDATING_WEBSITE.toString();  // FIXME: temporary format?
+					return Format.JOURNAL_PERIODICAL.toString();
 				default:
 					return Format.UPDATING_OTHER.toString();  // FIXME: temporary format
 			}
