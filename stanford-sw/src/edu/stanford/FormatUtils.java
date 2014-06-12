@@ -277,7 +277,7 @@ public class FormatUtils {
 	 *  the 008 field or the 4th char from an 006 field, return the format
 	 *  (assuming that there is an indication that the record is for a serial).
 	 *  return null if no format is determined.
-	 *  INDEX-14 updating database being folded into Database
+	 *  INDEX-14 updating database being folded into Database_A_Z
 	 */
 	protected static String getIntegratingMainFormatFromChar(char ch) {
 		if (ch != '\u0000')

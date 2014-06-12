@@ -578,7 +578,7 @@ public final void testEquipment()
 	}
 
 	/**
-	 * INDEX-14 Updating Database being folded into Database 
+	 * INDEX-14 updating database being folded into Database_A_Z
 	 * regardless of the existence of sfx urls
 	 */
 @Test

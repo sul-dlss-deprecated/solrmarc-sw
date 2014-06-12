@@ -313,7 +313,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 	/**
 	 * Assign formats per decisions made late fall 2013
-	 * INDEX-14 Updating database folded into Database
+	 * INDEX-14 updating database being folded into Database_A_Z
 	 */
 	@SuppressWarnings("unchecked")
 	private void setMainFormats(final Record record)
@@ -941,7 +941,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		// INDEX-14 If there is no 099, set subject to "Uncategorized"
 		if (record.getVariableFields("099").isEmpty())
-            subjectsSet.add("Uncategorized");
+			subjectsSet.add("Uncategorized");
 
 		// add second value for those codes mapping to two values
 		if (subjectsSet.contains("BP"))
