@@ -14,6 +14,7 @@ import edu.stanford.enumValues.FormatOld;
  * Database formats are tested separately in FormatDatabaseTests
  * Physical formats are tested separated in FormatPhysicalTests
  * @author Naomi Dushay
+ * @author Laney McGlohon
  */
 public class FormatMainTests extends AbstractStanfordTest
 {
@@ -1195,11 +1196,12 @@ public final void testEquipment()
 	/**
 	 * Updating Other can be a serial or integrating resource.
 	 * If they have an SFX url, then we will call them a journal.
+	 *  INDEX-15 updating other (default) being folded into Book
 	 */
 @Test
 	public final void testUpdatingOther()
 	{
-		String uOtherVal = Format.UPDATING_OTHER.toString();
+		String bookVal = Format.BOOK.toString();
 
 		// based on 9539608 - integrating, SFX
 		Record record = factory.newRecord();
@@ -1208,7 +1210,7 @@ public final void testEquipment()
 		record.addVariableField(cf008);
 		record.addVariableField(df956sfx);
 		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookVal);
 
 		// based on 10182766k - integrating, no SFX
 		record = factory.newRecord();
@@ -1216,11 +1218,11 @@ public final void testEquipment()
 		cf008.setData("081215c200u9999xx         a        eng d");
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, fldName, uOtherVal);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookVal);
 
 		// integrating, db a-z
 		record.addVariableField(df999dbaz);
-		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
+		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 2);
 		solrFldMapTest.assertSolrFldValue(record, fldName, dbazVal);
 
 		// serial, SFX
@@ -1230,7 +1232,7 @@ public final void testEquipment()
 		record.addVariableField(cf008);
 		record.addVariableField(df956sfx);
 		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookVal);
 
 		// serial, no SFX
 		record = factory.newRecord();
@@ -1238,11 +1240,11 @@ public final void testEquipment()
 		cf008.setData("111014c20119999enk|| q o     |    2eng c");
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, fldName, uOtherVal);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookVal);
 
 		// serial, db a-z
 		record.addVariableField(df999dbaz);
-		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
+		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 2);
 		solrFldMapTest.assertSolrFldValue(record, fldName, dbazVal);
 	}
 
