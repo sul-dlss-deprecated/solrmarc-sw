@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
+
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.solr.client.solrj.SolrServerException;
@@ -72,10 +73,27 @@ public class AccessTests extends AbstractStanfordTest {
 @Test
 	public void testAccessFromSfxURL()
 	{
-        String testFilePath = testDataParentPath + File.separator + "formatTests.mrc";
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("00988nas a2200193z  4500"));
+		ControlField cf008 = factory.newControlField("008");
+		cf008.setData("071214uuuuuuuuuxx uu |ss    u|    |||| d");
+		record.addVariableField(cf008);
+		DataField df245 = factory.newDataField("245", '0', '0');
+		df245.addSubfield(factory.newSubfield('a', "format Other; should be access online"));
+		record.addVariableField(df245);
+		DataField df099 = factory.newDataField("956", '4', '0');
+		df099.addSubfield(factory.newSubfield('u', "http://caslon.stanford.edu:3210/sfxlcl3?url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;ctx_enc=info:ofi/enc:UTF-8&amp;rfr_id=info:sid/sfxit.com:opac_856&amp;url_ctx_fmt=info:ofi/fmt:kev:mtx:ctx&amp;sfx.ignore_date_threshold=1&amp;rft.object_id=110978984448763&amp;svc_val_fmt=info:ofi/fmt:kev:mtx:sch_svc&amp;"));
+		record.addVariableField(df099);
+		DataField df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "INTERNET RESOURCE"));
+		df999.addSubfield(factory.newSubfield('w', "ASIS"));
+		df999.addSubfield(factory.newSubfield('i', "7117119-1001"));
+		df999.addSubfield(factory.newSubfield('l', "INTERNET"));
+		df999.addSubfield(factory.newSubfield('m', "SUL"));
+		record.addVariableField(df999);
 
 		// has SFX url in 956
-		solrFldMapTest.assertSolrFldValue(testFilePath, "7117119", fldName, onlineFldVal);
+		solrFldMapTest.assertSolrFldValue(record, fldName, onlineFldVal);
 	}
 
 

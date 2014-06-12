@@ -23,7 +23,7 @@
   
   <!-- 502 - thesis -->
   <record>
-    <leader>01952cad  2200457Ia 45í0</leader>
+    <leader>01952cad  2200457Ia 4500</leader>
     <controlfield tag="001">a502</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 v eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -50,7 +50,7 @@
   
   <!-- 245 h has "microform" - microfilm AND music-score -->
   <record>
-    <leader>01952adm  2200457Ia 45í0</leader>
+    <leader>01952adm  2200457Ia 4500</leader>
     <controlfield tag="001">a245hmicroform</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 v eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -73,7 +73,7 @@
   
   <!-- leader/07 b, 006/00 s, 006/04 m, 008/21 d - book (monographic series) -->
   <record>
-    <leader>01952cab  2200457Ia 45í0</leader>
+    <leader>01952cab  2200457Ia 4500</leader>
     <controlfield tag="001">a223344</controlfield>
     <controlfield tag="006">s   m    h        </controlfield>
     <controlfield tag="008">780930m19391944nyu   d       000 v eng d</controlfield>
@@ -234,7 +234,7 @@
   
   <!-- leader/06 a /07 m - book -->
   <record>
-    <leader>01952cam  2200457Ia 45í0</leader>
+    <leader>01952cam  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06a07m</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -243,7 +243,7 @@
   </record>
   <!-- leader/06 a /07 s 008/21 blank - serial publication -->
   <record>
-    <leader>01952cas  2200457Ia 45í0</leader>
+    <leader>01952cas  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06a07s</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -252,7 +252,7 @@
   </record>
   <!-- leader/06 b - manuscript/archive -->
   <record>
-    <leader>01952cbd  2200457Ia 45í0</leader>
+    <leader>01952cbd  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06b</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 v eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -261,7 +261,7 @@
   </record>
   <!-- leader/06 c - music-score -->
   <record>
-    <leader>01952ccd  2200457Ia 45í0</leader>
+    <leader>01952ccd  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06c</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 v eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -270,7 +270,7 @@
   </record>
   <!-- leader/06 d - music-score -->
   <record>
-    <leader>01952cdd  2200457Ia 45í0</leader>
+    <leader>01952cdd  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06d</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 v eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -279,7 +279,7 @@
   </record>
   <!-- leader/06 e - globe -->
   <record>
-    <leader>01952ced  2200457Ia 45í0</leader>
+    <leader>01952ced  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06e</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -288,7 +288,7 @@
   </record>
   <!-- leader/06 f - map -->
   <record>
-    <leader>01952cfd  2200457Ia 45í0</leader>
+    <leader>01952cfd  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06f</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -297,7 +297,7 @@
   </record>
   <!-- leader/06 g 008/33 m - video -->
   <record>
-    <leader>01952cgd  2200457Ia 45í0</leader>
+    <leader>01952cgd  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06g00833m</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 m eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -306,7 +306,7 @@
   </record>
   <!-- leader/06 g 008/33 v - video -->
   <record>
-    <leader>01952cgd  2200457Ia 45í0</leader>
+    <leader>01952cgd  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06g00833v</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 v eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -315,7 +315,7 @@
   </record>
   <!-- leader/06 g 008/33 w - other -->
   <record>
-    <leader>01952cgd  2200457Ia 45í0</leader>
+    <leader>01952cgd  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06g00833w</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 w eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -324,7 +324,7 @@
   </record>
   <!-- leader/06 i - audio non-music -->
   <record>
-    <leader>01952cid  2200457Ia 45í0</leader>
+    <leader>01952cid  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06i</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 v eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -333,7 +333,7 @@
   </record>
   <!-- leader/06 j - music-audio -->
   <record>
-    <leader>01952cjd  2200457Ia 45í0</leader>
+    <leader>01952cjd  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06j</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 v eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -342,7 +342,7 @@
   </record>
   <!-- leader/06 k 008/33 i - image -->
   <record>
-    <leader>01952ckd  2200457Ia 45í0</leader>
+    <leader>01952ckd  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06k00833i</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 i eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -351,7 +351,7 @@
   </record>  
   <!-- leader/06 k 008/33 k - image -->
   <record>
-    <leader>01952ckd  2200457Ia 45í0</leader>
+    <leader>01952ckd  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06k00833k</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 k eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -360,7 +360,7 @@
   </record>
   <!-- leader/06 k 008/33 p - image -->
   <record>
-    <leader>01952ckd  2200457Ia 45í0</leader>
+    <leader>01952ckd  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06k00833p</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 p eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -369,7 +369,7 @@
   </record>
   <!-- leader/06 k 008/33 s - image -->
   <record>
-    <leader>01952ckd  2200457Ia 45í0</leader>
+    <leader>01952ckd  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06k00833s</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 s eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -378,7 +378,7 @@
   </record>
   <!-- leader/06 k 008/33 t - image -->
   <record>
-    <leader>01952ckd  2200457Ia 45í0</leader>
+    <leader>01952ckd  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06k00833t</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 t eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -387,7 +387,7 @@
   </record>
   <!-- leader/06 k 008/33 w - other -->
   <record>
-    <leader>01952ckd  2200457Ia 45í0</leader>
+    <leader>01952ckd  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06k00833w</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 w eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -396,7 +396,7 @@
   </record>
   <!-- leader/06 m 008/26 a - data -->
   <record>
-    <leader>01952cmd  2200457Ia 45í0</leader>
+    <leader>01952cmd  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06m00826a</controlfield>
     <controlfield tag="008">780930m19391944nyu        a  000 v eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -405,7 +405,7 @@
   </record>
   <!-- leader/06 m 008/26 u - other -->
   <record>
-    <leader>01952cmd  2200457Ia 45í0</leader>
+    <leader>01952cmd  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06m00826u</controlfield>
     <controlfield tag="008">780930m19391944nyu        u  000 v eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -414,7 +414,7 @@
   </record>
   <!-- leader/06 o - other (kit) -->
   <record>
-    <leader>01952cod  2200457Ia 45í0</leader>
+    <leader>01952cod  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06o</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 v eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -423,7 +423,7 @@
   </record>
   <!-- leader/06 p - manuscript/archive -->
   <record>
-    <leader>01952cpd  2200457Ia 45í0</leader>
+    <leader>01952cpd  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06p</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 v eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -432,7 +432,7 @@
   </record>
   <!-- leader/06 r - other (object) -->
   <record>
-    <leader>01952crd  2200457Ia 45í0</leader>
+    <leader>01952crd  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06r</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 v eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -441,7 +441,7 @@
   </record>
   <!-- leader/06 t /07 a - book -->
   <record>
-    <leader>01952cta  2200457Ia 45í0</leader>
+    <leader>01952cta  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06t07a</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -450,7 +450,7 @@
   </record>
   <!-- leader/06 t /07 b - other -->
   <record>
-    <leader>01952ctb  2200457Ia 45í0</leader>
+    <leader>01952ctb  2200457Ia 4500</leader>
     <controlfield tag="001">aleader06t07b</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -460,7 +460,7 @@
   
   <!-- leader/07 b, 006/00 s, 008/21 m - serial publication -->
   <record>
-    <leader>01952cab  2200457Ia 45í0</leader>
+    <leader>01952cab  2200457Ia 4500</leader>
     <controlfield tag="001">aleader07b00600s00821m</controlfield>
     <controlfield tag="006">s        h        </controlfield>
     <controlfield tag="008">780930m19391944nyu   m       000 v eng d</controlfield>
@@ -470,7 +470,7 @@
   </record>
   <!-- leader/07 b, 006/00 s, 006/04 w, 008/21 n - Other -->
   <record>
-    <leader>01952cab  2200457Ia 45í0</leader>
+    <leader>01952cab  2200457Ia 4500</leader>
     <controlfield tag="001">aleader07b00600s00821n</controlfield>
     <controlfield tag="006">s   w    h        </controlfield>
     <controlfield tag="008">780930m19391944nyu   n       000 v eng d</controlfield>
@@ -480,7 +480,7 @@
   </record>
   <!-- leader/07 b, 006/00 s, 008/21 p - Serial Publication -->
   <record>
-    <leader>01952cab  2200457Ia 45í0</leader>
+    <leader>01952cab  2200457Ia 4500</leader>
     <controlfield tag="001">aleader07b00600s00821p</controlfield>
     <controlfield tag="006">s        h        </controlfield>
     <controlfield tag="008">780930m19391944nyu   p       000 v eng d</controlfield>
@@ -490,7 +490,7 @@
   </record>
   <!-- leader/07 b, 006/00 s, 008/21 w - other (web site) -->
   <record>
-    <leader>01952cab  2200457Ia 45í0</leader>
+    <leader>01952cab  2200457Ia 4500</leader>
     <controlfield tag="001">aleader07b00600s00821w</controlfield>
     <controlfield tag="006">s   w    h        </controlfield>
     <controlfield tag="008">780930m19391944nyu   w       000 v eng d</controlfield>
@@ -500,7 +500,7 @@
   </record>
   <!-- leader/07 s, 006/00 j, 008/21 d - other (updating database) -->
   <record>
-    <leader>01952cas  2200457Ia 45í0</leader>
+    <leader>01952cas  2200457Ia 4500</leader>
     <controlfield tag="001">aleader07s00600j00821d</controlfield>
     <controlfield tag="006">j        h        </controlfield>
     <controlfield tag="008">780930m19391944nyu   d       000 v eng d</controlfield>
@@ -510,7 +510,7 @@
   </record>
   <!-- leader/07 s, no 006, 008/21 m - book (monographic series) -->
   <record>
-    <leader>01952cas  2200457Ia 45í0</leader>
+    <leader>01952cas  2200457Ia 4500</leader>
     <controlfield tag="001">aleader07s00821m</controlfield>
     <controlfield tag="008">780930m19391944nyu   m       000 v eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -519,7 +519,7 @@
   </record>
   <!-- leader/07 s, no 006, 008/21 n - newspaper -->
   <record>
-    <leader>01952cas  2200457Ia 45í0</leader>
+    <leader>01952cas  2200457Ia 4500</leader>
     <controlfield tag="001">aleader07sNo00600821n</controlfield>
     <controlfield tag="008">780930m19391944nyu   n       000 v eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -528,7 +528,7 @@
   </record>
   <!-- leader/07 s, no 006, 008/21 p - journal -->
   <record>
-    <leader>01952cas  2200457Ia 45í0</leader>
+    <leader>01952cas  2200457Ia 4500</leader>
     <controlfield tag="001">aleader07sNo00600821p</controlfield>
     <controlfield tag="008">780930m19391944nyu   p       000 v eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -537,7 +537,7 @@
   </record>
   <!-- leader/07 s, no 006, 008/21 w - other (web site) -->
   <record>
-    <leader>01952cas  2200457Ia 45í0</leader>
+    <leader>01952cas  2200457Ia 4500</leader>
     <controlfield tag="001">aleader07sNo00600821w</controlfield>
     <controlfield tag="008">780930m19391944nyu   w       000 v eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
@@ -547,7 +547,7 @@
   
   <!-- leader/07 s 008/21 n - newspaper -->
   <record>
-    <leader>01952cas  2200457Ia 45í0</leader>
+    <leader>01952cas  2200457Ia 4500</leader>
     <controlfield tag="001">anewspaper</controlfield>
     <controlfield tag="008">780930m19391944nyu   n       000 v eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">

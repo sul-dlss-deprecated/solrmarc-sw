@@ -17,8 +17,6 @@ import edu.stanford.enumValues.FormatOld;
  */
 public class FormatMainTests extends AbstractStanfordTest
 {
-	private final String testDataFname = "formatTests.mrc";
-	String testFilePath = testDataParentPath + File.separator + testDataFname;
 	private final static String fldName = "format_main_ssim";
 	private final static String journalVal = Format.JOURNAL_PERIODICAL.toString();
 	private final static String dbazVal = Format.DATABASE_A_Z.toString();
@@ -53,7 +51,16 @@ public class FormatMainTests extends AbstractStanfordTest
 	public final void testAudioNonMusic()
 	{
 		String fldVal = Format.SOUND_RECORDING.toString();
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06i", fldName, fldVal);
+		
+		// leader/06 i - audio non-music
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cid  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 v eng d");
+		record.addVariableField(cf008);
+		DataField df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "audio non-music: leader/06 i"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
 	}
 
 	/**
@@ -65,15 +72,68 @@ public class FormatMainTests extends AbstractStanfordTest
 	{
 		String bookVal = Format.BOOK.toString();
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06a07m", fldName, bookVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06t07a", fldName, bookVal);
+		// leader/06 a /07 m - book
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cam  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 0 eng d");
+		record.addVariableField(cf008);
+		DataField df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "book: leader/06 a /07 m"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookVal);
+		
+		// leader/06 t /07 a - book
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cam  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 0 eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "book: leader/06 t /07 a"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookVal);
 
 		// monographic series (?)
-		solrFldMapTest.assertSolrFldValue(testFilePath, "5666387", fldName, bookVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "666", fldName, bookVal);
+		// conference proceedings
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("04473cam a2200313Ia 4500"));
+		cf008.setData("040202s2003    fi g     b    100 0deng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "conference proceedings"));
+		record.addVariableField(df245);
+		DataField df600 = factory.newDataField("600", '1', '0');
+		df600.addSubfield(factory.newSubfield('a', "Sibelius, Jean,"));
+		df600.addSubfield(factory.newSubfield('d', "1865-1957"));
+		df600.addSubfield(factory.newSubfield('v', "Congresses."));
+		record.addVariableField(df600);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookVal);
+
+		// Conference Proceedings
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("04473cam a2200313Ia 4500"));
+		cf008.setData("040202s2003    fi g     b    100 0deng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "more conference proceedings"));
+		record.addVariableField(df245);
+		DataField df650 = factory.newDataField("650", ' ', '0');
+		df650.addSubfield(factory.newSubfield('a', "Music"));
+		df650.addSubfield(factory.newSubfield('v', "Congresses."));
+		record.addVariableField(df650);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookVal);
 
 		// formerly believed to be monographic series
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "leader07b00600s00821m", fldName, bookVal);
+		// leader/07 b, 006/00 s, 008/21 m - serial publication
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cab  2200457Ia 4500"));
+		cf006.setData("s        h        ");
+		record.addVariableField(cf006);
+		cf008.setData("780930m19391944nyu   m       000 v eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "serial publication: leader/07 b, 006/00 s, 006/04 blank, 008/21 d"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, bookVal);
 	}
 
 	/**
@@ -84,6 +144,7 @@ public class FormatMainTests extends AbstractStanfordTest
 	public final void testBookSeriesAsBook()
 	{
 		String bookSeriesVal = Format.BOOK.toString();
+
 		// based on 9343812 - SFX link
 		Record record = factory.newRecord();
 		record.setLeader(factory.newLeader("01937cas a2200433 a 4500"));
@@ -102,10 +163,47 @@ public class FormatMainTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(record, fldName, bookSeriesVal);
 
 		// monographic series without SFX links
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07s00821m", fldName, bookSeriesVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "5987319", fldName, bookSeriesVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "5598989", fldName, bookSeriesVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "223344", fldName, bookSeriesVal);
+		// leader/07 s, no 006, 008/21 m - book (monographic series)
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cas  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu   m       000 v eng d");
+		record.addVariableField(cf008);
+		DataField df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "book (monographic series): leader/07 s, no 006 and 008/21 m"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookSeriesVal);
+		
+		// Book: monographic series
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("00868cas a22002294a 4500"));
+		cf008.setData("050823c20029999ohuuu m       0    0eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "Book: leader/07 s  and 008/21 m"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookSeriesVal);
+
+		// Book: monographic series
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01068cas a2200277 a 4500"));
+		cf008.setData("030807c20029999nyufx m       0    0eng c");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "Book: leader/07 s  and 008/21 m"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookSeriesVal);
+
+		// leader/07 b, 006/00 s, 006/04 m, 008/21 d - book (monographic series)
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cab  2200457Ia 4500"));
+		cf006.setData("s   m    h        ");
+		record.addVariableField(cf006);
+		cf008.setData("780930m19391944nyu   d       000 v eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "book (monographic series): leader/07 b, 006/00 s, 006/04 m, 008/21 d"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookSeriesVal);
     }
 
 	/**
@@ -133,9 +231,18 @@ public class FormatMainTests extends AbstractStanfordTest
 	public final void testComputerFile()
 	{
 		String fldVal = Format.COMPUTER_FILE.toString();
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06m00826u", fldName, fldVal);
-
+		
+		// leader/06 m 008/26 u - other
 		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cmd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu        u  000 v eng d");
+		record.addVariableField(cf008);
+		DataField df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "other (not data): leader/06 m 008/26 u"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		record = factory.newRecord();
 		record.setLeader(factory.newLeader("01529cmi a2200397Ia 4500"));
 		cf008.setData("081215c200u9999xx         b        eng d");
 		record.addVariableField(cf008);
@@ -188,7 +295,6 @@ public class FormatMainTests extends AbstractStanfordTest
 		// test 650|v Congresses
 		Record rec = factory.newRecord();
 	    rec.setLeader(factory.newLeader("04473caa a2200313Ia 4500"));
-	    ControlField cf008 = factory.newControlField("008");
 	    cf008.setData("040202s2003    fi g     b    000 0deng d");
 	    rec.addVariableField(cf008);
 	    DataField df650 = factory.newDataField("650", ' ', '0');
@@ -200,7 +306,6 @@ public class FormatMainTests extends AbstractStanfordTest
 		// test 600|v Congresses
 		rec = factory.newRecord();
 	    rec.setLeader(factory.newLeader("04473caa a2200313Ia 4500"));
-	    cf008 = factory.newControlField("008");
 	    cf008.setData("040202s2003    fi g     b    000 0deng d");
 	    rec.addVariableField(cf008);
 	    DataField df600 = factory.newDataField("600", '1', '0');
@@ -213,7 +318,6 @@ public class FormatMainTests extends AbstractStanfordTest
 	    // test LeaderChar07 = m and 008/29 = 1
 		rec = factory.newRecord();
 	    rec.setLeader(factory.newLeader("04473cam a2200313Ia 4500"));
-	    cf008 = factory.newControlField("008");
 	    cf008.setData("040202s2003    fi g     b    100 0deng d");
 	    rec.addVariableField(cf008);
 	    solrFldMapTest.assertSolrFldHasNoValue(rec, fldName, fldVal);
@@ -221,7 +325,6 @@ public class FormatMainTests extends AbstractStanfordTest
 	    // test LeaderChar07 = s and 008/29 = 1
 	    rec = factory.newRecord();
 	    rec.setLeader(factory.newLeader("04473cas a2200313Ia 4500"));
-	    cf008 = factory.newControlField("008");
 	    cf008.setData("040202s2003    fi g     b    100 0deng d");
 	    rec.addVariableField(cf008);
 	    solrFldMapTest.assertSolrFldHasNoValue(rec, fldName, fldVal);
@@ -236,11 +339,18 @@ public class FormatMainTests extends AbstractStanfordTest
 	{
 		String datasetVal = Format.DATASET.toString();
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06m00826a", fldName, datasetVal);
-
-		Leader LEADER = factory.newLeader("01529cmi a2200397Ia 4500");
+		// leader/06 m 008/26 a - data
 		Record record = factory.newRecord();
-		record.setLeader(LEADER);
+		record.setLeader(factory.newLeader("01952cmd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu        a  000 v eng d");
+		record.addVariableField(cf008);
+		DataField df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "data: leader/06 m 008/26 a"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, datasetVal);
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01529cmi a2200397Ia 4500"));
 		cf008.setData("081215c200u9999xx         a        eng d");
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldValue(record, fldName, datasetVal);
@@ -311,11 +421,56 @@ public final void testEquipment()
 	public final void testImage()
 	{
 		String imageVal = Format.IMAGE.toString();
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833i", fldName, imageVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833k", fldName, imageVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833p", fldName, imageVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833s", fldName, imageVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833t", fldName, imageVal);
+		
+		// leader/06 k 008/33 i - image
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 i eng d");
+		record.addVariableField(cf008);
+		DataField df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "image: leader/06 k 008/33 i"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 k - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 k eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "image: leader/06 k 008/33 k"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 p - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 p eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "image: leader/06 k 008/33 p"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 s - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 s eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "image: leader/06 k 008/33 s"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 t - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 t eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "image: leader/06 k 008/33 t"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
 	}
 
 	/**
@@ -324,31 +479,162 @@ public final void testEquipment()
 @Test
 	public final void testJournalPeriodicalFormat()
 	{
-     	// leader/07 s 008/21 blank
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06a07s", fldName, journalVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "4114632", fldName, journalVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "123", fldName, journalVal);
-		// 006/00 s /04 blank
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821m", fldName, journalVal);
-		// 006/00 s /04 blank
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821p", fldName, journalVal);
-		// even though LCPER in 999 w
-		solrFldMapTest.assertSolrFldValue(testFilePath, "460947", fldName, journalVal);
-		// even though DEWEYPER in 999 w
-		solrFldMapTest.assertSolrFldValue(testFilePath, "446688", fldName, journalVal);
+     	// leader/06 a /07 s 008/21 blank - serial publication
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cas  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 0 eng d");
+		record.addVariableField(cf008);
+		DataField df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "Serial Publication: leader/06 a /07 s 008/21 blank"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821p", fldName, journalVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "335577", fldName, journalVal);
+		// format Serial Publication; leader/07 s 008/21 blank, 65x sub v
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01823cas a22004457a 4500"));
+		cf008.setData("961105d19961996dcuuuu       f0    0eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "format Serial Publication; leader/07 s 008/21 blank, 65x sub v \"Periodicals\""));
+		record.addVariableField(df245);
+		DataField df650 = factory.newDataField("650", ' ', '0');
+		df650.addSubfield(factory.newSubfield('a', "Industrial statistics"));
+		df650.addSubfield(factory.newSubfield('v', "Periodicals."));
+		record.addVariableField(df650);
+		DataField df651 = factory.newDataField("650", ' ', '0');
+		df651.addSubfield(factory.newSubfield('a', "United States"));
+		df651.addSubfield(factory.newSubfield('v', "Periodicals."));
+		record.addVariableField(df651);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
 
-		// leader/07s 008/21 d   006/00 s  006/04 d -- other
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "112233", fldName, journalVal);
+		// format Serial Publication; leader/07 b, 006/00 s, 006/04 blank, 008/21 blank
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01823cab a22004457a 4500"));
+		cf006.setData("s        h        ");
+		record.addVariableField(cf006);
+		cf008.setData("961105d19961996dcuuuu       f0    0eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "format Serial Publication; leader/07 b, 006/00 s, 006/04 blank, 008/21 blank"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
 
-		// leader/07 s, 006/00 m, 008/21 |  -- we are favoring anything in 008/21  over  006/00
-		solrFldMapTest.assertSolrFldValue(testFilePath, "7117119", fldName, journalVal);
+		// leader/07 b, 006/00 s, 008/21 m - serial publication
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cab  2200457Ia 4500"));
+		cf006.setData("s        h        ");
+		record.addVariableField(cf006);
+		cf008.setData("780930m19391944nyu   m       000 v eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "serial publication: leader/07 b, 006/00 s, 006/04 blank, 008/21 d"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
+
+		// leader/07 b, 006/00 s, 008/21 p - Serial Publication
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cab  2200457Ia 4500"));
+		cf006.setData("s        h        ");
+		record.addVariableField(cf006);
+		cf008.setData("780930m19391944nyu   p       000 v eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "Serial Publication: leader/07 b, 006/00 s 006/04 blank and 008/21 p"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
+
+		// format serial publication:  leader/07 s and 008/21 blank (ignore LCPER in 999w)
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01247cas a2200337 a 4500"));
+		cf008.setData("830415c19809999vauuu    a    0    0eng  ");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '0', '0');
+		df245.addSubfield(factory.newSubfield('a', "format serial publication:  from LCPER 999w"));
+		record.addVariableField(df245);
+		DataField df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "E184.S75 R47A V.1 1980"));
+		df999.addSubfield(factory.newSubfield('w', "LCPER"));
+		df999.addSubfield(factory.newSubfield('i', "36105007402873"));
+		df999.addSubfield(factory.newSubfield('l', "STACKS"));
+		df999.addSubfield(factory.newSubfield('m', "GREEN"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
+		
+		// format Serial Publication:  leader/07 s and 008/21 blank (ignore DEWEYPER in 999w)
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01247cas a2200337 a 4500"));
+		cf008.setData("830415c19809999vauuu    a    0    0eng  ");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '0', '0');
+		df245.addSubfield(factory.newSubfield('a', "format serial publication:  ignore from DEWEYPER in 999w"));
+		record.addVariableField(df245);
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "666.27 .F22"));
+		df999.addSubfield(factory.newSubfield('w', "DEWEYPER"));
+		df999.addSubfield(factory.newSubfield('i', "36105007402873"));
+		df999.addSubfield(factory.newSubfield('l', "STACKS"));
+		df999.addSubfield(factory.newSubfield('m', "GREEN"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
+
+		// leader/07 s, no 006, 008/21 p - journal
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cas  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu   p       000 v eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "journal: leader/07s, no 006, and 008/21 p"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
+		
+		// Journal: leader/07 s 008/21 d, 006/00 s 006/04 p
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01068cas a2200277 a 4500"));
+		cf006.setData("s   p    h        ");
+		record.addVariableField(cf006);
+		cf008.setData("030807c20029999nyufx         0    0eng c");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '0', '0');
+		df245.addSubfield(factory.newSubfield('a', "Journal: leader/07 s 008/21 d, 006/00 s 006/04 p"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
+
+		// Other: leader/07 s 008/21 d, 006/00 s 006/04 d
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01068cas a2200277 a 4500"));
+		cf006.setData("s   d    h        ");
+		record.addVariableField(cf006);
+		cf008.setData("030807c20029999nyufx d       0    0eng c");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '0', '0');
+		df245.addSubfield(factory.newSubfield('a', "Other: leader/07 s 008/21 d, 006/00 s 006/04 d"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, journalVal);
+
+		// format Other should be access online leader/07 s, 006/00 m, 008/21 |
+		// we are favoring anything in 008/21  over  006/00
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("00988nas a2200193z  4500"));
+		cf006.setData("m        d        ");
+		record.addVariableField(cf006);
+		cf008.setData("071214uuuuuuuuuxx uu |ss    u|    |||| d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', ' ');
+		df245.addSubfield(factory.newSubfield('a', "format Other; should be access online"));
+		record.addVariableField(df245);
+		record.addVariableField(df956sfx);
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "INTERNET RESOURCE"));
+		df999.addSubfield(factory.newSubfield('w', "ASIS"));
+		df999.addSubfield(factory.newSubfield('i', "7117119-1001"));
+		df999.addSubfield(factory.newSubfield('l', "INTERNET"));
+		df999.addSubfield(factory.newSubfield('t', "SUL"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalVal);
 
 		// No 006
 		// 008 byte 21 is p  (Journal / periodical)
-		Record record = factory.newRecord();
+		record = factory.newRecord();
 		record.setLeader(factory.newLeader("02808cas a22005778a 4500"));
 		cf008.setData("050127c20149999enkfr p       |   a0eng c");
 		record.addVariableField(cf008);
@@ -437,8 +723,26 @@ public final void testEquipment()
 	public final void testManuscriptArchive()
 	{
 		String fldVal = Format.MANUSCRIPT_ARCHIVE.toString();
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06b", fldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06p", fldName, fldVal);
+		
+		// leader/06 b - manuscript/archive
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cbd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 v eng d");
+		record.addVariableField(cf008);
+		DataField df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "manuscript: leader/06 b (obsolete)"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		// leader/06 p - manuscript/archive
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cpd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 v eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "manuscript: leader/06 p (mixed materials)"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
 	}
 
 	/**
@@ -448,8 +752,26 @@ public final void testEquipment()
 	public final void testMapGlobe()
 	{
 		String fldVal = Format.MAP.toString();
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06e", fldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06f", fldName, fldVal);
+		
+		// leader/06 e - globe
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ced  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 0 eng d");
+		record.addVariableField(cf008);
+		DataField df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "globe: leader/06 e"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+		
+		// leader/06 f - map
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cfd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 0 eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "map: leader/06 f"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
 	}
 
 	/**
@@ -507,13 +829,54 @@ public final void testEquipment()
 	public final void testMicroformatIsGone()
 	{
 		String microformatVal = FormatOld.MICROFORMAT.toString();
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "245hmicroform", fldName, microformatVal);
+		
+		// 245 h has "microform" - microfilm AND music-score
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952adm  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 v eng d");
+		record.addVariableField(cf008);
+		DataField df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "microform: 245h"));
+		df245.addSubfield(factory.newSubfield('c', "stuff."));
+		df245.addSubfield(factory.newSubfield('h', "[microform]"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, microformatVal);
 
-		String testFilePath = testDataParentPath + File.separator + "callNumberTests.mrc";
 		// 999 ALPHANUM starting with MFLIM
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "1261173", fldName, microformatVal);
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01669nam a2200289ua 4500"));
+		cf008.setData("870715r19741700ctu     a     000 0 eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '4');
+		df245.addSubfield(factory.newSubfield('a', "The second part of the Confutation of the Ballancing letter"));
+		record.addVariableField(df245);
+		DataField df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "MFILM N.S. 1350 REEL 230 NO. 3741"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('i', "001AFX2969"));
+		df999.addSubfield(factory.newSubfield('l', "MEDIA-MTXT"));
+		df999.addSubfield(factory.newSubfield('m', "GREEN"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, microformatVal);
+		
 		// 999 ALPHANUM starting with MFICHE
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "mfiche", fldName, microformatVal);
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01879cam a2200409 i 4500"));
+		cf008.setData("101015q20092010fr a    bbm   000 0 fre c");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '4');
+		df245.addSubfield(factory.newSubfield('a', "MFICHE callnum"));
+		df245.addSubfield(factory.newSubfield('b', "https://jirasul.stanford.edu/jira/browse/SW-378"));
+		df245.addSubfield(factory.newSubfield('c', "ckey 8729402"));
+		record.addVariableField(df245);
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "MFICHE 3239"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('i', "8729402-1001"));
+		df999.addSubfield(factory.newSubfield('l', "MEDIA-MTXT"));
+		df999.addSubfield(factory.newSubfield('m', "GREEN"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, microformatVal);
 	}
 
 	/**
@@ -523,7 +886,15 @@ public final void testEquipment()
 	public final void testMusicRecording()
 	{
 		String fldVal = Format.MUSIC_RECORDING.toString();
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06j", fldName, fldVal);
+		
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cjd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 v eng d");
+		record.addVariableField(cf008);
+		DataField df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "music-audio: leader/06 j"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
 	}
 
 	/**
@@ -533,9 +904,38 @@ public final void testEquipment()
 	public final void testMusicScore()
 	{
 		String fldVal = Format.MUSIC_SCORE.toString();
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06c", fldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06d", fldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "245hmicroform", fldName, fldVal);
+		
+		// leader/06 c - music-score
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ccd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 v eng d");
+		record.addVariableField(cf008);
+		DataField df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "music-score: leader/06 c"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+		
+		// leader/06 d - music-score
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cdd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 v eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "music-score: leader/06 d"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+		
+		// 245 h has "microform" - microfilm AND music-score
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952adm  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 v eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "microform: 245h"));
+		df245.addSubfield(factory.newSubfield('c', "stuff."));
+		df245.addSubfield(factory.newSubfield('h', "[microform]"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
 	}
 
 	/**
@@ -546,14 +946,52 @@ public final void testEquipment()
 	{
         String fldVal = Format.NEWSPAPER.toString();
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "newspaper", fldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821n", fldName, fldVal);
-// FIXME:  presumably has 008 blank and 006 with byte 004 of n ...
+        // leader/07 s 008/21 n - newspaper
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cas  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu   n       000 v eng d");
+		record.addVariableField(cf008);
+		DataField df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "newspaper: leader/07 s 008/21 n"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		// leader/07 s, no 006, 008/21 n - newspaper
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cas  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu   n       000 v eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "newspaper: leader/07s, no 006, and 008/21 n"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		// FIXME:  presumably has 008 blank and 006 with byte 004 of n ...
 // we are favoring anything in 008/21  over  006/00
+/*		  <!-- Newspaper per 006/00 s 006/04 n -->
+		  <record>
+		    <leader>01068cas a2200277 a 4500</leader>
+		    <controlfield tag="001">a334455</controlfield>
+		    <controlfield tag="006">s   n    h        </controlfield>
+		    <controlfield tag="008">030807c20029999nyufx         0    0eng c</controlfield>
+		    <datafield tag="245" ind1="0" ind2="0">
+		      <subfield code="a">Newspaper: 006/00 s 006/04 n</subfield>
+		    </datafield>
+		  </record>*/
 //		solrFldMapTest.assertSolrFldValue(testFilePath, "334455", fldName, fldVal);
 
 		// leader/07b 006/00s 008/21n - serial publication
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "leader07b00600s00821n", fldName, fldVal);
+		// leader/07 b, 006/00 s, 006/04 w, 008/21 n - Other
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cab  2200457Ia 4500"));
+		cf006.setData("s   w    h        ");
+		record.addVariableField(cf006);
+		cf008.setData("780930m19391944nyu   n       000 v eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "Other: leader/07 b, 006/00 s 006/04 w and 008/21 n"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, fldVal);
 
 // FIXME:  we are checking to see if there are many differences between the old Journal/Newspaper algorithm and the new ...
 // also,  we are favoring anything in 008/21  over  006/00
@@ -574,7 +1012,19 @@ public final void testEquipment()
 	public final void testThesisIsGone()
 	{
 		String fldVal = FormatOld.THESIS.toString();
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "502", fldName, fldVal);
+		
+		// 502 - thesis
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cad  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 v eng d");
+		record.addVariableField(cf008);
+		DataField df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "thesis: has 502"));
+		record.addVariableField(df245);
+		DataField df502 = factory.newDataField("502", ' ', ' ');
+		df502.addSubfield(factory.newSubfield('a', "dissertation note field; we don't care about the contents"));
+		record.addVariableField(df502);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, fldVal);
 	}
 
 	/**
@@ -658,6 +1108,7 @@ public final void testEquipment()
 	/**
 	 * Updating Website can be a serial or integrating resource.
 	 * If they have an SFX url, then we will call them a journal.
+	 * INDEX-16 Regardless of sfx url, Updating Website will be Journal/Periodical
 	 */
 @Test
 	public final void testUpdatingWebsite()
@@ -708,11 +1159,39 @@ public final void testEquipment()
 		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, fldName, dbazVal);
 
-		// 006/00 s /04 w
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821n", fldName, uWebVal);
-		// web site
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821w", fldName, uWebVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821w", fldName, uWebVal);
+		// leader/07 b, 006/00 s, 006/04 w, 008/21 n - Other -->
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cab  2200457Ia 4500"));
+		cf006.setData("s   w    h        ");
+		record.addVariableField(cf006);
+		cf008.setData("780930m19391944nyu   n       000 v eng d");
+		record.addVariableField(cf008);
+		DataField df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "Other: leader/07 b, 006/00 s 006/04 w and 008/21 n"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, uWebVal);
+		
+		// leader/07 s, no 006, 008/21 w - other (web site)
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cas  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu   w       000 v eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "other (web site): leader/07s, no 006, and 008/21 w"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, uWebVal);
+		
+		// leader/07 b, 006/00 s, 008/21 w - other (web site)
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cab  2200457Ia 4500"));
+		cf006.setData("s   w    h        ");
+		record.addVariableField(cf006);
+		cf008.setData("780930m19391944nyu   w       000 v eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "other (web site): leader/07 b, 006/00 s and 008/21 w"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, uWebVal);
 	}
 
 	/**
@@ -776,8 +1255,26 @@ public final void testEquipment()
 	public final void testVideo()
 	{
 		String fldVal = Format.VIDEO.toString();
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06g00833m", fldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06g00833v", fldName, fldVal);
+		
+		// leader/06 g 008/33 m - video
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 m eng d");
+		record.addVariableField(cf008);
+		DataField df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "video: leader/06 g 008/33 m"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+		
+		// leader/06 g 008/33 v - video
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 v eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "video: leader/06 g 008/33 v"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
 	}
 
 	/**
@@ -788,19 +1285,71 @@ public final void testEquipment()
 	{
         String fldVal = Format.OTHER.toString();
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06t07b", fldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833w", fldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06g00833w", fldName, fldVal);
+        // leader/06 t /07 b - other
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ctb  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 0 eng d");
+		record.addVariableField(cf008);
+		DataField df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "other (not book): leader/06 t /07 b"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+		
+		// leader/06 k 008/33 w - other
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 w eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "other (not image): leader/06 k 008/33 w"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+		
+		// leader/06 g 008/33 w - other
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 w eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "other (not video): leader/06 g 008/33 w"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+				
 		// 006/00 s /04 w
 // FIXME:  temporary for format redo
+		/*
+		 *  <!-- leader/07 b, 006/00 s, 006/04 w, 008/21 n - Other -->
+  			<record>
+    				<leader>01952cab  2200457Ia 4500</leader>
+    				<controlfield tag="001">aleader07b00600s00821n</controlfield>
+    				<controlfield tag="006">s   w    h        </controlfield>
+    				<controlfield tag="008">780930m19391944nyu   n       000 v eng d</controlfield>
+    				<datafield tag="245" ind1="1" ind2="0">
+      				<subfield code="a">Other: leader/07 b, 006/00 s 006/04 w and 008/21 n</subfield>
+    				</datafield>
+  			</record>
+		 */
 //		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821n", fldName, fldVal);
-		// instructional kit
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06o", fldName, fldVal);
-		// object
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06r", fldName, fldVal);
-		// web site
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821w", fldName, fldVal);
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821w", fldName, fldVal);
+		
+		// instructional kit leader/06 o - other (kit)
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cod  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 v eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "other (instructional kit): leader/06 o"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+		
+		// leader/06 r - other (object)
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952crd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 v eng d");
+		record.addVariableField(cf008);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "other (object): leader/06 r"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
 	}
 
 
@@ -810,10 +1359,26 @@ public final void testEquipment()
 @Test
 	public final void testFormatsFrom999()
 	{
-		String testFilePath = testDataParentPath + File.separator + "callNumberTests.mrc";
-
 		// 999 ALPHANUM starting with MCD
 // currently not using callnums for MCD, or DVD
+		/*
+		 *     <!-- ALPHANUM MCD -->
+    <record>
+        <leader>01669nam a2200289ua 4500</leader>
+        <controlfield tag="001">a1234673</controlfield>
+        <controlfield tag="008">870715r19741700ctu     a     000 0 eng d</controlfield>
+        <datafield tag="245" ind1="1" ind2="4">
+            <subfield code="a">The second part of the Confutation of the Ballancing letter</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">MCD Brendel Plays Beethoven's Eroica variations</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="i">001AFX2969</subfield>
+            <subfield code="l">MEDIA-MTXT</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
+		 */
 //		solrFldMapTest.assertSolrFldValue(testFilePath, "1234673", fldName, Format.MUSIC_RECORDING.toString());
 	}
 

@@ -14,7 +14,7 @@ import edu.stanford.enumValues.FormatOld;
  */
 public class FormatOldTests extends AbstractStanfordTest
 {
-	private final String testDataFname = "formatTests.mrc";
+	private final String testDataFname = "formatTests.xml";
 	String testFilePath = testDataParentPath + File.separator + testDataFname;
 	String fldName = "format";
 
