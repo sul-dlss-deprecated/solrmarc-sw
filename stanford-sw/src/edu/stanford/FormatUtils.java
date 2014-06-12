@@ -278,6 +278,8 @@ public class FormatUtils {
 	 *  (assuming that there is an indication that the record is for a serial).
 	 *  return null if no format is determined.
 	 *  INDEX-14 updating database being folded into Database_A_Z
+	 *  INDEX-16 updating website being folded into Journal_Periodical
+	 *  INDEX-15 updating other (default) being folded into Book
 	 */
 	protected static String getIntegratingMainFormatFromChar(char ch) {
 		if (ch != '\u0000')
@@ -289,7 +291,7 @@ public class FormatUtils {
 				case 'w':
 					return Format.JOURNAL_PERIODICAL.toString();
 				default:
-					return Format.UPDATING_OTHER.toString();  // FIXME: temporary format
+					return Format.BOOK.toString();
 			}
 		return null;
 	}
