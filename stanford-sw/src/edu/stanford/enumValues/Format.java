@@ -17,6 +17,7 @@ public enum Format {
 	MUSIC_RECORDING,
 	MUSIC_SCORE,
 	NEWSPAPER,
+	OBJECT_3D,  // INDEX-18 implement 3D object resource type
 	SOUND_RECORDING,
 	VIDEO,
 	OTHER;
@@ -39,6 +40,8 @@ public enum Format {
 				return "Music recording";
 			case MUSIC_SCORE:
 				return "Music score";
+			case OBJECT_3D:
+			return "3D object";
 			case SOUND_RECORDING:
 				return "Sound recording";
 			default:

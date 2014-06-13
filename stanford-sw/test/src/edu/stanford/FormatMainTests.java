@@ -1340,19 +1340,28 @@ public final void testEquipment()
 		df245.addSubfield(factory.newSubfield('a', "other (instructional kit): leader/06 o"));
 		record.addVariableField(df245);
 		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
-		
-		// leader/06 r - other (object)
-		record = factory.newRecord();
+	}
+
+	/**
+	 * INDEX-18 implement 3D object resource type
+	 * Test assignment of 3D object format
+	 */
+	@Test
+	public final void test3dObjectFormat()
+	{
+		String fldVal = Format.OBJECT_3D.toString();
+
+		// leader/06 r - 3D Object
+		Record record = factory.newRecord();
 		record.setLeader(factory.newLeader("01952crd  2200457Ia 4500"));
 		cf008.setData("780930m19391944nyu           000 v eng d");
 		record.addVariableField(cf008);
-		df245 = factory.newDataField("245", '1', '0');
+		DataField df245 = factory.newDataField("245", '1', '0');
 		df245.addSubfield(factory.newSubfield('a', "other (object): leader/06 r"));
 		record.addVariableField(df245);
 		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
 	}
-
-
+	
 	/**
 	 * test format population based on ALPHANUM field values from 999
 	 */

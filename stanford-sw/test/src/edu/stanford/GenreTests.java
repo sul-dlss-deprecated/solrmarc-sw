@@ -323,8 +323,9 @@ public class GenreTests extends AbstractStanfordTest
 
 		// Other
 		// based on 10208984; likely a mistake in main format
+		// INDEX-18 Replaced Leader/06 r with blank because Leader/06 r is now a 3D object resource type instead of other
 		record = factory.newRecord();
-		record.setLeader(factory.newLeader("01165crm a2200313Ia 4500"));
+		record.setLeader(factory.newLeader("01165c m a2200313Ia 4500"));
 		cf008.setData("840712r1983    xx a          0   0neng d");
 		record.addVariableField(cf008);
 		record.addVariableField(df502);

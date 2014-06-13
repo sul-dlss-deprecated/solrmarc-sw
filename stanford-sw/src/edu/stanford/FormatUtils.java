@@ -91,8 +91,9 @@ public class FormatUtils {
 		case 'o': // instructional kit
 			result.add(Format.OTHER.toString());
 			break;
-		case 'r': // object
-			result.add(Format.OTHER.toString());
+		case 'r': // 3D object
+			// INDEX-18 implement 3D object resource type
+			result.add(Format.OBJECT_3D.toString());
 			break;
 		case 't':
 			if (leaderChar07 == 'a' || leaderChar07 == 'm')
