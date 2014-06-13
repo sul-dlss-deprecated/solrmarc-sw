@@ -87,17 +87,4 @@ public class FormatDatabaseTests extends AbstractStanfordTest {
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "nother", fldName, otherVal);
 
 	}
-
-	/**
-	 * test the additional Database format values aren't assigned
-	 */
-@Test
-	public final void testDatabaseAZOnly()
-			throws IOException, SAXException, ParserConfigurationException, SolrServerException
-	{
-		createFreshIx("formatDatabaseTests.xml");
-		assertZeroResults(fldName, "\"Database (Other)\"");
-		assertZeroResults(fldName, "\"Database (All)\"");
-	}
-
 }
