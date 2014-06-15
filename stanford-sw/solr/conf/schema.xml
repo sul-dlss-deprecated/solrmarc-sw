@@ -11,8 +11,7 @@
     <field name="last_updated" type="date" indexed="true" stored="true" default="NOW/SECOND" />
     <!-- entire marc bib record -->
     <field name="marcxml" type="string" indexed="false" stored="true" />
-    <!-- the catch-all field for all text -->
-    <!--<field name="all_search" type="text" indexed="true" stored="false" />-->
+    <!-- all_search: catch-all field for searchable text; stored for hit highlighting />-->
     <field name="all_search" type="text" indexed="true" stored="true" />
     <field name="all_unstem_search" type="textNoStem" indexed="true" stored="false" />
     <field name="vern_all_search" type="text" indexed="true" stored="false" />
@@ -224,7 +223,7 @@
     <field name="crez_desk_facet" type="string" indexed="true" stored="false" multiValued="true" />
 
     <!-- *************** additional fields for DOR objects  ****************** -->
-    <field name="druid" type="string" indexed="true" stored="true" />
+    <field name="druid" type="string_punct_stop" indexed="true" stored="true" />
     <field name="modsxml" type="string" indexed="false" stored="true" />
     <!-- collection (facet and display): "sirsi" or, for DOR items, the id of their parent coll -->
     <field name="collection" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
