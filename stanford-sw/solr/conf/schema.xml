@@ -223,7 +223,7 @@
     <field name="crez_desk_facet" type="string" indexed="true" stored="false" multiValued="true" />
 
     <!-- *************** additional fields for DOR objects  ****************** -->
-    <field name="druid" type="string" indexed="true" stored="true" />
+    <field name="druid" type="string_punct_stop" indexed="true" stored="true" />
     <field name="modsxml" type="string" indexed="false" stored="true" />
     <!-- collection (facet and display): "sirsi" or, for DOR items, the id of their parent coll -->
     <field name="collection" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
