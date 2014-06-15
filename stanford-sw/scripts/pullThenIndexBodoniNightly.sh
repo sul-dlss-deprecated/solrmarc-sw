@@ -59,11 +59,9 @@ mail -s 'pullThenIndexSirsiIncr.sh output' searchworks-reports@lists.stanford.ed
 $SOLRMARC_BASEDIR/stanford-sw/scripts/grep_and_email_tomcat_log.sh
 
 # include latest course reserves data
-JRUBY_OPTS="--1.9"
-export JRUBY_OPTS
 LANG="en_US.UTF-8"
 export LANG
 
-(source /usr/local/rvm/scripts/rvm && cd /home/blacklight/crez-sw-ingest && source ./.rvmrc && ./bin/index_latest.sh -s prod)
+(source /usr/local/rvm/scripts/rvm && cd /home/blacklight/crez-sw-ingest && ./bin/index_latest.sh -s prod)
 
 exit 0
