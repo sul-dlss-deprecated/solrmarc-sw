@@ -378,8 +378,11 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		if (FormatUtils.isMarcit(record))
 			main_formats.add(journalVal);
 
-		if (FormatUtils.isEquipment(record))
+		// If it is Equipment, add Equipment resource type and remove 3D object resource type
+		if (FormatUtils.isEquipment(record)) {
 			main_formats.add(Format.EQUIPMENT.toString());
+			main_formats.remove(Format.OBJECT_3D.toString());
+		}
 
 		// if we still don't have a format, it's an "other"
 		if (main_formats.isEmpty() || main_formats.size() == 0)
