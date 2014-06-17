@@ -343,6 +343,8 @@ public final void testEquipment()
 	df999.addSubfield(factory.newSubfield('m', "GREEN"));
 	record.addVariableField(df999);
 	solrFldMapTest.assertSolrFldValue(record, fldName, Format.EQUIPMENT.toString());
+	//If it has a format of Equipment, it shouldn't have a format of 3D object
+	solrFldMapTest.assertSolrFldHasNoValue(record, fldName, Format.OBJECT_3D.toString());
 
 	// not Equipment
 	Record recordnot = factory.newRecord();
