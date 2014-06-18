@@ -105,8 +105,6 @@
             <str name="f.format.facet.method">enum</str>
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">language</str>
-          <str name="facet.field">pub_date_group_facet</str>
-            <str name="f.pub_date_group_facet.facet.method">enum</str>
           <str name="facet.field">pub_year_tisim</str>
           <str name="facet.field">topic_facet</str>
         </lst>
@@ -182,8 +180,6 @@
             <str name="f.format.facet.method">enum</str>
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">language</str>
-          <str name="facet.field">pub_date_group_facet</str>
-            <str name="f.pub_date_group_facet.facet.method">enum</str>
           <str name="facet.field">pub_date</str>
           <str name="facet.field">pub_year_tisim</str>
           <str name="facet.field">topic_facet</str>
@@ -1005,8 +1001,6 @@
         <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
-      <str name="facet.field">pub_date_group_facet</str>
-        <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">pub_year_tisim</str>
       <str name="facet.field">topic_facet</str>
