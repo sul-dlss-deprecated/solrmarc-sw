@@ -1005,6 +1005,9 @@
       <str name="facet.field">pub_year_tisim</str>
       <str name="facet.field">topic_facet</str>
 
+      <!-- Highlighting defaults -->
+      <str name="hl.fl">all_search</str>
+
       <str name="fl">
         score,
         id,
