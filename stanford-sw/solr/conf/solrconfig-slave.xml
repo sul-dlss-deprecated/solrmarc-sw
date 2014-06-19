@@ -79,8 +79,8 @@
           <str name="facet.field">callnum_top_facet</str>
             <str name="f.callnum_top_facet.facet.sort">index</str>
             <str name="f.callnum_top_facet.facet.method">enum</str>
-          <str name="facet.field">format</str>
-            <str name="f.format.facet.method">enum</str>
+          <str name="facet.field">format_main_ssim</str>
+            <str name="f.format_main_ssim.facet.method">enum</str>
           <str name="facet.field">language</str>
         </lst>
         <!-- single object query to populate filter and fieldValue cache -->
@@ -101,8 +101,8 @@
           <str name="facet.field">callnum_top_facet</str>
             <str name="f.callnum_top_facet.facet.method">enum</str>
           <str name="facet.field">era_facet</str>
-          <str name="facet.field">format</str>
-            <str name="f.format.facet.method">enum</str>
+          <str name="facet.field">format_main_ssim</str>
+            <str name="f.format_main_ssim.facet.method">enum</str>
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">language</str>
           <str name="facet.field">pub_year_tisim</str>
@@ -139,8 +139,8 @@
             <str name="facet.field">dewey_b4cutter_facet</str>
             <str name="facet.field">gov_doc_type_facet</str>
               <str name="f.gov_doc_type_facet.facet.method">enum</str>
-          <str name="facet.field">format</str>
-            <str name="f.format.facet.method">enum</str>
+          <str name="facet.field">format_main_ssim</str>
+            <str name="f.format_main_ssim.facet.method">enum</str>
           <str name="facet.field">language</str>
         </lst>
         <!-- single object query to populate filter and fieldValue cache -->
@@ -176,8 +176,8 @@
           <str name="facet.field">display_type</str>
             <str name="f.display_type.facet.method">enum</str>
           <str name="facet.field">era_facet</str>
-          <str name="facet.field">format</str>
-            <str name="f.format.facet.method">enum</str>
+          <str name="facet.field">format_main_ssim</str>
+            <str name="f.format_main_ssim.facet.method">enum</str>
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">language</str>
           <str name="facet.field">pub_date</str>
@@ -996,6 +996,14 @@
       <str name="facet.field">display_type</str>
         <str name="f.display_type.facet.method">enum</str>
       <str name="facet.field">era_facet</str>
+      <str name="facet.field">format_main_ssim</str>
+        <int name="f.format_main_ssim.facet.limit">20</int>
+        <str name="f.format_main_ssim.facet.method">enum</str>
+      <str name="facet.field">format_physical_ssim</str>
+        <int name="f.format_physical_ssim.facet.limit">20</int>
+        <str name="f.format_physical_ssim.facet.method">enum</str>
+      <str name="facet.field">genre_ssim</str>
+        <str name="f.genre_ssim.facet.method">enum</str>
       <str name="facet.field">format</str>
         <int name="f.format.facet.limit">20</int>
         <str name="f.format.facet.method">enum</str>
@@ -1023,6 +1031,9 @@
         display_type,
         file_id,
         format,
+        format_main_ssim,
+        format_physical_ssim,
+        genre_ssim,
         imprint_display,
         isbn_display,
         item_display,
