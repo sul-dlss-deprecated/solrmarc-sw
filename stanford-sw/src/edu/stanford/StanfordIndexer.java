@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.util.*;
 import java.util.regex.*;
 
+import org.marc4j.MarcWriter;
+import org.marc4j.MarcXmlWriter;
 import org.marc4j.marc.*;
 //could import static, but this seems clearer
 import org.solrmarc.tools.*;
@@ -218,7 +220,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 // Id Methods  --------------------- End ---------------------------- Id Methods
-
 
 // Format Methods  --------------- Begin ------------------------ Format Methods
 
@@ -1365,6 +1366,38 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			}
 		}
 		return result.toString().trim();
+	}
+
+	/**
+	 * Returns the marc record as an XML String, with the following holdings
+	 *  related fields removed:
+	 *   852, 853-5, 863-5, 866-8, 999
+	 */
+	public String bibOnlyXml(final Record record)
+	{
+		String[] fldsToRemove = {"852", "853", "854", "855", "863", "864", "865", "866", "867", "868", "999"};
+		for (String tag : fldsToRemove)
+		{
+			List<VariableField> vfList = record.getVariableFields(tag);
+			for (VariableField vf : vfList)
+			{
+				record.removeVariableField(vf);
+			}
+		}
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		MarcWriter writer = new MarcXmlWriter(baos, "UTF-8", false);
+		writer.write(record);
+		writer.close();
+		try
+		{
+			return baos.toString("UTF-8");
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			logger.error(e.getCause());
+		}
+		// very sad default, but perhaps more informative than "" or empty xml
+		return record.toString();
 	}
 
 
