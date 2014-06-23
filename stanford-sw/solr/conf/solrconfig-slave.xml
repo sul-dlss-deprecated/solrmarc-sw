@@ -202,7 +202,7 @@
       <str name="masterUrl">http://sw-solr-m:8983/solr/replication</str>
       <!-- per solr user email thread on Solr user list started by Jonathan Rochkind on Wed, 15 May 2013 12:47:53 -0700
            http://find.searchhub.org/document/5fbb17c0a0bc0c97#ef3cc593e4355e2c, not setting a pollInterval has the effect
-           of the slave never polling master, but allowing manual replication.  This is what we want - cron jobs issue 
+           of the slave never polling master, but allowing manual replication.  This is what we want - cron jobs issue
            http://_slave_host_:_port_/solr/replication?command=fetchindex on the slaves, but stagger them so the
            replication isn't occurring on all three slaves simultaneously.
       -->
@@ -278,7 +278,7 @@
         context_search^2               vern_context_search^2
         summary_unstem_search^5
         summary_search^2               vern_summary_search^2
-        
+
         pub_date_search^2
         isbn_search^1.5
         issn_search^1.5
@@ -382,7 +382,7 @@
         title_variant_search^40        vern_title_variant_search^40
         title_related_search^30        vern_title_related_search^30
         series_search^20               vern_series_search^20
-        
+
         author_1xx_search^50           vern_author_1xx_search^50
         author_7xx_search^40           vern_author_7xx_search^40
         author_8xx_search^20           vern_author_8xx_search^20
@@ -395,7 +395,7 @@
         geographic_subz_search^10      vern_geographic_subz_search^10
         subject_other_subvy_search^10  vern_subject_other_subvy_search^10
         subject_all_search^10          vern_subject_all_search^10
-        
+
         toc_search^5                   vern_toc_search^5
         context_search^5               vern_context_search^5
         summary_search^5               vern_summary_search^5
@@ -450,7 +450,7 @@
         context_search^2               vern_context_search^2               cjk_context_search^2
         summary_unstem_search^5
         summary_search^2               vern_summary_search^2               cjk_summary_search^2
- 
+
         pub_date_search^2
         isbn_search^1.5
         issn_search^1.5
@@ -1038,7 +1038,9 @@
         isbn_display,
         item_display,
         lccn,
+        marcbib_xml,
         mhld_display,
+        modsxml,
         oclc,
         physical,                     vern_physical,
         pub_date,
