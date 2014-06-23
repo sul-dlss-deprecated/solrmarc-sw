@@ -1375,18 +1375,20 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public String bibOnlyXml(final Record record)
 	{
+		// FIXME:  do I need to do a deep copy first?  Or copy over all fields except these?
 		String[] fldsToRemove = {"852", "853", "854", "855", "863", "864", "865", "866", "867", "868", "999"};
-		for (String tag : fldsToRemove)
+
+		MarcFactory factory = MarcFactory.newInstance();
+		Record bibOnly = factory.newRecord(record.getLeader());
+		for (VariableField vf : record.getVariableFields())
 		{
-			List<VariableField> vfList = record.getVariableFields(tag);
-			for (VariableField vf : vfList)
-			{
-				record.removeVariableField(vf);
-			}
+			if (!Arrays.asList(fldsToRemove).contains(vf.getTag()))
+				bibOnly.addVariableField(vf);
 		}
+
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		MarcWriter writer = new MarcXmlWriter(baos, "UTF-8", false);
-		writer.write(record);
+		writer.write(bibOnly);
 		writer.close();
 		try
 		{
