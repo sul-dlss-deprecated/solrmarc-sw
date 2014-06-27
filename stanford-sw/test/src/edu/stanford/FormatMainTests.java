@@ -653,7 +653,173 @@ public final void testEquipment()
 		cf008.setData("780930m19391944nyu           000 v eng d");
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
-	}
+
+		/* If the call number prefixes in the MARC 999a are for Manuscript/Archive items, add Manuscript/Archive format
+		 * A (e.g. A0015), F (e.g. F0110), M (e.g. M1810), MISC (e.g. MISC 1773), MSS CODEX (e.g. MSS CODEX 0335), 
+			MSS MEDIA (e.g. MSS MEDIA 0025), MSS PHOTO (e.g. MSS PHOTO 0463), MSS PRINTS (e.g. MSS PRINTS 0417), 
+			PC (e.g. PC0012), SC (e.g. SC1076), SCD (e.g. SCD0012), SCM (e.g. SCM0348), and V (e.g. V0321).  However, 
+			A, F, M, PC, and V are also in the Library of Congress classification which could be in the 999a, so need to make sure that
+			the call number type in the 999w == ALPHANUM and the library in the 999m == SPEC-COLL.
+		 */
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		DataField df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "A0015"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('m', "SPEC-COLL"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "F0110"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('m', "SPEC-COLL"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "M1810"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('m', "SPEC-COLL"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "MISC 1773"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('m', "SPEC-COLL"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "MSS CODEX 0335"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('m', "SPEC-COLL"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "MSS MEDIA 0025"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('m', "SPEC-COLL"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "MSS PHOTO 0463"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('m', "SPEC-COLL"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "MSS PRINTS 0417"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('m', "SPEC-COLL"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "PC0012"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('m', "SPEC-COLL"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "SC1076"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('m', "SPEC-COLL"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "SCD0012"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('m', "SPEC-COLL"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "SCM0348"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('m', "SPEC-COLL"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "V0321"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('m', "SPEC-COLL"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+		
+		// 999 ALPHANUM starting with MFLIM  but not SPEC-COLL
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01669nam a2200289ua 4500"));
+		cf008.setData("870715r19741700ctu     a     000 0 eng d");
+		record.addVariableField(cf008);
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "MFILM N.S. 1350 REEL 230 NO. 3741"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('i', "001AFX2969"));
+		df999.addSubfield(factory.newSubfield('l', "MEDIA-MTXT"));
+		df999.addSubfield(factory.newSubfield('m', "GREEN"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, fldVal);
+		
+		// 999 ALPHANUM starting with MFICHE but not SPEC-COLL
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01879cam a2200409 i 4500"));
+		cf008.setData("101015q20092010fr a    bbm   000 0 fre c");
+		record.addVariableField(cf008);
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "MFICHE 3239"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('i', "8729402-1001"));
+		df999.addSubfield(factory.newSubfield('l', "MEDIA-MTXT"));
+		df999.addSubfield(factory.newSubfield('m', "GREEN"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, fldVal);
+
+		// 999 ALPHANUM starting with MFICHE and SPEC-COLL
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01879cam a2200409 i 4500"));
+		cf008.setData("101015q20092010fr a    bbm   000 0 fre c");
+		record.addVariableField(cf008);
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "MFICHE 3239"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('i', "8729402-1001"));
+		df999.addSubfield(factory.newSubfield('l', "MEDIA-MTXT"));
+		df999.addSubfield(factory.newSubfield('m', "SPEC-COLL"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, fldVal);
+}
 
 	/**
 	 * Map/Globe format tests
