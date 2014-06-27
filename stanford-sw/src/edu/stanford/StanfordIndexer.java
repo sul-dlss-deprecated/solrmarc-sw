@@ -374,6 +374,22 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					!accessMethods.contains(Access.AT_LIBRARY.toString()))
 					main_formats.remove(compFileVal);
 			}
+
+			/* If the call number prefixes in the MARC 999a are for Manuscript/Archive items, add Manuscript/Archive format
+			 * A (e.g. A0015), F (e.g. F0110), M (e.g. M1810), MISC (e.g. MISC 1773), MSS CODEX (e.g. MSS CODEX 0335), 
+				MSS MEDIA (e.g. MSS MEDIA 0025), MSS PHOTO (e.g. MSS PHOTO 0463), MSS PRINTS (e.g. MSS PRINTS 0417), 
+				PC (e.g. PC0012), SC (e.g. SC1076), SCD (e.g. SCD0012), SCM (e.g. SCM0348), and V (e.g. V0321).  However, 
+				A, F, M, PC, and V are also in the Library of Congress classification which could be in the 999a, so need to make sure that
+				the call number type in the 999w == ALPHANUM and the library in the 999m == SPEC-COLL.
+			 */
+			if (item.getLibrary().equals("SPEC-COLL") && item.getCallnumType().equals(CallNumberType.ALPHANUM)) 
+			{
+				Pattern callNumPattern = Pattern.compile("^(A\\d|F\\d|M\\d|MISC \\d|(MSS (CODEX|MEDIA|PHOTO|PRINTS))|PC\\d|SC[\\d|D|M]|V\\d).*", Pattern.CASE_INSENSITIVE);
+				Matcher callNumMatcher = callNumPattern.matcher(item.getCallnum());
+
+				if (callNumMatcher.matches())
+					main_formats.add(Format.MANUSCRIPT_ARCHIVE.toString());
+			}
 		}
 
 		if (FormatUtils.isMarcit(record))
