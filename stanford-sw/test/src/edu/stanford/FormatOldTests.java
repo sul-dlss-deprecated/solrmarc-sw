@@ -247,23 +247,4 @@ public class FormatOldTests extends AbstractStanfordTest
 //		solrFldMapTest.assertSolrFldValue(testFilePath, "321", fldName, fldVal);
 	}
 
-
-	/**
-	 * test format population based on ALPHANUM field values from 999
-	 */
-@Test
-	public final void testFormatsFrom999()
-	{
-		String testFilePath = testDataParentPath + File.separator + "callNumberTests.mrc";
-
-		String microVal = FormatOld.MICROFORMAT.toString();
-		// 999 ALPHANUM starting with MFLIM
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1261173", fldName, microVal);
-		// 999 ALPHANUM starting with MFICHE
-		solrFldMapTest.assertSolrFldValue(testFilePath, "mfiche", fldName, microVal);
-
-		// 999 ALPHANUM starting with MCD
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1234673", fldName, FormatOld.MUSIC_RECORDING.toString());
-	}
-
 }
