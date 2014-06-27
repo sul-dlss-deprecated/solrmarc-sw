@@ -512,6 +512,8 @@ public class Item {
 			callnumType = CallNumberType.DEWEY;
 		else if (scheme.equals("SUDOC"))
 			callnumType = CallNumberType.SUDOC;
+		else if (scheme.equals("ALPHANUM"))
+			callnumType = CallNumberType.ALPHANUM;
 		else
 			callnumType = CallNumberType.OTHER;
 	}
