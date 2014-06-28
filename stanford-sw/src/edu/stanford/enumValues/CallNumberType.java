@@ -16,6 +16,8 @@ public enum CallNumberType {
 	
 	public String getPrefix() {
 		switch(this) {
+			case ALPHANUM:
+				return "other ";   // for sort
 			case DEWEY:
 				return "dewey ";
 			case HARVYENCH:
