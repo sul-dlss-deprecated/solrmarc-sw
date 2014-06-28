@@ -401,6 +401,19 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			main_formats.remove(Format.OBJECT_3D.toString());
 		}
 
+		// Use value of 245h to determine resource type and remove Other resource type
+       DataField title = (DataField) record.getVariableField("245");
+
+        if (title != null && title.getSubfield('h') != null)
+        {
+ 			String formatFrom245h = FormatUtils.getFormatsPer245h(title.getSubfield('h').toString());
+ 			if (formatFrom245h != null)
+ 			{
+ 				main_formats.add(formatFrom245h);
+ 				main_formats.remove(Format.OTHER.toString());
+ 			}
+		}
+		
 		// if we still don't have a format, it's an "other"
 		if (main_formats.isEmpty() || main_formats.size() == 0)
 			main_formats.add(Format.OTHER.toString());
