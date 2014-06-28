@@ -278,7 +278,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		// check for format information from 999 ALPHANUM call numbers
 		// and from itemType (999 subfield t)
 		for (Item item : itemSet) {
-			if (item.getCallnumType() == CallNumberType.OTHER) {
+			if (item.getCallnumType() == CallNumberType.ALPHANUM && !item.getLibrary().equals("SPEC-COLL")) {
 				String callnum = item.getCallnum();
 				if (callnum.startsWith("MFILM") || callnum.startsWith("MFICHE"))
 					old_formats.add(FormatOld.MICROFORMAT.toString());
