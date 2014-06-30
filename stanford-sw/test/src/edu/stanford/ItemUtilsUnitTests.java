@@ -129,8 +129,8 @@ public class ItemUtilsUnitTests extends AbstractStanfordTest
 		assertEquals("TD 5.9", CallNumUtils.getLoppedCallnum(callnum, CallNumberType.SUDOC, isSerial));
 		assertEquals("TD 5.9", CallNumUtils.getLoppedCallnum(callnum, CallNumberType.SUDOC, !isSerial));
 		callnum = "M1522 BOX 1";
-		assertEquals("M1522", CallNumUtils.getLoppedCallnum(callnum, CallNumberType.OTHER, isSerial));
-		assertEquals("M1522", CallNumUtils.getLoppedCallnum(callnum, CallNumberType.OTHER, !isSerial));
+		assertEquals("M1522", CallNumUtils.getLoppedCallnum(callnum, CallNumberType.ALPHANUM, isSerial));
+		assertEquals("M1522", CallNumUtils.getLoppedCallnum(callnum, CallNumberType.ALPHANUM, !isSerial));
 		callnum = "MFILM N.S. 1350 REEL 230 NO. 3741";
 // NOTE:  actually lopped by longest common prefix, so ok.
 //		assertEquals("MFILM N.S. 1350 REEL 230", CallNumUtils.getLoppedCallnum(callnum, CallNumberType.OTHER, isSerial));

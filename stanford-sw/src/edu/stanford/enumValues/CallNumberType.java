@@ -5,6 +5,7 @@ package edu.stanford.enumValues;
  * @author - Naomi Dushay
  */
 public enum CallNumberType {
+	ALPHANUM, // For pulling Archives and Manuscripts out of "Other"
 	DEWEY,  // TODO:  do cubberley TX dewey call numbers need a separate type?
 	HARVYENCH,  // Harvard Yenching
 	LC,
@@ -15,6 +16,8 @@ public enum CallNumberType {
 	
 	public String getPrefix() {
 		switch(this) {
+			case ALPHANUM:
+				return "other ";   // for sort
 			case DEWEY:
 				return "dewey ";
 			case HARVYENCH:
