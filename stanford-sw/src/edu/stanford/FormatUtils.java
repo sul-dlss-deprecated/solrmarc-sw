@@ -48,7 +48,7 @@ public class FormatUtils {
 		case 'a':
 			if (leaderChar07 == 'a' || leaderChar07 == 'm')
 				result.add(Format.BOOK.toString());
-			// INDEX-75 Move "Other" collections to Archive/Manuscript 
+			// INDEX-75 Move "Other" collections to Archive/Manuscript
 			// look for Leader/06 = a and Leader/07 = c
 			if (leaderChar07 == 'c')
 				result.add(Format.MANUSCRIPT_ARCHIVE.toString());
@@ -520,7 +520,7 @@ public class FormatUtils {
 		else
 			return false;
 	}
-	
+
 	/**
 	 * use regex to determine if equipment based upon value in 914
 	 * @param record - marc4j record object
@@ -534,24 +534,23 @@ public class FormatUtils {
 		else
 			return false;
 	}
-	
+
 
 	/**
 	 * use regex to determine if can remove item from "Other" resource type using 245h
-	 * Ignore capitalization variations and punctuation variations (this includes cases where the square brackets are not present, 
-	 *  where one square bracket is not present, where there is punctuation inside or outside the brackets, where parentheses are 
-	 *  used instead of square brackets, etc.)  
+	 * Ignore capitalization variations and punctuation variations (this includes cases where the square brackets are not present,
+	 *  where one square bracket is not present, where there is punctuation inside or outside the brackets, where parentheses are
+	 *  used instead of square brackets, etc.)
 	 * Set resource type to video if 245h contains the following:
-	 * 		[videorecording], [video recording], [videorecordings], [video recordings], [motion picture], [filmstrip], [VCD-DVD], [videodisc], and [videocassette] 
+	 * 		[videorecording], [video recording], [videorecordings], [video recordings], [motion picture], [filmstrip], [VCD-DVD], [videodisc], and [videocassette]
 	 * Set resource type to manuscript_archive if 245h contains [manuscript] or [manuscript/digital]
 	 * Set resource type to sound_recording if 245h contains [sound recording]
-	 * Set resource type to image if 245h contains 
-	 * 		[art original/digital graphic], [slide], [slides], [chart], [art reproduction], [graphic], [technical drawing], 
+	 * Set resource type to image if 245h contains
+	 * 		[art original/digital graphic], [slide], [slides], [chart], [art reproduction], [graphic], [technical drawing],
 	 * 		[flash card], [transparency], [digital graphic], [activity card], [picture], [graphic/digital graphic], [print], [diapositives]
 	 * @param record - marc4j record object
 	 * @return new resource type or null
 	 */
-	
 	static String getFormatsPer245h(String sf245h)
 	{
 		String clean245h = Utils.cleanData(sf245h.toString().toLowerCase());
@@ -562,13 +561,12 @@ public class FormatUtils {
 				return Format.MANUSCRIPT_ARCHIVE.toString();
 		else if (clean245h.contains("sound recording"))
 				return Format.SOUND_RECORDING.toString();
-		else if (clean245h.contains("graphic") || clean245h.contains("slide") || clean245h.contains("chart") || clean245h.contains("art reproduction")  || 
-					clean245h.contains("technical drawing")  || clean245h.contains("flash card")  || clean245h.contains("transparency") || clean245h.contains("activity card")  || 
+		else if (clean245h.contains("graphic") || clean245h.contains("slide") || clean245h.contains("chart") || clean245h.contains("art reproduction")  ||
+					clean245h.contains("technical drawing")  || clean245h.contains("flash card")  || clean245h.contains("transparency") || clean245h.contains("activity card")  ||
 					clean245h.contains("picture")  || clean245h.contains("print")  || clean245h.contains("diapositives"))
 				return Format.IMAGE.toString();
 		else
 				return null;
 	}
-
 
 }
