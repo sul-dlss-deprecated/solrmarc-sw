@@ -957,16 +957,6 @@
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
       <int name="facet.limit">21</int>
-
-
-      <!-- for other reduction -->
-      <str name="facet.field">f008_33_si</str>
-      <str name="facet.field">leader_byte_06_si</str>
-      <str name="facet.field">f245h_si</str>
-      <str name="facet.field">f300a_sim</str>
-      <str name="facet.field">f300b_sim</str>
-      <str name="facet.field">f300ab_sim</str>
-
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
       <str name="facet.field">author_person_facet</str>
