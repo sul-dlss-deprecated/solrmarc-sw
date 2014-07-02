@@ -398,7 +398,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		// If it is Equipment, add Equipment resource type and remove 3D object resource type
 		if (FormatUtils.isEquipment(record)) {
 			main_formats.add(Format.EQUIPMENT.toString());
-			main_formats.remove(Format.OBJECT_3D.toString());
+			main_formats.remove(Format.OBJECT.toString());
 		}
 
 		// Use value of 245h to determine resource type and remove Other resource type

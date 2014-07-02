@@ -348,8 +348,8 @@ public class FormatMainTests extends AbstractStanfordTest
 		df999.addSubfield(factory.newSubfield('m', "GREEN"));
 		record.addVariableField(df999);
 		solrFldMapTest.assertSolrFldValue(record, fldName, Format.EQUIPMENT.toString());
-		//If it has a format of Equipment, it shouldn't have a format of 3D object
-		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, Format.OBJECT_3D.toString());
+		//If it has a format of Equipment, it shouldn't have a format of Object
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, Format.OBJECT.toString());
 
 		// not Equipment
 		Record recordnot = factory.newRecord();
@@ -1636,11 +1636,12 @@ public class FormatMainTests extends AbstractStanfordTest
 	/**
 	 * INDEX-18 implement 3D object resource type
 	 * Test assignment of 3D object format
+	 * INDEX-115 Changed from 3D object to Object
 	 */
 	@Test
 	public final void test3dObjectFormat()
 	{
-		String fldVal = Format.OBJECT_3D.toString();
+		String fldVal = Format.OBJECT.toString();
 
 		// leader/06 r - 3D Object
 		Record record = factory.newRecord();

@@ -93,7 +93,7 @@ public class FormatUtils {
 			break;
 		case 'r': // 3D object
 			// INDEX-18 implement 3D object resource type
-			result.add(Format.OBJECT_3D.toString());
+			result.add(Format.OBJECT.toString());
 			break;
 		case 't':
 			if (leaderChar07 == 'a' || leaderChar07 == 'm')
