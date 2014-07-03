@@ -1651,30 +1651,4 @@ public class FormatMainTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
 	}
 
-	/**
-	 * test format population based on ALPHANUM field values from 999
-	 */
-//@Test
-	public final void testFormatsFrom999()
-	{
-		// 999 ALPHANUM starting with MCD
-// currently not using callnums for MCD, or DVD
-		/*
-		 *     <!-- ALPHANUM MCD -->
-    <record>
-        <leader>01669nam a2200289ua 4500</leader>
-        <controlfield tag="001">a1234673</controlfield>
-        <controlfield tag="008">870715r19741700ctu     a     000 0 eng d</controlfield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">MCD Brendel Plays Beethoven's Eroica variations</subfield>
-            <subfield code="w">ALPHANUM</subfield>
-            <subfield code="i">001AFX2969</subfield>
-            <subfield code="l">MEDIA-MTXT</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-    </record>
-		 */
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "1234673", fldName, Format.MUSIC_RECORDING.toString());
-	}
-
 }
