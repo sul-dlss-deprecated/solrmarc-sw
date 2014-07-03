@@ -355,14 +355,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		// and from itemType (999 subfield t)
 		String dbazVal = Format.DATABASE_A_Z.toString();
 		for (Item item : itemSet) {
-// FIXME:  temporarily not using this
-//			if (item.getCallnumType() == CallNumberType.OTHER) {
-//				String callnum = item.getCallnum();
-//				if (callnum.startsWith("MCD"))
-//					main_formats.add(Format.MUSIC_RECORDING.toString());
-//				else if (callnum.startsWith("ZDVD") || callnum.startsWith("ADVD"))
-//					main_formats.add(Format.VIDEO.toString());
-//			}
 			if (item.getType().equalsIgnoreCase("DATABASE"))
 			{
 				main_formats.add(dbazVal);
@@ -401,17 +393,20 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			main_formats.remove(Format.OBJECT.toString());
 		}
 
-		// Use value of 245h to determine resource type and remove Other resource type
-       DataField title = (DataField) record.getVariableField("245");
+		if (main_formats.isEmpty() || main_formats.contains(Format.OTHER.toString()))
+		{
+			// Use value of 245h to determine resource type and remove Other resource type
+			DataField title = (DataField) record.getVariableField("245");
 
-        if (title != null && title.getSubfield('h') != null)
-        {
- 			String formatFrom245h = FormatUtils.getFormatsPer245h(title.getSubfield('h').toString());
- 			if (formatFrom245h != null)
- 			{
- 				main_formats.add(formatFrom245h);
- 				main_formats.remove(Format.OTHER.toString());
- 			}
+			if (title != null && title.getSubfield('h') != null)
+			{
+				String formatFrom245h = FormatUtils.getFormatsPer245h(title.getSubfield('h').toString());
+				if (formatFrom245h != null)
+				{
+					main_formats.add(formatFrom245h);
+					main_formats.remove(Format.OTHER.toString());
+				}
+			}
 		}
 		
 		// if we still don't have a format, it's an "other"
