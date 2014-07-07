@@ -391,8 +391,181 @@ public class FormatMainTests extends AbstractStanfordTest
 		String imageVal = Format.IMAGE.toString();
 		String otherFldVal = Format.OTHER.toString();
 
-		// leader/06 k 008/33 i - image
+		/* INDEX-120 Additional criteria for image
+			Leader/06 = g and 008/33 = a c i k l n o p s t [some of these should not be used with Leader/06 = g]
+			Leader/06 = k and 008/33 = a c i k l n o p s t [and I would include values |, blank, and any numerals]
+		 */
+		
+		// leader/06 g 008/33 a - image
 		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 a eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 g 008/33 c - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 c eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 g 008/33 i - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 i eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 g 008/33 k - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 k eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 g 008/33 l - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 l eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 g 008/33 n - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 n eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 g 008/33 o - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 o eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 g 008/33 p - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 p eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 g 008/33 s - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 s eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 g 008/33 t - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 t eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 blank - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000   eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 | - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 | eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 0 - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 0 eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 1 - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 1 eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 2 - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 2 eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 3 - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 3 eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 4 - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 4 eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 5 - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 5 eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 6 - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 6 eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 7 - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 7 eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 8 - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 8 eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 9 - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 9 eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 a - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 a eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 c - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 c eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 i - image
+		record = factory.newRecord();
 		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
 		cf008.setData("780930m19391944nyu           000 i eng d");
 		record.addVariableField(cf008);
@@ -402,6 +575,27 @@ public class FormatMainTests extends AbstractStanfordTest
 		record = factory.newRecord();
 		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
 		cf008.setData("780930m19391944nyu           000 k eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 l - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 l eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 n - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 n eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
+
+		// leader/06 k 008/33 o - image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 o eng d");
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
 
@@ -552,16 +746,6 @@ public class FormatMainTests extends AbstractStanfordTest
 		df245 = factory.newDataField("245", '1', '0');
 		df245.addSubfield(factory.newSubfield('a', "graphic/digital graphic: 245h"));
 		df245.addSubfield(factory.newSubfield('h', "[graphic/digital graphic]"));
-		record.addVariableField(df245);
-		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
-		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, otherFldVal);
-
-		// 245h [print] --> Image
-		record = factory.newRecord();
-		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
-		df245 = factory.newDataField("245", '1', '0');
-		df245.addSubfield(factory.newSubfield('a', "print: 245h"));
-		df245.addSubfield(factory.newSubfield('h', "[print]"));
 		record.addVariableField(df245);
 		solrFldMapTest.assertSolrFldValue(record, fldName, imageVal);
 		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, otherFldVal);
@@ -1476,8 +1660,18 @@ public class FormatMainTests extends AbstractStanfordTest
 		String fldVal = Format.VIDEO.toString();
 		String otherFldVal = Format.OTHER.toString();
 
-		// leader/06 g 008/33 m - video
+		// INDEX-120 Additional criteria for video
+		// Leader/06 = g and 008/33 = f m v [I would also include the values |, blank, and any numerals]
+
+		// leader/06 g 008/33 f - video
 		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 f eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		// leader/06 g 008/33 m - video
+		record = factory.newRecord();
 		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
 		cf008.setData("780930m19391944nyu           000 m eng d");
 		record.addVariableField(cf008);
@@ -1487,6 +1681,90 @@ public class FormatMainTests extends AbstractStanfordTest
 		record = factory.newRecord();
 		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
 		cf008.setData("780930m19391944nyu           000 v eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		// leader/06 g 008/33 | - video
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 | eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		// leader/06 g 008/33 blank - video
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000   eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		// leader/06 g 008/33 0 - video
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 0 eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		// leader/06 g 008/33 1 - video
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 1 eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		// leader/06 g 008/33 2 - video
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 2 eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		// leader/06 g 008/33 3 - video
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 3 eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		// leader/06 g 008/33 4 - video
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 4 eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		// leader/06 g 008/33 5 - video
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 5 eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		// leader/06 g 008/33 6 - video
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 6 eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		// leader/06 g 008/33 7 - video
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 7 eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		// leader/06 g 008/33 8 - video
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 8 eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		// leader/06 g 008/33 9 - video
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
+		cf008.setData("780930m19391944nyu           000 9 eng d");
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
 
