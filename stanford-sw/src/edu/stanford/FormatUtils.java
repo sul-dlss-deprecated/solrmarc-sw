@@ -66,9 +66,17 @@ public class FormatUtils {
 			result.add(Format.MAP.toString());
 			break;
 		case 'g':
-			// look for m or v in 008 field, char 33 (count starts at 0)
-			if (cf008 != null && cf008.find("^.{33}[mv]"))
-				result.add(Format.VIDEO.toString());
+			// INDEX-120 Additional criteria for video and image
+			// VIDEO: 008/33 = f m v [I would also include the values |, blank, and any numerals]
+			// IMAGE: 008/33 = a c i k l n o p s t [some of these should not be used with Leader/06 = g but let's assume the worst]
+			// 008 field, char 33 (count starts at 0)
+			if (cf008 != null)
+			{
+				if (cf008.find("^.{33}[ |0-9fmv]"))
+					result.add(Format.VIDEO.toString());
+				else if (cf008.find("^.{33}[aciklnopst]"))
+					result.add(Format.IMAGE.toString());
+			}
 			break;
 		case 'i':
 			result.add(Format.SOUND_RECORDING.toString());
@@ -77,8 +85,10 @@ public class FormatUtils {
 			result.add(Format.MUSIC_RECORDING.toString());
 			break;
 		case 'k':
-    		// look for i, k, p, s or t in 008 field, char 33 (count starts at 0)
-			if (cf008 != null && cf008.find("^.{33}[ikpst]"))
+			// INDEX-120 Additional criteria for image
+			// IMAGE: 008/33 = a c i k l n o p s t [and I would include values |, blank, and any numerals]
+    			// 008 field, char 33 (count starts at 0)
+			if (cf008 != null && cf008.find("^.{33}[ |0-9aciklnopst]"))
 				result.add(Format.IMAGE.toString());
 			break;
 		case 'm':
@@ -547,7 +557,8 @@ public class FormatUtils {
 	 * Set resource type to sound_recording if 245h contains [sound recording]
 	 * Set resource type to image if 245h contains
 	 * 		[art original/digital graphic], [slide], [slides], [chart], [art reproduction], [graphic], [technical drawing],
-	 * 		[flash card], [transparency], [digital graphic], [activity card], [picture], [graphic/digital graphic], [print], [diapositives]
+	 * 		[flash card], [transparency], [digital graphic], [activity card], [picture], [graphic/digital graphic], [diapositives]
+	 * INDEX-120 remove [print] because of false hits from Lane Medical
 	 * @param record - marc4j record object
 	 * @return new resource type or null
 	 */
@@ -563,7 +574,7 @@ public class FormatUtils {
 				return Format.SOUND_RECORDING.toString();
 		else if (clean245h.contains("graphic") || clean245h.contains("slide") || clean245h.contains("chart") || clean245h.contains("art reproduction")  ||
 					clean245h.contains("technical drawing")  || clean245h.contains("flash card")  || clean245h.contains("transparency") || clean245h.contains("activity card")  ||
-					clean245h.contains("picture")  || clean245h.contains("print")  || clean245h.contains("diapositives"))
+					clean245h.contains("picture")  || clean245h.contains("diapositives"))
 				return Format.IMAGE.toString();
 		else
 				return null;
