@@ -74,11 +74,13 @@
             <str name="f.access_facet.facet.method">enum</str>
           <str name="facet.field">building_facet</str>
             <str name="f.building_facet.facet.method">enum</str>
+            <str name="f.building_facet.facet.limit">-1</str>
           <str name="facet.field">callnum_top_facet</str>
             <str name="f.callnum_top_facet.facet.sort">index</str>
             <str name="f.callnum_top_facet.facet.method">enum</str>
           <str name="facet.field">format_main_ssim</str>
             <str name="f.format_main_ssim.facet.method">enum</str>
+            <str name="f.format_main_ssim.facet.limit">-1</str>
           <str name="facet.field">language</str>
         </lst>
         <!-- single object query to populate filter and fieldValue cache -->
@@ -96,11 +98,13 @@
           <str name="facet.field">author_other_facet</str>
           <str name="facet.field">building_facet</str>
             <str name="f.building_facet.facet.method">enum</str>
+            <str name="f.building_facet.facet.limit">-1</str>
           <str name="facet.field">callnum_top_facet</str>
             <str name="f.callnum_top_facet.facet.method">enum</str>
           <str name="facet.field">era_facet</str>
           <str name="facet.field">format_main_ssim</str>
             <str name="f.format_main_ssim.facet.method">enum</str>
+            <str name="f.format_main_ssim.facet.limit">-1</str>
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">language</str>
           <str name="facet.field">pub_year_tisim</str>
@@ -125,6 +129,7 @@
             <str name="f.access_facet.facet.method">enum</str>
           <str name="facet.field">building_facet</str>
             <str name="f.building_facet.facet.method">enum</str>
+            <str name="f.building_facet.facet.limit">-1</str>
           <str name="facet.field">callnum_top_facet</str>
             <str name="f.callnum_top_facet.facet.sort">index</str>
             <str name="f.callnum_top_facet.facet.method">enum</str>
@@ -139,6 +144,7 @@
               <str name="f.gov_doc_type_facet.facet.method">enum</str>
           <str name="facet.field">format_main_ssim</str>
             <str name="f.format_main_ssim.facet.method">enum</str>
+            <str name="f.format_main_ssim.facet.limit">-1</str>
           <str name="facet.field">language</str>
         </lst>
         <!-- single object query to populate filter and fieldValue cache -->
@@ -156,6 +162,7 @@
           <str name="facet.field">author_other_facet</str>
           <str name="facet.field">building_facet</str>
             <str name="f.building_facet.facet.method">enum</str>
+            <str name="f.building_facet.facet.limit">-1</str>
           <str name="facet.field">callnum_top_facet</str>
             <str name="f.callnum_top_facet.facet.method">enum</str>
             <str name="facet.field">lc_alpha_facet</str>
@@ -176,6 +183,7 @@
           <str name="facet.field">era_facet</str>
           <str name="facet.field">format_main_ssim</str>
             <str name="f.format_main_ssim.facet.method">enum</str>
+            <str name="f.format_main_ssim.facet.limit">-1</str>
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">language</str>
           <str name="facet.field">pub_date</str>
@@ -963,6 +971,7 @@
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
         <str name="f.building_facet.facet.method">enum</str>
+        <str name="f.building_facet.facet.limit">-1</str>
       <str name="facet.field">callnum_top_facet</str>
         <str name="f.callnum_top_facet.facet.method">enum</str>
         <str name="facet.field">lc_alpha_facet</str>
@@ -982,7 +991,7 @@
         <str name="f.display_type.facet.method">enum</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format_main_ssim</str>
-        <int name="f.format_main_ssim.facet.limit">20</int>
+        <int name="f.format_main_ssim.facet.limit">-1</int>
         <str name="f.format_main_ssim.facet.method">enum</str>
       <str name="facet.field">format_physical_ssim</str>
         <int name="f.format_physical_ssim.facet.limit">20</int>
