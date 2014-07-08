@@ -194,7 +194,14 @@ public class FormatMainTests extends AbstractStanfordTest
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
 		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, otherFldVal);
-	}
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01529ctc a2200397Ia 4500"));
+		cf008.setData("081215c200u9999xx         b        eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, otherFldVal);
+}
 
 	/**
 	 * Computer File format tests
