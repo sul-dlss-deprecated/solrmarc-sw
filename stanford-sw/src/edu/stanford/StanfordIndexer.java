@@ -391,9 +391,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			main_formats.add(journalVal);
 
 		// If it is Equipment, add Equipment resource type and remove 3D object resource type
+		// INDEX-123 If it is Equipment, that should be the only item in main_formats
 		if (FormatUtils.isEquipment(record)) {
+			main_formats.clear();
 			main_formats.add(Format.EQUIPMENT.toString());
-			main_formats.remove(Format.OBJECT.toString());
 		}
 
 		if (main_formats.isEmpty() || main_formats.contains(Format.OTHER.toString()))
