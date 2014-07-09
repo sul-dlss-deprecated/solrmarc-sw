@@ -359,6 +359,24 @@ public class FormatMainTests extends AbstractStanfordTest
 		//If it has a format of Equipment, it shouldn't have a format of Object
 		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, Format.OBJECT.toString());
 
+		// INDEX-123 If format is Equipment, it should be the only one
+		record = factory.newRecord();
+		record.setLeader(LEADER);
+		record.addVariableField(cf008);
+		df914 = factory.newDataField("914", ' ', ' ');
+		df914.addSubfield(factory.newSubfield('a', "EQUIP"));
+		record.addVariableField(df914);
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "F152 .A28"));
+		df999.addSubfield(factory.newSubfield('w', "LC"));
+		df999.addSubfield(factory.newSubfield('i', "36105018746623"));
+		df999.addSubfield(factory.newSubfield('l', "HAS-DIGIT"));
+		df999.addSubfield(factory.newSubfield('m', "GREEN"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, Format.EQUIPMENT.toString());
+		// INDEX-123 If it has a format of Equipment, it should have only one format
+		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
+
 		// not Equipment
 		Record recordnot = factory.newRecord();
 		recordnot.setLeader(factory.newLeader("02808cas a22005778a 4500"));
