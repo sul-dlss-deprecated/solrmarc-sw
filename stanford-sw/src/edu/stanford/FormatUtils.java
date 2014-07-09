@@ -108,6 +108,10 @@ public class FormatUtils {
 		case 't':
 			if (leaderChar07 == 'a' || leaderChar07 == 'm')
 				result.add(Format.BOOK.toString());
+			// INDEX-122 Move "Other" collections to Archive/Manuscript
+			// look for Leader/06 = t and Leader/07 = c
+			if (leaderChar07 == 'c')
+				result.add(Format.MANUSCRIPT_ARCHIVE.toString());
 			break;
 		} // end switch
 
@@ -559,11 +563,23 @@ public class FormatUtils {
 	 * 		[art original/digital graphic], [slide], [slides], [chart], [art reproduction], [graphic], [technical drawing],
 	 * 		[flash card], [transparency], [digital graphic], [activity card], [picture], [graphic/digital graphic], [diapositives]
 	 * INDEX-120 remove [print] because of false hits from Lane Medical
+	 * INDEX-121 If 245h contains: kit, then look at first 007/00 for primary format: 
+	 *						a Map --> Map/Globe 
+	 *						c Electronic resource --> Software/Multimedia 
+     *						d Globe --> Map/Globe 
+	 *						g Projected graphic --> Video 
+	 *						k Nonprojected graphic --> Image 
+	 *						m Motion picture --> Video 
+	 *						q Notated music --> Music score 
+	 *						r Remote-sensing image --> Image 
+	 *						s Sound recording --> Sound recording 
+	 *						v Videorecording --> Video 
 	 * @param record - marc4j record object
 	 * @return new resource type or null
 	 */
-	static String getFormatsPer245h(String sf245h)
+	static String getFormatsPer245h(String sf245h, ControlField cf007)
 	{
+		String format = "";
 		String clean245h = Utils.cleanData(sf245h.toString().toLowerCase());
 
 		if (clean245h.contains("video") || clean245h.contains("motion picture")  || clean245h.contains("filmstrip")  || clean245h.contains("vcd-dvd"))
@@ -576,6 +592,42 @@ public class FormatUtils {
 					clean245h.contains("technical drawing")  || clean245h.contains("flash card")  || clean245h.contains("transparency") || clean245h.contains("activity card")  ||
 					clean245h.contains("picture")  || clean245h.contains("diapositives"))
 				return Format.IMAGE.toString();
+		else if (clean245h.contains("kit"))
+		{
+			if (cf007 != null)
+			{
+				switch (cf007.getData().charAt(0)) {
+					case 'a':
+					case 'd':
+						format = Format.MAP.toString();
+						break;
+					case 'c':
+						format = Format.COMPUTER_FILE.toString();
+						break;
+					case 'g':
+					case 'm':
+					case 'v':
+						format = Format.VIDEO.toString();
+						break;
+					case 'k':
+					case 'r':
+						format = Format.IMAGE.toString();
+						break;
+					case 'q':
+						format = Format.MUSIC_SCORE.toString();
+						break;
+					case 's':
+						format = Format.SOUND_RECORDING.toString();
+						break;
+					default:
+						format = null;
+						break;
+				} // end switch
+				return format;
+			}
+			else
+				return null;
+		}
 		else
 				return null;
 	}
