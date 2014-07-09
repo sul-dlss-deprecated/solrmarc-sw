@@ -22,6 +22,7 @@ public class FormatMainTests extends AbstractStanfordTest
 	private final static String dbazVal = Format.DATABASE_A_Z.toString();
 	MarcFactory factory = MarcFactory.newInstance();
 	private ControlField cf008 = factory.newControlField("008");
+	private ControlField cf007 = factory.newControlField("007");
 	private ControlField cf006 = factory.newControlField("006");
 	private DataField df956sfx = factory.newDataField("956", '4', '0');
 	DataField df999dbaz = factory.newDataField("999", ' ', ' ');
@@ -201,7 +202,7 @@ public class FormatMainTests extends AbstractStanfordTest
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
 		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, otherFldVal);
-}
+	}
 
 	/**
 	 * Computer File format tests
@@ -1934,6 +1935,152 @@ public class FormatMainTests extends AbstractStanfordTest
 		cf008.setData("780930m19391944nyu           000 v eng d");
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+	}
+
+	/**
+	 * INDEX-121 Use 245h contains kit and 007/00 to assign resource type
+	 */
+	@Test
+	public final void test245hKitFormat()
+	{
+		String fldOtherVal = Format.OTHER.toString();
+		String fldMapVal = Format.MAP.toString();
+		String fldSWVal = Format.COMPUTER_FILE.toString();
+		String fldVideoVal = Format.VIDEO.toString();
+		String fldImageVal = Format.IMAGE.toString();
+		String fldMusicVal = Format.MUSIC_SCORE.toString();
+		String fldSoundVal = Format.SOUND_RECORDING.toString();
+		
+		// 245h [kit], 007/00 a -> Map/Globe
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		cf007.setData("ao cg|||||||||");
+		record.addVariableField(cf007);
+		DataField df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "kit: 245h"));
+		df245.addSubfield(factory.newSubfield('h', "[kit]"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldMapVal);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, fldOtherVal);
+
+		// 245h [kit], 007/00 c -> Software/Multimedia
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		cf007.setData("co cg|||||||||");
+		record.addVariableField(cf007);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "kit: 245h"));
+		df245.addSubfield(factory.newSubfield('h', "[kit]"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldSWVal);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, fldOtherVal);
+	
+		// 245h [kit], 007/00 d -> Map/Globe
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		cf007.setData("do cg|||||||||");
+		record.addVariableField(cf007);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "kit: 245h"));
+		df245.addSubfield(factory.newSubfield('h', "[kit]"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldMapVal);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, fldOtherVal);
+
+		// 245h [kit], 007/00 g -> Video
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		cf007.setData("go cg|||||||||");
+		record.addVariableField(cf007);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "kit: 245h"));
+		df245.addSubfield(factory.newSubfield('h', "[kit]"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVideoVal);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, fldOtherVal);
+	
+		// 245h [kit], 007/00 k -> Image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		cf007.setData("ko cg|||||||||");
+		record.addVariableField(cf007);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "kit: 245h"));
+		df245.addSubfield(factory.newSubfield('h', "[kit]"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldImageVal);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, fldOtherVal);
+	
+		// 245h [kit], 007/00 m -> Video
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		cf007.setData("mo cg|||||||||");
+		record.addVariableField(cf007);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "kit: 245h"));
+		df245.addSubfield(factory.newSubfield('h', "[kit]"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVideoVal);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, fldOtherVal);
+
+		// 245h [kit], 007/00 q -> Music score
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		cf007.setData("qo cg|||||||||");
+		record.addVariableField(cf007);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "kit: 245h"));
+		df245.addSubfield(factory.newSubfield('h', "[kit]"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldMusicVal);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, fldOtherVal);
+	
+		// 245h [kit], 007/00 r -> Image
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		cf007.setData("ro cg|||||||||");
+		record.addVariableField(cf007);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "kit: 245h"));
+		df245.addSubfield(factory.newSubfield('h', "[kit]"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldImageVal);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, fldOtherVal);
+	
+		// 245h [kit], 007/00 s -> Sound recording
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		cf007.setData("so cg|||||||||");
+		record.addVariableField(cf007);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "kit: 245h"));
+		df245.addSubfield(factory.newSubfield('h', "[kit]"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldSoundVal);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, fldOtherVal);
+
+		// 245h [kit], 007/00 v -> Video
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		cf007.setData("vo cg|||||||||");
+		record.addVariableField(cf007);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "kit: 245h"));
+		df245.addSubfield(factory.newSubfield('h', "[kit]"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVideoVal);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, fldOtherVal);
+	
+		// 245h [kit], 007/00 z -> Nothing so Other
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		cf007.setData("zo cg|||||||||");
+		record.addVariableField(cf007);
+		df245 = factory.newDataField("245", '1', '0');
+		df245.addSubfield(factory.newSubfield('a', "kit: 245h"));
+		df245.addSubfield(factory.newSubfield('h', "[kit]"));
+		record.addVariableField(df245);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldOtherVal);
 	}
 
 }
