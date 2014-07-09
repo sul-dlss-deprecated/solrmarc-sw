@@ -102,6 +102,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	ControlField cf008 = null;
 	/** cf008date1 is bytes 7-10 (0 based index) in 008 field */
 	String cf008date1 = null;
+	/** 007 field */
+	ControlField cf007 = null;
 	/** date260c is a four character String containing year from 260c
 	 * "cleaned" per DateUtils.cleanDate() */
 	String date260c = null;
@@ -134,6 +136,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	@SuppressWarnings("unchecked")
 	protected void perRecordInit(Record record) {
+		cf007 = (ControlField) record.getVariableField("007");
 		cf008 = (ControlField) record.getVariableField("008");
 		if (cf008 != null)
 			cf008date1 = cf008.getData().substring(7, 11);
@@ -400,7 +403,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 			if (title != null && title.getSubfield('h') != null)
 			{
-				String formatFrom245h = FormatUtils.getFormatsPer245h(title.getSubfield('h').toString());
+				String formatFrom245h = FormatUtils.getFormatsPer245h(title.getSubfield('h').toString(), cf007);
 				if (formatFrom245h != null)
 				{
 					main_formats.add(formatFrom245h);
