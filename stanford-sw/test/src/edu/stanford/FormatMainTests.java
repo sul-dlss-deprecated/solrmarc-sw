@@ -1276,13 +1276,16 @@ public class FormatMainTests extends AbstractStanfordTest
 		df = factory.newDataField("590", ' ', ' ');
 		df.addSubfield(factory.newSubfield('a', "incorrect string"));
         record.addVariableField(df);
-		solrFldMapTest.assertSolrFldValue(record, fldName, otherVal);
+//		solrFldMapTest.assertSolrFldValue(record, fldName, otherVal);
+		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 0);
+
 		record = factory.newRecord();
 		record.setLeader(LEADER);
 		df = factory.newDataField("590", ' ', ' ');
 		df.addSubfield(factory.newSubfield('a', "something MARCit something"));
         record.addVariableField(df);
-		solrFldMapTest.assertSolrFldValue(record, fldName, otherVal);
+//		solrFldMapTest.assertSolrFldValue(record, fldName, otherVal);
+		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 0);
 
 		// marcit in wrong field
 		record = factory.newRecord();
@@ -1290,7 +1293,8 @@ public class FormatMainTests extends AbstractStanfordTest
 		df = factory.newDataField("580", ' ', ' ');
         df.addSubfield(factory.newSubfield('a', "MARCit brief record."));
         record.addVariableField(df);
-		solrFldMapTest.assertSolrFldValue(record, fldName, otherVal);
+//		solrFldMapTest.assertSolrFldValue(record, fldName, otherVal);
+		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 0);
 	}
 
 
@@ -1900,21 +1904,24 @@ public class FormatMainTests extends AbstractStanfordTest
 		record.setLeader(factory.newLeader("01952ctb  2200457Ia 4500"));
 		cf008.setData("780930m19391944nyu           000 0 eng d");
 		record.addVariableField(cf008);
-		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+//		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 0);
 
 		// leader/06 k 008/33 w - other  (not image)
 		record = factory.newRecord();
 		record.setLeader(factory.newLeader("01952ckd  2200457Ia 4500"));
 		cf008.setData("780930m19391944nyu           000 w eng d");
 		record.addVariableField(cf008);
-		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+//		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 0);
 
 		// leader/06 g 008/33 w - other (not video)
 		record = factory.newRecord();
 		record.setLeader(factory.newLeader("01952cgd  2200457Ia 4500"));
 		cf008.setData("780930m19391944nyu           000 w eng d");
 		record.addVariableField(cf008);
-		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+//		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 0);
 
 		// 006/00 s /04 w
 // FIXME:  temporary for format redo
@@ -1934,7 +1941,8 @@ public class FormatMainTests extends AbstractStanfordTest
 		record.setLeader(factory.newLeader("01952cod  2200457Ia 4500"));
 		cf008.setData("780930m19391944nyu           000 v eng d");
 		record.addVariableField(cf008);
-		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+//		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 0);
 	}
 
 	/**
@@ -2098,7 +2106,8 @@ public class FormatMainTests extends AbstractStanfordTest
 		df245.addSubfield(factory.newSubfield('a', "kit: 245h"));
 		df245.addSubfield(factory.newSubfield('h', "[kit]"));
 		record.addVariableField(df245);
-		solrFldMapTest.assertSolrFldValue(record, fldName, fldOtherVal);
+//		solrFldMapTest.assertSolrFldValue(record, fldName, otherVal);
+		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 0);
 	}
 
 }

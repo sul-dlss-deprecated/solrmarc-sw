@@ -28,6 +28,8 @@ public enum Format {
 	@Override
 	public String toString() {
 		switch (this) {
+			case OTHER:
+				return null;
 			case COMPUTER_FILE:
 				return "Software/Multimedia";
 			case DATABASE_A_Z:

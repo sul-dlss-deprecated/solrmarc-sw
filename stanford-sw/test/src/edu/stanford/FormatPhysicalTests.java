@@ -57,16 +57,18 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		// 007/01 is not correct for Slide
 		cf007.setData("gd|cu  jc");
 		record.addVariableField(cf007);
-		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+//		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+//		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 0);
 		solrFldMapTest.assertNoSolrFld(record, physFormatFldName);
 
 		// 007/00 is g, 007/01 is s
 		record.removeVariableField(cf007);
 		cf007.setData("gs|cu  jc");
 		record.addVariableField(cf007);
-		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+//		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+//		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 0);
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 
@@ -77,8 +79,9 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		df300.addSubfield(factory.newSubfield('a', "1 pair of stereoscopic slides +"));
 		df300.addSubfield(factory.newSubfield('e', "legend and diagram."));
 		record.addVariableField(df300);
-		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+//		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+//		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 0);
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 //		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal + " from 300");
@@ -99,16 +102,18 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		// 007/01 is not correct for Photo
 		cf007.setData("kj boo");
 		record.addVariableField(cf007);
-		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+//		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+//		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 0);
 		solrFldMapTest.assertNoSolrFld(record, physFormatFldName);
 
 		// 007/00 is k, 007/01 is h
 		record.removeVariableField(cf007);
 		cf007.setData("kh boo");
 		record.addVariableField(cf007);
-		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+//		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+//		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 0);
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 
@@ -118,8 +123,9 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		DataField df300 = factory.newDataField("300", ' ', ' ');
 		df300.addSubfield(factory.newSubfield('a', "1 photograph (1 leaf)."));
 		record.addVariableField(df300);
-		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+//		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+//		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 0);
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 	}

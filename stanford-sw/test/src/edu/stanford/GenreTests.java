@@ -92,7 +92,8 @@ public class GenreTests extends AbstractStanfordTest
 		cf008.setData("840726s1980    dcu---        1   bneng d");
 		record.addVariableField(cf008);
 		record.addVariableField(df650);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+//		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 0);
 		solrFldMapTest.assertSolrFldValue(record, genreFldName, fldVal);
 
 		// Sound Recording
@@ -329,7 +330,8 @@ public class GenreTests extends AbstractStanfordTest
 		cf008.setData("840712r1983    xx a          0   0neng d");
 		record.addVariableField(cf008);
 		record.addVariableField(df502);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+//		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 0);
 		solrFldMapTest.assertSolrFldValue(record, genreFldName, fldVal);
 
 		// Video
