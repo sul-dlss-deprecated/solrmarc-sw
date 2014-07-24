@@ -128,40 +128,8 @@ public class FormatMainTests extends AbstractStanfordTest
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, bookVal);
 
-		// Index-124 If Leader/06 = a or t and Leader/07 = c or d and 999m = LANE-MED 
-		// it is a Book and not Archive/Manuscript
-		record = factory.newRecord();
-		record.setLeader(factory.newLeader("01952cad  2200457Ia 4500"));
-		DataField df999 = factory.newDataField("999", ' ', ' ');
-		df999.addSubfield(factory.newSubfield('m', "LANE-MED"));
-		record.addVariableField(df999);
-		solrFldMapTest.assertSolrFldValue(record, fldName, bookVal);
-		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, Format.MANUSCRIPT_ARCHIVE.toString());
-
-		record = factory.newRecord();
-		record.setLeader(factory.newLeader("01952cac  2200457Ia 4500"));
-		df999 = factory.newDataField("999", ' ', ' ');
-		df999.addSubfield(factory.newSubfield('m', "LANE-MED"));
-		record.addVariableField(df999);
-		solrFldMapTest.assertSolrFldValue(record, fldName, bookVal);
-		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, Format.MANUSCRIPT_ARCHIVE.toString());
-
-		record = factory.newRecord();
-		record.setLeader(factory.newLeader("01952ctd  2200457Ia 4500"));
-		df999 = factory.newDataField("999", ' ', ' ');
-		df999.addSubfield(factory.newSubfield('m', "LANE-MED"));
-		record.addVariableField(df999);
-		solrFldMapTest.assertSolrFldValue(record, fldName, bookVal);
-		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, Format.MANUSCRIPT_ARCHIVE.toString());
-
-		record = factory.newRecord();
-		record.setLeader(factory.newLeader("01952ctc  2200457Ia 4500"));
-		df999 = factory.newDataField("999", ' ', ' ');
-		df999.addSubfield(factory.newSubfield('m', "LANE-MED"));
-		record.addVariableField(df999);
-		solrFldMapTest.assertSolrFldValue(record, fldName, bookVal);
-		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, Format.MANUSCRIPT_ARCHIVE.toString());
 }
+
 
 	/**
      * if a continuing monographic resource (a book series) has an SFX link,
@@ -1029,6 +997,96 @@ public class FormatMainTests extends AbstractStanfordTest
 ////		solrFldMapTest.assertSolrFldValue(record, fldName, journalFldVal);
 	}
 
+	/**
+	 * Tests for Lane Medical-specific formats
+	 */
+	@Test
+	public final void testLaneMedicalFormats()
+	{
+		String bookVal = Format.BOOK.toString();
+
+		// Index-124 If Leader/06 = a or t and Leader/07 = c or d and 999m = LANE-MED 
+		// it is a Book and not Archive/Manuscript
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cad  2200457Ia 4500"));
+		DataField df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('m', "LANE-MED"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookVal);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, Format.MANUSCRIPT_ARCHIVE.toString());
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cac  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('m', "LANE-MED"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookVal);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, Format.MANUSCRIPT_ARCHIVE.toString());
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ctd  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('m', "LANE-MED"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookVal);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, Format.MANUSCRIPT_ARCHIVE.toString());
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ctc  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('m', "LANE-MED"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookVal);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, Format.MANUSCRIPT_ARCHIVE.toString());
+		
+		// Index-124 If Leader/06 = a or t and Leader/07 = c  and 999m not LANE-MED 
+		// it is not a Book but is Archive/Manuscript
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cac  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('m', "GREEN"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, bookVal);
+		solrFldMapTest.assertSolrFldValue(record, fldName, Format.MANUSCRIPT_ARCHIVE.toString());
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ctc  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('m', "GREEN"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, bookVal);
+		solrFldMapTest.assertSolrFldValue(record, fldName, Format.MANUSCRIPT_ARCHIVE.toString());
+		
+		// Index-124 If Leader/06 not a and not t and Leader/07 = c  or d and 999m = LANE-MED 
+		// there is no format_main_ssim
+		record.setLeader(factory.newLeader("01952c c  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('m', "LANE-MED"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertNoSolrFld(record, fldName);
+		
+		record.setLeader(factory.newLeader("01952c d  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('m', "LANE-MED"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertNoSolrFld(record, fldName);
+
+		// Index-124 If Leader/06 = a or t and Leader/07 not c  and 999m = LANE-MED 
+		// there is no format_main_ssim
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ca   2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('m', "LANE-MED"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertNoSolrFld(record, fldName);
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ct   2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('m', "LANE-MED"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertNoSolrFld(record, fldName);
+	}
 
 
 	/**
