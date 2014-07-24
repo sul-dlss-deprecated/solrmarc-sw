@@ -467,14 +467,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				String photoValPlain = FormatPhysical.PHOTO.toString();
 				if (subaStr.contains("photograph") && !physicalFormats.contains(photoValPlain))
 					physicalFormats.add(photoValPlain);
-// FIXME:  the "from 300" is temporary
 				String rsiValPlain = FormatPhysical.REMOTE_SENSING_IMAGE.toString();
 				if ((subaStr.contains("remote-sensing image") ||	subaStr.contains("remote sensing image"))
 					&& !physicalFormats.contains(rsiValPlain))
-					physicalFormats.add(rsiValPlain + " from 300");
+					physicalFormats.add(rsiValPlain);
 				String slideValPlain = FormatPhysical.SLIDE.toString();
 				if (subaStr.contains("slide") && !physicalFormats.contains(slideValPlain))
-					physicalFormats.add(slideValPlain + " from 300");
+					physicalFormats.add(slideValPlain);
 			}
 		}
 

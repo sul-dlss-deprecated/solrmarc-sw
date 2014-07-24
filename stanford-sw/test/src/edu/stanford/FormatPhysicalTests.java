@@ -83,8 +83,8 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 //		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
 		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 0);
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
-//		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
-		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal + " from 300");
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+//		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal + " from 300");
 	}
 
 	/**
@@ -168,8 +168,8 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MAP.toString());
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
-//		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
-		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal + " from 300");
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+//		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal + " from 300");
 
 		// 300a contains remote-sensing image  (with hyphen)
 		record.removeVariableField(df300);
@@ -180,8 +180,8 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MAP.toString());
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
-//		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
-		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal + " from 300");
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+//		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal + " from 300");
 	}
 
 
