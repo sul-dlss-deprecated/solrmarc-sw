@@ -127,7 +127,41 @@ public class FormatMainTests extends AbstractStanfordTest
 		cf008.setData("780930m19391944nyu   m       000 v eng d");
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, bookVal);
-	}
+
+		// Index-124 If Leader/06 = a or t and Leader/07 = c or d and 999m = LANE-MED 
+		// it is a Book and not Archive/Manuscript
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cad  2200457Ia 4500"));
+		DataField df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('m', "LANE-MED"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookVal);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, Format.MANUSCRIPT_ARCHIVE.toString());
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952cac  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('m', "LANE-MED"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookVal);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, Format.MANUSCRIPT_ARCHIVE.toString());
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ctd  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('m', "LANE-MED"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookVal);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, Format.MANUSCRIPT_ARCHIVE.toString());
+
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01952ctc  2200457Ia 4500"));
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('m', "LANE-MED"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookVal);
+		solrFldMapTest.assertSolrFldHasNoValue(record, fldName, Format.MANUSCRIPT_ARCHIVE.toString());
+}
 
 	/**
      * if a continuing monographic resource (a book series) has an SFX link,

@@ -31,7 +31,8 @@ public class Item {
 	private final boolean isOnline;
 	private final boolean hasShelbyLoc;
 	private final boolean hasBizShelbyLoc;
-
+	private final boolean hasLaneLoc;
+	
 	/* normal instance variables */
 	private CallNumberType callnumType;
 	private String homeLoc;
@@ -113,6 +114,11 @@ public class Item {
 			hasBizShelbyLoc = true;
 		else
 			hasBizShelbyLoc = false;
+
+		if (library.equals("LANE-MED"))
+			hasLaneLoc = true;
+		else
+			hasLaneLoc = false;
 
 		if (StanfordIndexer.SHELBY_LOCS.contains(currLoc)
 				|| StanfordIndexer.SHELBY_LOCS.contains(homeLoc) )
@@ -243,6 +249,13 @@ public class Item {
 	 */
 	public boolean hasBizShelbyLoc() {
 		return hasBizShelbyLoc;
+	}
+
+	/**
+	 * @return true if item has a Lane Medical location
+	 */
+	public boolean hasLaneLoc() {
+		return hasLaneLoc;
 	}
 
 	/**

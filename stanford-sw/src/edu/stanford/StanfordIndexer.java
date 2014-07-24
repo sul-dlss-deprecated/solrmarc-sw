@@ -328,13 +328,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		// assign formats based on leader chars 06, 07 and chars in 008
 		String leaderStr = record.getLeader().marshal();
+		char leaderChar06 = leaderStr.charAt(6);
+		char leaderChar07 = leaderStr.charAt(7);
 		main_formats.addAll(FormatUtils.getFormatsPerLdrAnd008(leaderStr, cf008));
 
 		String journalVal = Format.JOURNAL_PERIODICAL.toString();
 		if (main_formats.isEmpty())
 		{
 			// see if it's a serial for format assignment
-			char leaderChar07 = leaderStr.charAt(7);
 			char cf008c21 = '\u0000';
 			if (cf008 != null)
 				cf008c21 = ((ControlField) cf008).getData().charAt(21);
@@ -384,7 +385,23 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 				if (callNumMatcher.matches())
 					main_formats.add(Format.MANUSCRIPT_ARCHIVE.toString());
+			}	
+			
+			 // INDEX-124 If 245h = [manuscript] and 999m = LANE-MED --> Book resource type 
+			DataField title = (DataField) record.getVariableField("245");
+			if (title != null && title.getSubfield('h') != null)
+				if (item.hasLaneLoc() && title.getSubfield('h').toString().contains("manuscript"))
+					main_formats.add(Format.BOOK.toString());
+			
+			// INDEX-124 If Leader/06 = a or t and Leader/07 = c or d and 999m = LANE-MED, assign Book as Resource Type
+			// remove Archive/Manuscript resource type and add Book resource type
+			if (item.hasLaneLoc()) {
+				if ((leaderChar06 == 'a' || leaderChar06 == 't') && (leaderChar07 == 'c' || leaderChar07 == 'd')) {
+					main_formats.add(Format.BOOK.toString());
+					main_formats.remove(Format.MANUSCRIPT_ARCHIVE.toString());
+				}
 			}
+
 		}
 
 		if (FormatUtils.isMarcit(record))
