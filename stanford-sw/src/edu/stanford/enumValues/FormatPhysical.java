@@ -98,10 +98,8 @@ public enum FormatPhysical
 				return "Videocassette (VHS)";
 			case BETA:
 				return "Videocassette (Beta)";
-			case BETA_SP:
-				return "Videocassette (Beta SP)";
 			case MP4:
-				return "MP4";
+				return "MPEG-4";
 			case OTHER_VIDEO:
 				return "Other video";
 

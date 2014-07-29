@@ -421,6 +421,7 @@ public class FormatUtils {
 
 	/**
 	 * Assign physical formats based on 007, leader chars and 008 chars
+	 * INDEX-89 - Add video physical formats
 	 *
 	 * @param cf007List - a list of 007 fields as VariableField objects
 	 * @param accessMethods - set of Strings that can be Online or 'At the Library' or both
@@ -440,6 +441,7 @@ public class FormatUtils {
 			String cf007data = cf007.getData();
 			char cf007_0 = cf007data.charAt(0);
 			char cf007_1 = cf007data.charAt(1);
+			char cf007_4 = cf007data.charAt(4);
 			switch (cf007_0)
 			{
 				case 'g':
@@ -455,6 +457,11 @@ public class FormatUtils {
 				case 'k':
 					if (cf007_1 == 'h')
 						result.add(FormatPhysical.PHOTO.toString());
+					break;
+				case 'm':
+					// INDEX-89 - Add video physical formats
+					// FILM - 007/00 = m
+					result.add(FormatPhysical.FILM.toString());
 					break;
 				case 'r':
 					result.add(FormatPhysical.REMOTE_SENSING_IMAGE.toString());
@@ -478,15 +485,74 @@ public class FormatUtils {
 					else if (cf007data.charAt(6) == 'j' && accessMethods.contains(Access.AT_LIBRARY.toString()))
 						result.add(FormatPhysical.CASSETTE.toString());
 					break;
-				default:
-					break;
-			} // end switch
-		} // end for each 007
-
+				case 'v':
+					// INDEX-89 - Add video physical formats
+					switch (cf007_4)
+					{
+						case 'a':
+						case 'i':
+						case 'j':
+							// Beta - 007/00 = v, 007/04 = a 
+							// Betacam - 007/00 = v, 007/04 = i 
+							// Betacam SP - 007/00 = v, 007/04 = j
+							result.add(FormatPhysical.BETA.toString());
+							break;
+						case 'b':
+							// VHS - 007/00 = v, 007/04 = b
+							result.add(FormatPhysical.VHS.toString());
+							break;
+						case 's':
+							// BLURAY - 007/00 = v, 007/04 = s
+							result.add(FormatPhysical.BLURAY.toString());
+							break;
+						case 'v':
+							// DVD - 007/00 = v, 007/04 = v
+							result.add(FormatPhysical.DVD.toString());
+							break;
+						default:
+							result.add(FormatPhysical.OTHER_VIDEO.toString());
+							break;
+					} // switch cf007_4
+					break;  //case v
+			}
+		}
 
 		return result;
 	}
 
+	/**
+	 * Assign physical format if 538$a contains Bluray or VHS.
+ 	 * INDEX-89 - Add video physical formats
+	 *
+	 * @param record
+	 * @return String containing Physical Format enum value per the given data, or null
+	 */
+	static String getPhysicalFormat538(Record record)
+	{
+		Set<String> f538a = MarcUtils.getSubfieldDataAsSet(record, "538", "a", "");
+		if (Utils.setItemContains(f538a, "Bluray"))
+			return FormatPhysical.BLURAY.toString();
+		else if (Utils.setItemContains(f538a, "VHS"))
+			return FormatPhysical.VHS.toString();
+		return null;
+	}
+
+
+	/**
+	 * Assign physical format if 300$b contains MP4 or 347$b contains MPEG-4
+ 	 * INDEX-89 - Add video physical formats
+	 *
+	 * @param record
+	 * @return String containing Physical Format enum value per MP4, or null
+	 */
+	static String getPhysicalFormatMP4(Record record)
+	{
+		Set<String> f300b = MarcUtils.getSubfieldDataAsSet(record, "300", "b", "");
+		Set<String> f347b = MarcUtils.getSubfieldDataAsSet(record, "347", "b", "");
+		if (Utils.setItemContains(f300b, "MP4") || Utils.setItemContains(f347b, "MPEG-4"))
+			return FormatPhysical.MP4.toString();
+		return null;
+	}
 
 	/**
 	 * use regex to find audio CD descriptions in 300 field
