@@ -762,20 +762,22 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		// MP4 - 007/00 = v, 300$b = MP4
 		record = factory.newRecord();
 		record.setLeader(ldr);
+		cf007.setData("vb  vaizq");
+		record.addVariableField(cf007);
 		DataField df300 = factory.newDataField("300", ' ', ' ');
 		df300.addSubfield(factory.newSubfield('b', "MP4"));
 		record.addVariableField(df300);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.MP4.toString());
-		solrFldMapTest.assertSolrFldHasNoValue(record, physFormatFldName, FormatPhysical.OTHER_VIDEO.toString());
 		
 		// MP4 - 007/00 = v, 347$b = MPEG-4
 		record = factory.newRecord();
 		record.setLeader(ldr);
+		cf007.setData("vb  vaizq");
+		record.addVariableField(cf007);
 		DataField df347 = factory.newDataField("347", ' ', ' ');
 		df347.addSubfield(factory.newSubfield('b', "MPEG-4"));
 		record.addVariableField(df347);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.MP4.toString());
-		solrFldMapTest.assertSolrFldHasNoValue(record, physFormatFldName, FormatPhysical.OTHER_VIDEO.toString());
 		
 		// Hi-8 mm - 007/00 = v, 007/04 = q
 		record = factory.newRecord();
