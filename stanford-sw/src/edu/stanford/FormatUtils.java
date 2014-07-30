@@ -501,13 +501,10 @@ public class FormatUtils {
 							// VHS - 007/00 = v, 007/04 = b
 							result.add(FormatPhysical.VHS.toString());
 							break;
-<<<<<<< HEAD
 						case 'q':
 							// Hi-8 mm - 007/00 = v, 007/04 = q
 							result.add(FormatPhysical.HI_8.toString());
 							break;
-=======
->>>>>>> Added video media types to FormatPhysical
 						case 's':
 							// BLURAY - 007/00 = v, 007/04 = s
 							result.add(FormatPhysical.BLURAY.toString());
@@ -523,12 +520,9 @@ public class FormatUtils {
 					break;  //case v
 			}
 		}
-<<<<<<< HEAD
 
 		return result;
 	}
-=======
->>>>>>> Added video media types to FormatPhysical
 
 	/**
 	 * Assign physical format if 538$a contains Bluray or VHS.
@@ -549,40 +543,6 @@ public class FormatUtils {
 		if (Utils.setItemContains(f538a, "DVD"))
 			result.add(FormatPhysical.DVD.toString());
 		return result;
-	}
-
-	/**
-	 * Assign physical format if 538$a contains Bluray or VHS.
- 	 * INDEX-89 - Add video physical formats
-	 *
-	 * @param record
-	 * @return String containing Physical Format enum value per the given data, or null
-	 */
-	static String getPhysicalFormat538(Record record)
-	{
-		Set<String> f538a = MarcUtils.getSubfieldDataAsSet(record, "538", "a", "");
-		if (Utils.setItemContains(f538a, "Bluray"))
-			return FormatPhysical.BLURAY.toString();
-		else if (Utils.setItemContains(f538a, "VHS"))
-			return FormatPhysical.VHS.toString();
-		return null;
-	}
-
-
-	/**
-	 * Assign physical format if 300$b contains MP4 or 347$b contains MPEG-4
- 	 * INDEX-89 - Add video physical formats
-	 *
-	 * @param record
-	 * @return String containing Physical Format enum value per MP4, or null
-	 */
-	static String getPhysicalFormatMP4(Record record)
-	{
-		Set<String> f300b = MarcUtils.getSubfieldDataAsSet(record, "300", "b", "");
-		Set<String> f347b = MarcUtils.getSubfieldDataAsSet(record, "347", "b", "");
-		if (Utils.setItemContains(f300b, "MP4") || Utils.setItemContains(f347b, "MPEG-4"))
-			return FormatPhysical.MP4.toString();
-		return null;
 	}
 
 	/**
