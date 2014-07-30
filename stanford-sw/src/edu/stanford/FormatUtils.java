@@ -501,6 +501,10 @@ public class FormatUtils {
 							// VHS - 007/00 = v, 007/04 = b
 							result.add(FormatPhysical.VHS.toString());
 							break;
+						case 'q':
+							// Hi-8 mm - 007/00 = v, 007/04 = q
+							result.add(FormatPhysical.HI_8.toString());
+							break;
 						case 's':
 							// BLURAY - 007/00 = v, 007/04 = s
 							result.add(FormatPhysical.BLURAY.toString());
@@ -527,14 +531,18 @@ public class FormatUtils {
 	 * @param record
 	 * @return String containing Physical Format enum value per the given data, or null
 	 */
-	static String getPhysicalFormat538(Record record)
+	static Set<String> getPhysicalFormat538(Record record)
 	{
+		Set<String> result = new HashSet<String>();
+
 		Set<String> f538a = MarcUtils.getSubfieldDataAsSet(record, "538", "a", "");
-		if (Utils.setItemContains(f538a, "Bluray"))
-			return FormatPhysical.BLURAY.toString();
-		else if (Utils.setItemContains(f538a, "VHS"))
-			return FormatPhysical.VHS.toString();
-		return null;
+		if (Utils.setItemContains(f538a, "Bluray") || Utils.setItemContains(f538a, "Blu-ray") || Utils.setItemContains(f538a, "Blu ray"))
+			result.add(FormatPhysical.BLURAY.toString());
+		if (Utils.setItemContains(f538a, "VHS"))
+			result.add(FormatPhysical.VHS.toString());
+		if (Utils.setItemContains(f538a, "DVD"))
+			result.add(FormatPhysical.DVD.toString());
+		return result;
 	}
 
 
