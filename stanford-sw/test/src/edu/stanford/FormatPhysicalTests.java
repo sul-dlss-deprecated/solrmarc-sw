@@ -698,6 +698,14 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		record.addVariableField(cf007);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.DVD.toString());
 
+		// DVD - 538 contains "DVD"
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		DataField df538 = factory.newDataField("538", ' ', ' ');
+		df538.addSubfield(factory.newSubfield('a', "DVD"));
+		record.addVariableField(df538);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.DVD.toString());
+
 		// BLURAY - 007/00 = v, 007/04 = s
 		record = factory.newRecord();
 		record.setLeader(ldr);
@@ -708,8 +716,24 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		// BLURAY - 538 contains "Bluray"
 		record = factory.newRecord();
 		record.setLeader(ldr);
-		DataField df538 = factory.newDataField("538", ' ', ' ');
+		df538 = factory.newDataField("538", ' ', ' ');
 		df538.addSubfield(factory.newSubfield('a', "Bluray"));
+		record.addVariableField(df538);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.BLURAY.toString());
+
+		// BLURAY - 538 contains "Blu ray"
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		df538 = factory.newDataField("538", ' ', ' ');
+		df538.addSubfield(factory.newSubfield('a', "Blu ray"));
+		record.addVariableField(df538);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.BLURAY.toString());
+
+		// BLURAY - 538 contains "Blu-ray"
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		df538 = factory.newDataField("538", ' ', ' ');
+		df538.addSubfield(factory.newSubfield('a', "Blu-ray"));
 		record.addVariableField(df538);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.BLURAY.toString());
 
@@ -738,22 +762,27 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		// MP4 - 007/00 = v, 300$b = MP4
 		record = factory.newRecord();
 		record.setLeader(ldr);
-		cf007.setData("vb  vaizq");
-		record.addVariableField(cf007);
 		DataField df300 = factory.newDataField("300", ' ', ' ');
 		df300.addSubfield(factory.newSubfield('b', "MP4"));
 		record.addVariableField(df300);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.MP4.toString());
+		solrFldMapTest.assertSolrFldHasNoValue(record, physFormatFldName, FormatPhysical.OTHER_VIDEO.toString());
 		
 		// MP4 - 007/00 = v, 347$b = MPEG-4
 		record = factory.newRecord();
 		record.setLeader(ldr);
-		cf007.setData("vb  vaizq");
-		record.addVariableField(cf007);
 		DataField df347 = factory.newDataField("347", ' ', ' ');
 		df347.addSubfield(factory.newSubfield('b', "MPEG-4"));
 		record.addVariableField(df347);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.MP4.toString());
+		solrFldMapTest.assertSolrFldHasNoValue(record, physFormatFldName, FormatPhysical.OTHER_VIDEO.toString());
+		
+		// Hi-8 mm - 007/00 = v, 007/04 = q
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("vb vqaizq");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.HI_8.toString());
 
 		// 007/00 != v or m
 		record = factory.newRecord();
@@ -762,10 +791,10 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		record.addVariableField(cf007);
 		solrFldMapTest.assertNoSolrFld(record, physFormatFldName);
 
-		// OTHER_VIDEO - 007/00 = v but 007/04 != a, b, i, j, s, v 
+		// OTHER_VIDEO - 007/00 = v but 007/04 != a, b, i, j, q, s, v  and no 300, 347, and 538 
 		record = factory.newRecord();
 		record.setLeader(ldr);
-		cf007.setData("v    vaizq");
+		cf007.setData("v    xaizq");
 		record.addVariableField(cf007);
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.OTHER_VIDEO.toString());

@@ -32,7 +32,8 @@ public enum FormatPhysical
 	VHS,
 	BETA,
 	BETA_SP,
-	MP4,
+	MP4, 
+	HI_8,
 	OTHER_VIDEO,
 
 	// maps
@@ -100,6 +101,8 @@ public enum FormatPhysical
 				return "Videocassette (Beta)";
 			case MP4:
 				return "MPEG-4";
+			case HI_8:
+				return "Hi-8 mm.";
 			case OTHER_VIDEO:
 				return "Other video";
 
