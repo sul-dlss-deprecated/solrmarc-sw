@@ -794,10 +794,24 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		// OTHER_VIDEO - 007/00 = v but 007/04 != a, b, i, j, q, s, v  and no 300, 347, and 538 
 		record = factory.newRecord();
 		record.setLeader(ldr);
-		cf007.setData("v    xaizq");
+		cf007.setData("v   zxaizq");
 		record.addVariableField(cf007);
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.OTHER_VIDEO.toString());
+
+		// No VIDEO FormatPhysical - 007/00 = v and 007/04 =space  and no 300, 347, and 538 
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("v    xaizq");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertNoSolrFld(record, physFormatFldName);
+
+		// No VIDEO FormatPhysical - 007/00 = v and 007/04 =|  and no 300, 347, and 538 
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("v   |xaizq");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertNoSolrFld(record, physFormatFldName);
 
 		// Not MP4 from 300$b or 347$b
 		record = factory.newRecord();
