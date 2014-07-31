@@ -489,6 +489,9 @@ public class FormatUtils {
 					// INDEX-89 - Add video physical formats
 					switch (cf007_4)
 					{
+						case '|':
+						case ' ':
+							break;
 						case 'a':
 						case 'i':
 						case 'j':
