@@ -492,15 +492,6 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 	REEL_TO_REEL,
 	OTHER_RECORDING,
 
-	// videos
-	FILM,
-	DVD,
-	BLURAY,
-	VHS,
-	BETA,
-	BETA_SP,
-	MP4,
-	OTHER_VIDEO,
 
 	// maps
 	ATLAS,
@@ -684,4 +675,153 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 	}
+
+	/**
+	 *  Spec from email chain Nov 2013
+	 **/
+	@Test
+	public void testVideo()
+	{
+		Leader ldr = factory.newLeader("04711cgm a2200733Ia 4500");
+
+		// FILM - 007/00 = m
+		Record record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("ma afu   buca");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.FILM.toString());
+		
+		// DVD - 007/00 = v, 007/04 = v
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("vd cvaizq");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.DVD.toString());
+
+		// DVD - 538 contains "DVD"
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		DataField df538 = factory.newDataField("538", ' ', ' ');
+		df538.addSubfield(factory.newSubfield('a', "DVD"));
+		record.addVariableField(df538);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.DVD.toString());
+
+		// BLURAY - 007/00 = v, 007/04 = s
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("vd csaizq");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.BLURAY.toString());
+		
+		// BLURAY - 538 contains "Bluray"
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		df538 = factory.newDataField("538", ' ', ' ');
+		df538.addSubfield(factory.newSubfield('a', "Bluray"));
+		record.addVariableField(df538);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.BLURAY.toString());
+
+		// BLURAY - 538 contains "Blu ray"
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		df538 = factory.newDataField("538", ' ', ' ');
+		df538.addSubfield(factory.newSubfield('a', "Blu ray"));
+		record.addVariableField(df538);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.BLURAY.toString());
+
+		// BLURAY - 538 contains "Blu-ray"
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		df538 = factory.newDataField("538", ' ', ' ');
+		df538.addSubfield(factory.newSubfield('a', "Blu-ray"));
+		record.addVariableField(df538);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.BLURAY.toString());
+
+		// VHS - 007/00 = v, 007/04 = b
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("vb cbsaizq");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.VHS.toString());
+
+		// VHS - 538 contains "VHS"
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		df538 = factory.newDataField("538", ' ', ' ');
+		df538.addSubfield(factory.newSubfield('a', "VHS"));
+		record.addVariableField(df538);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.VHS.toString());
+
+		// BETA - 007/00 = v,  and 007/04 = a 
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("vb vaaizq");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.BETA.toString());
+
+		// MP4 - 007/00 = v, 300$b = MP4
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		DataField df300 = factory.newDataField("300", ' ', ' ');
+		df300.addSubfield(factory.newSubfield('b', "MP4"));
+		record.addVariableField(df300);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.MP4.toString());
+		solrFldMapTest.assertSolrFldHasNoValue(record, physFormatFldName, FormatPhysical.OTHER_VIDEO.toString());
+		
+		// MP4 - 007/00 = v, 347$b = MPEG-4
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		DataField df347 = factory.newDataField("347", ' ', ' ');
+		df347.addSubfield(factory.newSubfield('b', "MPEG-4"));
+		record.addVariableField(df347);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.MP4.toString());
+		solrFldMapTest.assertSolrFldHasNoValue(record, physFormatFldName, FormatPhysical.OTHER_VIDEO.toString());
+		
+		// Hi-8 mm - 007/00 = v, 007/04 = q
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("vb vqaizq");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.HI_8.toString());
+
+		// 007/00 != v or m
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("    vaizq");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertNoSolrFld(record, physFormatFldName);
+
+		// OTHER_VIDEO - 007/00 = v but 007/04 != a, b, i, j, q, s, v  and no 300, 347, and 538 
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("v   zxaizq");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.OTHER_VIDEO.toString());
+
+		// Not MP4 from 300$b or 347$b
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("    vaizq");
+		record.addVariableField(cf007);
+		df300 = factory.newDataField("300", ' ', ' ');
+		df300.addSubfield(factory.newSubfield('b', "M"));
+		record.addVariableField(df300);
+		df347 = factory.newDataField("347", ' ', ' ');
+		df347.addSubfield(factory.newSubfield('b', "M"));
+		record.addVariableField(df347);
+		solrFldMapTest.assertSolrFldHasNoValue(record, physFormatFldName, FormatPhysical.MP4.toString());
+		solrFldMapTest.assertNoSolrFld(record, physFormatFldName);
+		
+		// not BLURAY or VHS - 538 does not contain "Bluray" or "VHS"
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		df538 = factory.newDataField("538", ' ', ' ');
+		df538.addSubfield(factory.newSubfield('a', "Junk"));
+		record.addVariableField(df538);
+		solrFldMapTest.assertSolrFldHasNoValue(record, physFormatFldName, FormatPhysical.VHS.toString());
+		solrFldMapTest.assertSolrFldHasNoValue(record, physFormatFldName, FormatPhysical.BLURAY.toString());
+
+	}
+
 }

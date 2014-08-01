@@ -441,9 +441,19 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getPhysicalFormats(final Record record)
 	{
+		Set<String> format538 = new HashSet<String>();
+
 		Set<String> physicalFormats = new HashSet<String>();
 		physicalFormats.addAll(FormatUtils.getPhysicalFormatsPer007(record.getVariableFields("007"), accessMethods));
 
+		// INDEX-89 - Add video physical formats from 300$b, 347$b, and 538$a
+		format538 = FormatUtils.getPhysicalFormat538(record);
+		if (format538 != null)
+			physicalFormats.addAll(format538);
+		
+		if (FormatUtils.getPhysicalFormatMP4(record) != null)
+			physicalFormats.add(FormatPhysical.MP4.toString());
+		
 		String mfilmVal = FormatPhysical.MICROFILM.toString();
 		String mficheVal = FormatPhysical.MICROFICHE.toString();
 
