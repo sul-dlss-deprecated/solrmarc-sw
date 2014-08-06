@@ -14,10 +14,8 @@ import org.xml.sax.SAXException;
 public class CallNumberUnitTests
 {
 
-    /**
-     * unit test for Utils.normalizeFloat()
-     */
-    @Test
+    /** unit test for CallNumUtils.normalizeFloat() */
+@Test
     public void testNormalizeFloat()
     {
         String normed = normalizeFloat("1", 5, 3);
@@ -41,6 +39,137 @@ public class CallNumberUnitTests
         normed = normalizeFloat("0.6666", -1, 3);
         assertEquals("normalized incorrect", ".667", normed);
     }
+
+
+	/** unit test for CallNumUtils.isValidLC() */
+@Test
+	public void testIsValidLC()
+	{
+		// 1 letter class
+		String callnum = "D764.7 .K72 1990";
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "F1356 .M464 2005";
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "M2 .C17 L3 2005";
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "U897 .C87 Z55 2001";
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "Z3871.Z8";
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		// 2 letter class
+		callnum = "QE538.8 .N36 1975-1977";
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "BX4659 .E85 W44";
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "HG6046 .V28 1986";
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		// 3 letter class
+		callnum = "KKX500 .S98 2005";
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "KFC1050 .C35 2014";
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		// class not in map
+		callnum = "KJV4189 .A67 A15 2014";
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		// LCPER
+		callnum = "H8 .G55 V.40:NO.1-4 1999:JAN.-AUG.";
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "QE538.8 .N36 1975-1977";
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "E184.S75 R47A V.2 1980";
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+
+		callnum = "HG6046 .V28 1986";  // LC begins with TWO letters, no decimal digits before Cutter: Space before Cutter decimal point
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "D764.7 .K72 1990";  // LC begins with 1 letter; decimal digits before Cutter: Space before Cutter decimal point
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "PQ2678.I26 P54 1992"; // LC begins with TWO letters, no decimal digits before Cutter: No space before Cutter decimal point
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "KJH666.4.I26 P54 1992"; // LC begins with 3 letters, decimal digits before Cutter: No space before Cutter decimal point
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "KJH66.6 .I26 P54 1992"; // LC begins with 3 letters, decimal digits before Cutter: Space before Cutter decimal point
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "KJH2678.I26 P54 1992"; // LC begins with 3 letters, no decimal digits before Cutter: No space before Cutter decimal point
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "CB3 .A6 SUPPL. V.31"; // LC begins with 2 letters, no decimal digits before Cutter: Space before Cutter decimal point
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "PR3724.T3";
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "DH135 .P6 I65";
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "DC34.5 .A78 L4 1996";
+		assertTrue("LC callnum unexpectedly invalid: " + callnum, CallNumUtils.isValidLC(callnum));
+
+		// bad first letter  (alphanum)
+		callnum = "X578 .S64 1851";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "X666 .S666 1666";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		// dewey
+		callnum = "180.8 D25 V.1";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		// sudoc
+		callnum = "E 1.28:COO-4274-1";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "GA 1.13:RCED-85-88";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "Y 4.AG 8/1:108-16";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		// harvard yenching
+		callnum = "4488.301 0300 2005 CD-ROM";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		// weird
+		callnum = "NO CALL NUMBER";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "INTERNET RESOURCE KF3400 .S36 2009";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "INTERNET RESOURCE GALE EZPROXY";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "1ST AMERICAN BANCORP, INC.";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "2 B SYSTEM INC.";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "202 DATA SYSTEMS, INC.";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "ICAO DOC 4444/15TH ED";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "ORNL-6371";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "X X";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "XM98-1 NO.1";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "XX(6661112.1)";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "YBP1834690";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "???";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "1.1";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "20.44";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "4.15[C]";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "6.4C-CZ[BC]";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "158613F868 .C45 N37 2000";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "5115126059 A17 2004";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "70 03126";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "(V) JN6695 .I28 1999 COPY";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "\"21\" BRANDS, INCORPORATED";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "\"LA CONSOLIDADA\"";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "XV 852";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+		callnum = "YUGOSLAV SERIAL 1963 NO.5-6";
+		assertFalse("bad LC callnum unexpectedly valid: " + callnum, CallNumUtils.isValidLC(callnum));
+	}
 
     /**
      * unit test for Utils.getLCStringB4FirstCutter()
@@ -370,9 +499,9 @@ public class CallNumberUnitTests
         // suffix starts with a slash
         callnum = "HE5.215 .N9/PT.A"; // slash
         // assertEquals("PT.A", getFirstLCcutterSuffix(callnum));
-        
+
         // test for wacky endless recursion bug
-        callnum = "D400.H23 A35 Hamilton Frederick Spencer Lord 1856"; 
+        callnum = "D400.H23 A35 Hamilton Frederick Spencer Lord 1856";
         assertEquals(null, getFirstLCcutterSuffix(callnum));
 
     }
@@ -451,7 +580,7 @@ public class CallNumberUnitTests
         assertEquals("U5", getSecondLCcutter(callnum));
         callnum = "G3824 .G3 S5 1863 .W5 2002"; // suffix after second cutter
         assertEquals("W5", getSecondLCcutter(callnum));
-        callnum = "D400.H23 A35 Hamilton Frederick Spencer Lord 1856"; 
+        callnum = "D400.H23 A35 Hamilton Frederick Spencer Lord 1856";
         assertEquals("A35", getSecondLCcutter(callnum));
 
     }
