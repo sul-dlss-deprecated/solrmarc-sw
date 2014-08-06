@@ -39,7 +39,7 @@ public class ItemObjectTests extends AbstractStanfordTest
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, !isSerial, id);
 		String fldVal = "001 -|- GREEN -|- STACKS" + SEP + SEP + SEP + lopped + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
 
@@ -58,14 +58,14 @@ public class ItemObjectTests extends AbstractStanfordTest
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, CallNumberType.LC, !isSerial, id);
 		String fldVal = "111 -|- GREEN -|- STACKS" + SEP + SEP + SEP + callnum + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    //  it is Dewey
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.DEWEY, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, CallNumberType.DEWEY, !isSerial, id);
 		fldVal = "111 -|- GREEN -|- STACKS" + SEP + SEP + SEP + callnum + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.DEWEY;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// when not LC or Dewey, bad LC becomes other
@@ -76,14 +76,14 @@ public class ItemObjectTests extends AbstractStanfordTest
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, CallNumberType.LC, !isSerial, id);
 		fldVal = "222 -|- GREEN -|- STACKS" + SEP + SEP + SEP + callnum + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    //  it is other
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.OTHER, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, CallNumberType.OTHER, !isSerial, id);
 		fldVal = "222 -|- GREEN -|- STACKS" + SEP + SEP + SEP + callnum + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.OTHER;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
 	
@@ -101,14 +101,14 @@ public class ItemObjectTests extends AbstractStanfordTest
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, CallNumberType.DEWEY, !isSerial, id);
 		String fldVal = "333 -|- GREEN -|- STACKS" + SEP + SEP + SEP + callnum + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.DEWEY;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 		// so it's other
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.OTHER, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, CallNumberType.OTHER, !isSerial, id);
 		fldVal = "333 -|- GREEN -|- STACKS" + SEP + SEP + SEP + callnum + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.OTHER;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
 
@@ -125,11 +125,11 @@ public class ItemObjectTests extends AbstractStanfordTest
 		String volSort = "";
 		//  it's not left alone
 		String fldVal = "444 -|- GREEN" + SEP + Item.ELOC + SEP + SEP + "SUL" + SEP + Item.ECALLNUM + SEP +
-				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP + volSort;
+				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP + volSort + SEP + SEP + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    //  no lopped or full call number included
 		fldVal = "444 -|- GREEN" + SEP + Item.ELOC + SEP + SEP + "SUL" + SEP + SEP +
-				shelfkey + SEP + reversekey + SEP + SEP;
+				shelfkey + SEP + reversekey + SEP + SEP + SEP + SEP + CallNumberType.OTHER;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
 
@@ -146,11 +146,11 @@ public class ItemObjectTests extends AbstractStanfordTest
 		String volSort = "";
 		//  it's not left alone
 		String fldVal = "555 -|- GREEN" + SEP + Item.ELOC + SEP + Item.ELOC + SEP + "SUL" + SEP + Item.ECALLNUM + SEP +
-				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP + volSort;
+				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP + volSort + SEP + SEP + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    //  lopped and full callnum dropped
 		fldVal = "555 -|- GREEN" + SEP + "STACKS" + SEP + Item.ELOC + SEP + "SUL" + SEP + SEP +
-				shelfkey + SEP + reversekey + SEP + SEP;
+				shelfkey + SEP + reversekey + SEP + SEP + SEP + SEP + CallNumberType.OTHER;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
 	
@@ -167,11 +167,11 @@ public class ItemObjectTests extends AbstractStanfordTest
 		String volSort = "";
 		//  it's not left alone
 		String fldVal = "666 -|- GREEN -|- STACKS" + SEP + SEP + "SUL"  + SEP + Item.ECALLNUM + SEP +
-				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP + volSort;
+				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP + volSort + SEP + SEP + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    //  lopped and full callnum dropped 
 	    fldVal = "666 -|- GREEN" + SEP + "STACKS" + SEP + SEP + "SUL" + SEP + SEP +
-				shelfkey + SEP + reversekey + SEP + SEP;
+				shelfkey + SEP + reversekey + SEP + SEP + SEP + SEP + CallNumberType.OTHER;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
 	
@@ -188,7 +188,7 @@ public class ItemObjectTests extends AbstractStanfordTest
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, CallNumberType.OTHER, !isSerial, id);
 		String fldVal = "777 -|- SUL -|- INPROCESS" + SEP + SEP + SEP + callnum + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	}
 

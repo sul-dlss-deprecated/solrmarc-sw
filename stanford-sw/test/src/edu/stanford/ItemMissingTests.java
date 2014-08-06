@@ -156,7 +156,7 @@ public class ItemMissingTests extends AbstractStanfordTest
 		String firstPart = barcode + sep + sal + sep + stacks + sep + missing + sep + sep + DEWEY_CNUM + sep;
 		String fldVal = firstPart + DEWEY_SKEY + sep + DEWEY_RSKEY + sep + DEWEY_CNUM + sep + DEWEY_SKEY;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
-		fldVal = firstPart + sep + sep + DEWEY_CNUM + sep + DEWEY_SKEY;
+		fldVal = firstPart + sep + sep + DEWEY_CNUM + sep + DEWEY_SKEY + sep + sep + CallNumberType.DEWEY;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		id = "missingDiff";
@@ -164,84 +164,84 @@ public class ItemMissingTests extends AbstractStanfordTest
 	    firstPart = barcode + sep + sal + sep + stacks + sep + missing + sep + sep + LCA_CNUM + sep;
 		fldVal = firstPart + LCA_SKEY + sep + LCA_RSKEY + sep + LCA_CNUM + sep + LCA_SKEY;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
-		fldVal = firstPart + sep + sep + LCA_CNUM + sep + LCA_SKEY;
+		fldVal = firstPart + sep + sep + LCA_CNUM + sep + LCA_SKEY + sep + sep + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	    barcode = "222";  // not missing - yes shelfkey pieces
 	    firstPart = barcode + sep + sal + sep + stacks + sep + sep + sep + LCB_CNUM + sep;
-		fldVal = firstPart + LCB_SKEY + sep + LCB_RSKEY + sep + LCB_CNUM + sep + LCB_SKEY;
+		fldVal = firstPart + LCB_SKEY + sep + LCB_RSKEY + sep + LCB_CNUM + sep + LCB_SKEY + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		fldVal = firstPart + sep + sep + LCB_CNUM + sep + LCB_SKEY;
+		fldVal = firstPart + sep + sep + LCB_CNUM + sep + LCB_SKEY + sep + sep + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 
 		id = "missingSame";
 	    barcode = "36105042256730"; // missing - no shelfkey pieces
 	    firstPart = barcode + sep + green + sep + stacks + sep + missing + sep + sep + LCT_CNUM + sep;
-		fldVal = firstPart + LCT_SKEY + sep + LCT_RSKEY + sep + LCT_CNUM + sep + LCT_SKEY;
+		fldVal = firstPart + LCT_SKEY + sep + LCT_RSKEY + sep + LCT_CNUM + sep + LCT_SKEY + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
-		fldVal = firstPart + sep + sep + LCT_CNUM + sep + LCT_SKEY;
+		fldVal = firstPart + sep + sep + LCT_CNUM + sep + LCT_SKEY + sep + sep + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	    barcode = "36105000549084";  // not missing - yes shelfkey pieces
 	    firstPart = barcode + sep + sal + sep + stacks + sep + sep + sep + LCT_CNUM_ELLIP + sep;
 	    String fullCallnum = "TR692 .P37 V.3 1978";
 	    String volSort = CallNumUtils.getVolumeSortCallnum(fullCallnum, LCT_CNUM_ELLIP, LCT_SKEY_ELLIP, CallNumberType.LC, true, id);
-		fldVal = firstPart + LCT_SKEY_ELLIP + sep + LCT_RSKEY_ELLIP + sep + fullCallnum + sep + volSort;
+		fldVal = firstPart + LCT_SKEY_ELLIP + sep + LCT_RSKEY_ELLIP + sep + fullCallnum + sep + volSort + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		fldVal = firstPart + sep + sep + fullCallnum + sep + volSort;
+		fldVal = firstPart + sep + sep + fullCallnum + sep + volSort + sep + sep + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    barcode = "36105000549068";  // not missing - yes shelfkey pieces
 	    fullCallnum = "TR692 .P37 V.1 1973";
 	    firstPart = barcode + sep + sal + sep + stacks + sep + sep + sep + LCT_CNUM_ELLIP + sep;
 	    volSort = CallNumUtils.getVolumeSortCallnum(fullCallnum, LCT_CNUM_ELLIP, LCT_SKEY_ELLIP, CallNumberType.LC, true, id);
-		fldVal = firstPart + LCT_SKEY_ELLIP + sep + LCT_RSKEY_ELLIP + sep + fullCallnum + sep + volSort;
+		fldVal = firstPart + LCT_SKEY_ELLIP + sep + LCT_RSKEY_ELLIP + sep + fullCallnum + sep + volSort + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		fldVal = firstPart + sep + sep + fullCallnum + sep + volSort;
+		fldVal = firstPart + sep + sep + fullCallnum + sep + volSort + sep + sep + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 
 		String lost = "LOST-ASSUM";
 		id = "onlyLost";
 	    barcode = "36105002467384"; // lost - no shelfkey pieces
 	    firstPart = barcode + sep + sal + sep + stacks + sep + lost + sep + sep + DEWEY_CNUM + sep;
-		fldVal = firstPart + DEWEY_SKEY + sep + DEWEY_RSKEY + sep + DEWEY_CNUM + sep + DEWEY_SKEY;
+		fldVal = firstPart + DEWEY_SKEY + sep + DEWEY_RSKEY + sep + DEWEY_CNUM + sep + DEWEY_SKEY + sep + sep + CallNumberType.DEWEY;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
-		fldVal = firstPart + sep + sep + DEWEY_CNUM + sep + DEWEY_SKEY;
+		fldVal = firstPart + sep + sep + DEWEY_CNUM + sep + DEWEY_SKEY + sep + sep + CallNumberType.DEWEY;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		id = "lostDiff";
 	    barcode = "111"; // lost - no shelfkey pieces
 	    firstPart = barcode + sep + sal + sep + stacks + sep + lost + sep + sep + LCA_CNUM + sep;
-		fldVal = firstPart + LCA_SKEY + sep + LCA_RSKEY + sep + LCA_CNUM + sep + LCA_SKEY;
+		fldVal = firstPart + LCA_SKEY + sep + LCA_RSKEY + sep + LCA_CNUM + sep + LCA_SKEY + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
-		fldVal = firstPart + sep + sep + LCA_CNUM + sep + LCA_SKEY;
+		fldVal = firstPart + sep + sep + LCA_CNUM + sep + LCA_SKEY + sep + sep + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	    barcode = "222";  // not lost - yes shelfkey pieces
 	    firstPart = barcode + sep + sal + sep + stacks + sep + sep + sep + LCB_CNUM + sep;
-		fldVal = firstPart + LCB_SKEY + sep + LCB_RSKEY + sep + LCB_CNUM + sep + LCB_SKEY;
+		fldVal = firstPart + LCB_SKEY + sep + LCB_RSKEY + sep + LCB_CNUM + sep + LCB_SKEY + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		fldVal = firstPart + sep + sep + LCB_CNUM + sep + LCB_SKEY;
+		fldVal = firstPart + sep + sep + LCB_CNUM + sep + LCB_SKEY + sep + sep + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 
 		id = "lostSame";
 	    barcode = "36105042256730"; // lost - no shelfkey pieces
 	    firstPart = barcode + sep + green + sep + stacks + sep + lost + sep + sep + LCT_CNUM + sep;
-		fldVal = firstPart + LCT_SKEY + sep + LCT_RSKEY + sep + LCT_CNUM + sep + LCT_SKEY;
+		fldVal = firstPart + LCT_SKEY + sep + LCT_RSKEY + sep + LCT_CNUM + sep + LCT_SKEY + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
-		fldVal = firstPart + sep + sep + LCT_CNUM + sep + LCT_SKEY;
+		fldVal = firstPart + sep + sep + LCT_CNUM + sep + LCT_SKEY + sep + sep + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	    barcode = "36105000549084";  // not lost - yes shelfkey pieces
 	    firstPart = barcode + sep + sal + sep + stacks + sep + sep + sep + LCT_CNUM_ELLIP + sep;
 	    fullCallnum = "TR692 .P37 V.3 1978";
 	    volSort = CallNumUtils.getVolumeSortCallnum(fullCallnum, LCT_CNUM_ELLIP, LCT_SKEY_ELLIP, CallNumberType.LC, true, id);
-		fldVal = firstPart + LCT_SKEY_ELLIP + sep + LCT_RSKEY_ELLIP + sep + fullCallnum + sep + volSort;
+		fldVal = firstPart + LCT_SKEY_ELLIP + sep + LCT_RSKEY_ELLIP + sep + fullCallnum + sep + volSort + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		fldVal = firstPart + sep + sep + fullCallnum + sep + volSort;
+		fldVal = firstPart + sep + sep + fullCallnum + sep + volSort + sep + sep + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    barcode = "36105000549068";  // not lost - yes shelfkey pieces
 	    fullCallnum = "TR692 .P37 V.1 1973";
 	    firstPart = barcode + sep + sal + sep + stacks + sep + sep + sep + LCT_CNUM_ELLIP + sep;
 	    volSort = CallNumUtils.getVolumeSortCallnum(fullCallnum, LCT_CNUM_ELLIP, LCT_SKEY_ELLIP, CallNumberType.LC, true, id);
-		fldVal = firstPart + LCT_SKEY_ELLIP + sep + LCT_RSKEY_ELLIP + sep + fullCallnum + sep + volSort;
+		fldVal = firstPart + LCT_SKEY_ELLIP + sep + LCT_RSKEY_ELLIP + sep + fullCallnum + sep + volSort + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		fldVal = firstPart + sep + sep + fullCallnum + sep + volSort;
+		fldVal = firstPart + sep + sep + fullCallnum + sep + volSort + sep + sep + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	}
 

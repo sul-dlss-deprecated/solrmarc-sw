@@ -174,7 +174,7 @@ public class CallNumLaneTests extends AbstractStanfordTest
 	 *   barcode, library, locations, etc as in 999
 	 *   lopped callnum as full callnum
 	 *   shelfkey and reversekey parts empty (no nearby-on-shelf)
-	 *   full callnum, sort callnum populated
+	 *   full callnum, sort callnum populated, public note, callnum type
 	 */
 @Test
 	public final void testItemDisplay()
@@ -188,17 +188,17 @@ public class CallNumLaneTests extends AbstractStanfordTest
 		String ASK_BIZ = "ASK@GSB";
 		String callnum = "A27 .B36";
 		String fldVal = barcode + sep + LANE + sep + ASK_LANE + sep + sep + sep +
-						callnum + sep + LC_SKEY + sep + LC_RSKEY + sep + callnum + sep + LC_SKEY;
+						callnum + sep + LC_SKEY + sep + LC_RSKEY + sep + callnum + sep + LC_SKEY + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidLC", fldName, fldVal);
 		fldVal = "JJ111" + sep + LANE + sep + ASK_LANE + sep + sep + sep +
-					callnum + sep + LC_SKEY + sep + LC_RSKEY + sep + callnum + sep + LC_SKEY;
+					callnum + sep + LC_SKEY + sep + LC_RSKEY + sep + callnum + sep + LC_SKEY + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "JacksonValidLC", fldName, fldVal);
 	    callnum = "666 .T666";
 		fldVal = "JJ666" + sep + LANE + sep + ASK_LANE + sep + sep + sep +
-					callnum + sep + DEWEY_SKEY + sep + DEWEY_RSKEY + sep + callnum + sep + DEWEY_SKEY;
+					callnum + sep + DEWEY_SKEY + sep + DEWEY_RSKEY + sep + callnum + sep + DEWEY_SKEY + sep + sep + CallNumberType.DEWEY;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "JacksonValidDewey", fldName, fldVal);
 		fldVal = "LL666" + sep + LANE + sep + ASK_LANE + sep + sep + sep +
-					callnum + sep + DEWEY_SKEY + sep + DEWEY_RSKEY + sep + callnum + sep + DEWEY_SKEY;
+					callnum + sep + DEWEY_SKEY + sep + DEWEY_RSKEY + sep + callnum + sep + DEWEY_SKEY + sep + sep + CallNumberType.DEWEY;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidDewey", fldName, fldVal);
 
 	    String id = "7811196";
@@ -260,7 +260,7 @@ public class CallNumLaneTests extends AbstractStanfordTest
 		barcode = "94025";
 		callnum = "Y210 .A3F6 1973";
 		fldVal = barcode + sep + "GREEN" + sep + "STACKS" + sep + sep + sep +
-					callnum + sep + OTHER_SKEY + sep + OTHER_RSKEY + sep + callnum + sep + OTHER_SKEY;
+					callnum + sep + OTHER_SKEY + sep + OTHER_RSKEY + sep + callnum + sep + OTHER_SKEY + sep + sep + CallNumberType.OTHER;
 		solrFldMapTest.assertSolrFldValue(testFilePath, "ZZgreenInvalidLC", fldName, fldVal);
 	}
 
@@ -277,6 +277,6 @@ public class CallNumLaneTests extends AbstractStanfordTest
 		String ASK_LANE = "ASK@LANE";
 	    String shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.OTHER, id).toLowerCase();
 		return barcode + SEP + LANE + SEP + ASK_LANE + SEP + SEP + SEP +
-				callnum + SEP + SEP + SEP + callnum + SEP + shelfkey;
+				callnum + SEP + SEP + SEP + callnum + SEP + shelfkey + SEP + SEP + CallNumberType.OTHER;
 	}
 }

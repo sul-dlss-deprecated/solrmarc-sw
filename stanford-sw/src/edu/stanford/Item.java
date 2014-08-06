@@ -26,6 +26,7 @@ public class Item {
 	private final String barcode;
 	private final String library;
 	private final String itemType;
+	private final String publicNote;
 	private final boolean shouldBeSkipped;
 	private final boolean hasGovDocLoc;
 	private final boolean isOnline;
@@ -73,7 +74,7 @@ public class Item {
 	 *   <li>m - library code</li>
 	 *   <li>o - public note</li>
 	 *   <li>t - item type</li>
-	 *   <li>w - call num scheme</li>
+	 *   <li>w - call num type</li>
 	 *  </ul>
 	 */
 	public Item(DataField f999, String recId) {
@@ -83,6 +84,7 @@ public class Item {
 		currLoc = MarcUtils.getSubfieldTrimmed(f999, 'k');
 		homeLoc = MarcUtils.getSubfieldTrimmed(f999, 'l');
 		library = MarcUtils.getSubfieldTrimmed(f999, 'm');
+		publicNote = MarcUtils.getSubfieldTrimmed(f999, 'o');
 		itemType = MarcUtils.getSubfieldTrimmed(f999, 't');
 		String scheme = MarcUtils.getSubfieldTrimmed(f999, 'w');
 		String rawCallnum = MarcUtils.getSubfieldTrimmed(f999, 'a');
@@ -180,6 +182,13 @@ public class Item {
 
 	public String getCallnum() {
 		return normCallnum;
+	}
+
+	public String getPublicNote() {
+		if (this.publicNote.startsWith(".PUBLIC."))
+			return publicNote;
+		else
+			return "";
 	}
 
 	public CallNumberType getCallnumType() {

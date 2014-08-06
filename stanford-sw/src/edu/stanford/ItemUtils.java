@@ -301,7 +301,7 @@ public class ItemUtils {
     					(item.isMissingOrLost() ? "" : shelfkey) + SEP +
     					(item.isMissingOrLost() ? "" : reversekey) + SEP +
     					fullCallnum + SEP +
-    					volSort );
+    					volSort + SEP + item.getPublicNote() + SEP + item.getCallnumType());
 		} // end loop through items
 
 		return result;

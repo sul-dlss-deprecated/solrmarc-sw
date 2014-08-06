@@ -12,7 +12,7 @@ import edu.stanford.enumValues.CallNumberType;
  *   cope properly with items with current location LAC  SW-314
  * @author Naomi Dushay
  */
-public class ItemLACTests extends AbstractStanfordTest 
+public class ItemLACTests extends AbstractStanfordTest
 {
 	private String fileName = "itemLACcurrentLoc.mrc";
     private String testFilePath = testDataParentPath + File.separator + fileName;
@@ -38,7 +38,7 @@ public class ItemLACTests extends AbstractStanfordTest
 		String fldName = "item_display";
 		String sep = ItemUtils.SEP;
 		String firstPart = "1" + sep + "GREEN" + sep + "STACKS" + sep;	
-	    String lastPart = sep + sep + sep + sep + sep + sep;
+	    String lastPart = sep + sep + sep + sep + sep + sep + sep + sep + CallNumberType.LC;
 	    String fldVal = firstPart + "ON-ORDER" + lastPart;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    fldVal = firstPart + "LAC" + lastPart;
@@ -61,7 +61,7 @@ public class ItemLACTests extends AbstractStanfordTest
 		String fldName = "item_display";
 		String sep = ItemUtils.SEP;
 		String firstPart = "2" + sep + "GREEN" + sep;	
-	    String lastPart = sep + sep + sep + sep + sep + sep + sep;
+	    String lastPart = sep + sep + sep + sep + sep + sep + sep + sep + sep + CallNumberType.LC;
 	    String fldVal = firstPart + "ON-ORDER" + lastPart;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    fldVal = firstPart + "LAC" + lastPart;
@@ -81,7 +81,7 @@ public class ItemLACTests extends AbstractStanfordTest
 	    String skey = CallNumberType.LC.getPrefix() + org.solrmarc.tools.CallNumUtils.getLCShelfkey(callnum, null).toLowerCase();
 	    String rskey = CallNumUtils.getReverseShelfKey(skey).toLowerCase();
 		String firstPart = "3" + sep + "GREEN" + sep + "STACKS" + sep;	
-	    String lastPart = sep + sep + callnum + sep + skey + sep + rskey + sep + callnum + sep + skey;
+	    String lastPart = sep + sep + callnum + sep + skey + sep + rskey + sep + callnum + sep + skey + sep + sep + CallNumberType.LC;
 	    String fldVal = firstPart + "ON-ORDER" + lastPart;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    fldVal = firstPart + "LAC" + lastPart;
@@ -98,7 +98,7 @@ public class ItemLACTests extends AbstractStanfordTest
 		String fldName = "item_display";
 		String sep = ItemUtils.SEP;
 		String firstPart = "36105123571122" + sep + "GREEN" + sep + "STACKS" + sep;	
-	    String lastPart = sep + sep + sep + sep + sep + sep;
+	    String lastPart = sep + sep + sep + sep + sep + sep + sep + sep + CallNumberType.LC;
 	    String fldVal = firstPart + "ON-ORDER" + lastPart;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    fldVal = firstPart + "LAC" + lastPart;

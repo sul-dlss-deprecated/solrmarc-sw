@@ -65,13 +65,13 @@ public class ItemNoCallNumberTests extends AbstractStanfordTest
 		String firstPart = "LL271310" + sep + "LANE-MED" + sep + "ASK@LANE" + sep + sep + sep;
 	    String fldVal = firstPart + uncallnum + sep + sep + sep + uncallnum + sep;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
-	   	fldVal = firstPart + sep + sep + sep + sep;
+	   	fldVal = firstPart + sep + sep + sep + sep + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		String rkey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(skey).toLowerCase();
 	    fldVal = firstPart + uncallnum + sep + skey + sep + rkey + uncallnum + sep;
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id050, fldName, fldVal);
-	    fldVal = firstPart + sep + skey + sep + rkey + sep + sep;
+	    fldVal = firstPart + sep + skey + sep + rkey + sep + sep + sep + sep + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id050, fldName, fldVal);
 	}
 }

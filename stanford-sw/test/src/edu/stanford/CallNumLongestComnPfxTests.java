@@ -306,12 +306,12 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 		String loc = "ASK@LANE";
 		String volSort = edu.stanford.CallNumUtils.getShelfKey(unlop1, CallNumberType.OTHER, id).toLowerCase();
 		String fldVal = barcode + sep + lib + sep + loc + sep + sep + sep +
-						lopped + sep + sep + sep + unlop1 + sep + volSort;
+						lopped + sep + sep + sep + unlop1 + sep + volSort + sep + sep + CallNumberType.OTHER;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	    barcode = "LL41858";
 		volSort = edu.stanford.CallNumUtils.getShelfKey(unlop2, CallNumberType.OTHER, id).toLowerCase();
 		fldVal = barcode + sep + lib + sep + loc + sep + sep + sep +
-					lopped + sep + sep + sep + unlop2 + sep + volSort;
+					lopped + sep + sep + sep + unlop2 + sep + volSort + sep + sep + CallNumberType.OTHER;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
 
