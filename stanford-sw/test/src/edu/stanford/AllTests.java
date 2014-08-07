@@ -9,6 +9,7 @@ import org.junit.runners.Suite;
     	AllSearchTests.class,
     	AuthorTests.class,
         AuthorTitleMappingTests.class,
+        BibOnlyXmlTests.class,
         CallNumberTests.class,
         CallNumLaneTests.class,
         CallNumLCLoppingUnitTests.class,
