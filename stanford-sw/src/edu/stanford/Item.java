@@ -185,7 +185,7 @@ public class Item {
 	}
 
 	public String getPublicNote() {
-		if (this.publicNote.startsWith(".PUBLIC."))
+		if (this.publicNote.toUpperCase().startsWith(".PUBLIC."))
 			return publicNote;
 		else
 			return "";
