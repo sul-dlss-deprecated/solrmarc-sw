@@ -774,6 +774,7 @@ public class CallNumUtils
 	}
 
 	/** call number facet values */
+	protected static final String LC_TOP_FACET_VAL = "LC Classification";
 	protected static final String DEWEY_TOP_FACET_VAL = "Dewey Classification";
 	protected static final String GOV_DOC_TOP_FACET_VAL = "Government Document";
 	protected static final String GOV_DOC_BRIT_FACET_VAL = "British";
