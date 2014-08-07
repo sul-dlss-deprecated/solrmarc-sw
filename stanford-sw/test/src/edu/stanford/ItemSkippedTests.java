@@ -62,7 +62,7 @@ public class ItemSkippedTests extends AbstractStanfordTest
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, CallNumberType.OTHER, !isSerial, id);
 		String fldVal = "KEEP -|- GREEN -|- STACKS" + SEP + SEP + "STKS" + SEP + callnum + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.OTHER;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	    
 	    id = "OnePlusEdiRemove";
@@ -73,7 +73,7 @@ public class ItemSkippedTests extends AbstractStanfordTest
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, CallNumberType.OTHER, !isSerial, id);
 		fldVal = "SKIP -|- GREEN -|- STACKS" + SEP + SEP + SEP + callnum + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.OTHER;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 
 	    id = "keepOne";

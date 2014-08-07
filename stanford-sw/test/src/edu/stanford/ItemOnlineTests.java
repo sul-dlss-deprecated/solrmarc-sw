@@ -192,31 +192,31 @@ public class ItemOnlineTests extends AbstractStanfordTest
 		String sep = ItemUtils.SEP;
 		String firstPart = "1" + sep + "SUL" + sep + Item.ELOC + sep + sep + sep + sep;	
 		// no full or lopped call number
-		String fldVal = firstPart + sep + sep + Item.ECALLNUM + sep;
+		String fldVal = firstPart + sep + sep + Item.ECALLNUM + sep + sep + sep + CallNumberType.OTHER;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "only999", fldName, fldVal);
-		fldVal = firstPart + sep + sep + sep;
+		fldVal = firstPart + sep + sep + sep + sep + sep + CallNumberType.OTHER;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "only999", fldName, fldVal);
 	
-	    fldVal = firstPart.replace('1', '2') + sep + sep + "INTERNET RESOURCE KF3400 .S36 2009" + sep;
+	    fldVal = firstPart.replace('1', '2') + sep + sep + "INTERNET RESOURCE KF3400 .S36 2009" + sep + sep + sep +CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "addlItem", fldName, fldVal);
 
 	    String callnum = "A1 .B2";
 	    String skey = CallNumberType.LC.getPrefix() + org.solrmarc.tools.CallNumUtils.getLCShelfkey(callnum, null).toLowerCase();
 	    String rkey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(skey).toLowerCase();
-		fldVal = "1" + sep + "LAW" + sep + "STACKS-3" + sep + sep + sep + callnum + sep + skey + sep + rkey + sep + callnum + sep + skey;
+		fldVal = "1" + sep + "LAW" + sep + "STACKS-3" + sep + sep + sep + callnum + sep + skey + sep + rkey + sep + callnum + sep + skey + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "addlItem", fldName, fldVal);
 	    
 	    // 050
 	    skey = CallNumberType.LC.getPrefix() + org.solrmarc.tools.CallNumUtils.getLCShelfkey("QA76.76.C672 B367 2001eb", null).toLowerCase();
 	    rkey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(skey).toLowerCase();
-		fldVal = firstPart + skey + sep + rkey + sep + sep;
+		fldVal = firstPart + skey + sep + rkey + sep + sep + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "050", fldName, fldVal);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "050090", fldName, fldVal);
 	    
 	    // 090
 	    skey = CallNumberType.LC.getPrefix() + org.solrmarc.tools.CallNumUtils.getLCShelfkey("QM142 .A84 2010", null).toLowerCase();
 	    rkey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(skey).toLowerCase();
-		fldVal = firstPart + skey + sep + rkey + sep + sep;
+		fldVal = firstPart + skey + sep + rkey + sep + sep + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "090-1", fldName, fldVal);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "090082", fldName, fldVal);
 	    
@@ -224,7 +224,7 @@ public class ItemOnlineTests extends AbstractStanfordTest
 	    //  only sudoc if first indicator is 0 or sudoc is specified in subfield 2
 	    skey = edu.stanford.CallNumUtils.getShelfKey("E/ESCWA/EDGD/2009/1", CallNumberType.OTHER, null).toLowerCase();
 	    rkey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(skey).toLowerCase();
-		fldVal = firstPart + skey + sep + rkey + sep + sep;
+		fldVal = firstPart + skey + sep + rkey + sep + sep + sep + sep + CallNumberType.OTHER;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "086-1", fldName, fldVal);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "082086", fldName, fldVal);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "086050", fldName, fldVal);
@@ -233,7 +233,7 @@ public class ItemOnlineTests extends AbstractStanfordTest
 	    // 082 - Dewey not used
 	    skey = CallNumberType.DEWEY.getPrefix() + org.solrmarc.tools.CallNumUtils.getDeweyShelfKey("794.8/15265").toLowerCase();
 	    rkey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(skey).toLowerCase();
-		fldVal = firstPart + skey + sep + rkey + sep + sep;
+		fldVal = firstPart + skey + sep + rkey + sep + sep + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "082-1", fldName, fldVal);
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "082086", fldName, fldVal);
 	}
@@ -302,29 +302,29 @@ public class ItemOnlineTests extends AbstractStanfordTest
 		String firstPart = "1" + sep + "SUL" + sep + Item.ELOC + sep + "ON-ORDER" + sep + sep;	
 		String callnum = "XX(8438957.2)";
 		// call number included (lopped, full) but no volsort
-	    String fldVal = firstPart + callnum + sep + sep + sep + callnum + sep;
+	    String fldVal = firstPart + callnum + sep + sep + sep + callnum + sep + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    // with vol sort
-	    fldVal = firstPart + callnum + sep + sep + sep + callnum + sep + callnum;
+	    fldVal = firstPart + callnum + sep + sep + sep + callnum + sep + callnum + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    // no call number:  lopped, nor full nor volsort
-	    fldVal = firstPart + sep + sep + sep + sep;
+	    fldVal = firstPart + sep + sep + sep + sep + sep + sep + CallNumberType.OTHER;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		
 		// on order online item with 050
 		String bibCallnum = "A1 .B2";
 	    String skey = CallNumberType.LC.getPrefix() + org.solrmarc.tools.CallNumUtils.getLCShelfkey(bibCallnum, null).toLowerCase();
 	    String rkey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(skey).toLowerCase();
-	    fldVal = firstPart + callnum + sep + skey + sep + rkey + sep + callnum + sep;
+	    fldVal = firstPart + callnum + sep + skey + sep + rkey + sep + callnum + sep + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id050, fldName, fldVal);
-	    fldVal = firstPart + sep + skey + sep + rkey + sep + callnum + sep;
+	    fldVal = firstPart + sep + skey + sep + rkey + sep + callnum + sep + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id050, fldName, fldVal);
-	    fldVal = firstPart + callnum + sep + skey + sep + rkey + sep + callnum + sep;
+	    fldVal = firstPart + callnum + sep + skey + sep + rkey + sep + callnum + sep + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id050, fldName, fldVal);
-	    fldVal = firstPart + callnum + sep + sep + sep + callnum + sep;
+	    fldVal = firstPart + callnum + sep + sep + sep + callnum + sep + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id050, fldName, fldVal);
 	    // no call number, no shelflist
-	    fldVal = firstPart + sep + sep + sep + sep;
+	    fldVal = firstPart + sep + sep + sep + sep + sep + sep + CallNumberType.OTHER;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id050, fldName, fldVal);
 	}
 
@@ -350,7 +350,7 @@ public class ItemOnlineTests extends AbstractStanfordTest
 		fldName = "item_display";
 		String sep = ItemUtils.SEP;
 		String firstPart = "1" + sep + "SUL" + sep + Item.ELOC + sep + sep + sep;	
-		String fldVal = firstPart + sep + sep + sep + sep;
+		String fldVal = firstPart + sep + sep + sep + sep + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
 
@@ -376,7 +376,7 @@ public class ItemOnlineTests extends AbstractStanfordTest
 	    String rkey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(skey).toLowerCase();
 		String sep = ItemUtils.SEP;
 		String firstPart = "1" + sep + "GREEN" + sep + "STACKS" + sep + sep + sep;	
-	    String fldVal = firstPart + callnum + sep + skey + sep + rkey + callnum + sep + callnum;
+	    String fldVal = firstPart + callnum + sep + skey + sep + rkey + callnum + sep + callnum + sep + sep + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
 }

@@ -50,35 +50,35 @@ public class ItemsSplitTests extends AbstractStanfordTest
 		String callnum = "A1 .B2 V.1";		
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, id);
 		String fldVal = barcode + SEP + "GREEN -|- STACKS" + SEP + SEP + SEP + lopped + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;		
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal.trim());
 
 		barcode = "102";
 		callnum = "A1 .B2 V.2";		
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, id);
 		fldVal = barcode + SEP + "GREEN -|- STACKS" + SEP + SEP + SEP + lopped + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;		
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	    
 		barcode = "103";
 		callnum = "A1 .B2 V.3";		
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, id);
 		fldVal = barcode + SEP + "GREEN -|- STACKS" + SEP + SEP + SEP + lopped + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;		
-	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		barcode = "104";
 		callnum = "A1 .B2 V.4";		
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, id);
 		fldVal = barcode + SEP + "GREEN -|- STACKS" + SEP + SEP + SEP + lopped + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;		
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		barcode = "105";
 		callnum = "A1 .B2 V.5";		
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, id);
 		fldVal = barcode + SEP + "GREEN -|- STACKS" + SEP + SEP + SEP + lopped + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;		
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	    
 	}
 
@@ -99,35 +99,35 @@ public class ItemsSplitTests extends AbstractStanfordTest
 		String callnum = "A3 .B4 V.1";		
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, id);
 		String fldVal = barcode + SEP + "GREEN -|- STACKS" + SEP + SEP + SEP + lopped + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;		
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		
 		barcode = "202";
 		callnum = "A3 .B4 V.2";		
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, id);
 		fldVal = barcode + SEP + "GREEN -|- STACKS" + SEP + SEP + SEP + lopped + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;		
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		
 		barcode = "203";
 		callnum = "A3 .B4 V.3";		
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, id);
 		fldVal = barcode + SEP + "GREEN -|- STACKS" + SEP + SEP + SEP + lopped + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;		
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		
 		barcode = "204";
 		callnum = "A3 .B4 V.4";		
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, id);
 		fldVal = barcode + SEP + "GREEN -|- STACKS" + SEP + SEP + SEP + lopped + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;		
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		
 		barcode = "205";
 		callnum = "A3 .B4 V.5";		
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, id);
 		fldVal = barcode + SEP + "GREEN -|- STACKS" + SEP + SEP + SEP + lopped + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;		
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
 
@@ -148,35 +148,35 @@ public class ItemsSplitTests extends AbstractStanfordTest
 		String callnum = "A5 .B6 V.1";
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, !isSerial, id);
 		String fldVal = barcode + SEP + "GREEN -|- STACKS" + SEP + SEP + SEP + lopped + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		barcode = "302";
 		callnum = "A5 .B6 V.2";
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, !isSerial, id);
 		fldVal = barcode + SEP + "GREEN -|- STACKS" + SEP + SEP + SEP + lopped + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		barcode = "303";
 		callnum = "A5 .B6 V.3";
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, !isSerial, id);
 		fldVal = barcode + SEP + "GREEN -|- STACKS" + SEP + SEP + SEP + lopped + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		barcode = "304";
 		callnum = "A5 .B6 V.4";
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, !isSerial, id);
 		fldVal = barcode + SEP + "GREEN -|- STACKS" + SEP + SEP + SEP + lopped + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		barcode = "305";
 		callnum = "A5 .B6 V.5";
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, !isSerial, id);
 		fldVal = barcode + SEP + "GREEN -|- STACKS" + SEP + SEP + SEP + lopped + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
 
