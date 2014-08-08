@@ -1602,6 +1602,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getCallNumHierarchVals(final Record record, String separator, String mapName)
 	{
+        try
+        {
+        	loadTranslationMap(null, mapName + ".properties");
+        }
+        catch (IllegalArgumentException e)
+        {
+			e.printStackTrace();
+		}
 		Set<String> result = new HashSet<String>();
 		for (String callnum : lcCallnums)
 		{
@@ -1641,6 +1649,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 *   for Dewey, DEWEY
 	 *   for Gov Doc, GOV_DOC_FACET_VAL
 	 * @param record a marc4j Record object
+	 * @deprecated replaced by getCallNumHierarchVals
 	 */
 	public Set<String> getCallNumsLevel1(final Record record)
 	{
@@ -1665,6 +1674,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * secondary level category strings (for LC, the 1-3 letters at the
 	 * beginning)
 	 * @param record a marc4j Record object
+	 * @deprecated replaced by getCallNumHierarchVals
 	 */
 	public Set<String> getLCCallNumCats(final Record record) {
 		Set<String> result = new HashSet<String>();
@@ -1682,6 +1692,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * by call number. It looks at our local LC values in the 999 and returns
 	 * the Strings before the Cutters in the call numbers (LC only)
 	 * @param record a marc4j Record object
+	 * @deprecated replaced by getCallNumHierarchVals
 	 */
 	public Set<String> getLCCallNumsB4Cutter(final Record record) {
 		Set<String> result = new HashSet<String>();
@@ -1696,6 +1707,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * call number. It looks at our local values in the 999, and returns the
 	 * broad category strings ("x00s");
 	 * @param record a marc4j Record object
+	 * @deprecated replaced by getCallNumHierarchVals
 	 */
 	public Set<String> getDeweyCallNumBroadCats(final Record record) {
 		Set<String> result = new HashSet<String>();
@@ -1711,6 +1723,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * by call number. It looks at our local values in the 999, and returns the
 	 * secondary level category strings (for Dewey, "xx0s")
 	 * @param record a marc4j Record object
+	 * @deprecated replaced by getCallNumHierarchVals
 	 */
 	public Set<String> getDeweyCallNumCats(final Record record) {
 		Set<String> result = new HashSet<String>();
@@ -1726,6 +1739,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * by call number. It looks at our local Dewey values in the 999 and returns
 	 * the Strings before the Cutters in the call numbers (Dewey only)
 	 * @param record a marc4j Record object
+	 * @deprecated replaced by getCallNumHierarchVals
 	 */
 	public Set<String> getDeweyCallNumsB4Cutter(final Record record) {
 		Set<String> result = new HashSet<String>();
