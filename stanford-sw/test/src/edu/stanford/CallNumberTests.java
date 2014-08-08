@@ -19,7 +19,7 @@ import edu.stanford.enumValues.Access;
 import edu.stanford.enumValues.CallNumberType;
 
 /**
- * junit4 tests for Stanford University call number fields for blacklight index
+ * junit4 tests for Stanford University call number fields
  * @author Naomi Dushay
  */
 public class CallNumberTests extends AbstractStanfordTest
@@ -36,99 +36,24 @@ public class CallNumberTests extends AbstractStanfordTest
 		mappingTestInit();
 	}
 
-
 	/**
-	 * callnum_top_facet, for dewey, should be DEWEY_TOP_FACET_VAL
+	 * callnum_search shouldn't get forbidden call numbers
 	 */
 @Test
-	public final void testFacetsInIx()
+	public final void testIgnoredCallnumSearch()
 			throws IOException, ParserConfigurationException, SAXException, SolrServerException
 	{
-		String fldName = "callnum_top_facet";
 		createFreshIx(fileName);
 
-		assertSingleResult("1033119", fldName, "\"B - Philosophy, Psychology, Religion\"");
-
-		// skipped values should not be found
-		// bad start chars for LC
-		assertZeroResults(fldName, "I*"); // IN PROCESS
-		assertZeroResults(fldName, "W*"); // WITHDRAWN
-		// only N call number in test data is "NO CALL NUMBER"
-		assertZeroResults(fldName, "N*");
-		assertZeroResults(fldName, "X*");
-
-		Set<String> docIds = new HashSet<String>();
-		docIds.add("690002");
-		docIds.add("2328381");
-		docIds.add("2214009");
-		docIds.add("1849258");
-		docIds.add("1");
-		docIds.add("11");
-		docIds.add("2");
-		docIds.add("22");
-		docIds.add("3");
-		docIds.add("31");
-		docIds.add("DeweyVol");
-		assertSearchResults(fldName, "\"" + edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL + "\"", docIds);
-		assertSearchResults(fldName, "\"Dewey Classification\"", docIds);
-
-		fldName = "lc_alpha_facet";
-		assertZeroResults(fldName, "NO*");  // "NO CALL NUMBER"
-		assertZeroResults(fldName, "IN*");  // "IN PROCESS"
-		assertZeroResults(fldName, "X*");   // X call nums (including XX)
-		assertZeroResults(fldName, "WI*");  // "WITHDRAWN"
-
-		fldName = "lc_b4cutter_facet";
-		assertZeroResults(fldName, "NO CALL NUMBER");
-		assertZeroResults(fldName, "IN PROCESS");
-		assertZeroResults(fldName, "X*"); // X call nums (including XX)
-		assertZeroResults(fldName, "WITHDRAWN");
-		assertZeroResults(fldName, "110978984448763");
-
-		fldName = "dewey_1digit_facet";
-		docIds.clear();
-		docIds.add("2214009");
-		docIds.add("1849258");
-		assertSearchResults(fldName, "\"300s - Social Sciences\"", docIds);
-		fldName = "dewey_2digit_facet";
-		fldName = "dewey_b4cutter_facet";
-		assertZeroResults(fldName, "WITHDRAWN");
-
-		fldName = "callnum_search";
+		String fldName = "callnum_search";
 		assertSingleResult("690002", fldName, "\"159.32 .W211\"");
 		//  skipped values
 		assertZeroResults(fldName, "\"NO CALL NUMBER\"");
 		assertZeroResults(fldName, "\"IN PROCESS\"");
 		assertZeroResults(fldName, "\"INTERNET RESOURCE\"");
+		assertZeroResults(fldName, "WITHDRAWN");
+		assertZeroResults(fldName, "X*"); // X call nums (including XX)
 		assertZeroResults(fldName, "\"" + govDocStr + "\"");
-	}
-
-	/**
-	 * callnum_top_facet, for LC, contains the first letter of an LC call number
-	 *  along with a user friendly description of the broad topic indicated by
-	 *  the letter. Dewey and GovDoc values are tested in separate methods.
-	 */
-@Test
-	public final void testTopFacetLC()
-	{
-		String fldName = "callnum_top_facet";
-
-		// single char LC classification
-		solrFldMapTest.assertSolrFldValue(testFilePath, "6661112", fldName, "Z - Bibliography, Library Science, Information Resources");
-		// two char LC classification
-		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC22", fldName, "C - Historical Sciences (Archaeology, Genealogy)");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1033119", fldName, "B - Philosophy, Psychology, Religion");
-		// mixed one char and two char classification values
-		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC1dec", fldName, "D - World History");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2913114", fldName, "D - World History");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "3400092", fldName, "D - World History");
-		// mixed 2 and 3 three char LC classification
-		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3NoDec", fldName, "K - Law");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3Dec", fldName, "K - Law");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3DecSpace", fldName, "K - Law");
-
-		// LCPER
-		solrFldMapTest.assertSolrFldValue(testFilePath, "460947", fldName, "E - History of the Americas (General)");
 	}
 
 	/**
@@ -137,76 +62,40 @@ public class CallNumberTests extends AbstractStanfordTest
 	 *  indicated by the letters.
 	 */
 @Test
-	public final void testLCAlphaFacet()
+	public final void testLC()
 	{
-		String fldName = "lc_alpha_facet";
+		String fldName = "callnum_facet_sim";
+		String startLC = edu.stanford.CallNumUtils.LC_TOP_FACET_VAL + "|";
 
 		// single char LC classification
-		solrFldMapTest.assertSolrFldValue(testFilePath, "6661112", fldName, "Z - Bibliography, Library Science, Information Resources");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "6661112", fldName, startLC + "Z - Bibliography, Library Science, Information Resources|Z - Bibliography, Library Science, Information Resources");
 		// LC 999 one letter, space before Cutter
-		solrFldMapTest.assertSolrFldValue(testFilePath, "7772223", fldName, "F - History of the Americas (Local)");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC1dec", fldName, "D - World History");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "7772223", fldName, startLC + "F - History of the Americas (Local)|F - History of the Americas (Local)");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC1dec", fldName, startLC + "D - World History|D - World History");
 
 		// two char LC classification
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "1033119", fldName, "B - Philosophy, Psychology, Religion");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1033119", fldName, "BX - Christian Denominations");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1033119", fldName, startLC + "B - Philosophy, Psychology, Religion|BX - Christian Denominations");
 		// LC 999 two letters, space before Cutter
-		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC2", fldName, "HG - Finance");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC22", fldName, "C - Auxiliary Sciences of History (General)");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC22", fldName, "CB - History of Civilization");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2913114", fldName, "DH - Low Countries (History)");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1732616", fldName, "QA - Mathematics");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "115472", fldName, "HC - Economic History & Conditions");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC2", fldName, startLC + "H - Social Sciences|HG - Finance");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC22", fldName, startLC + "C - Historical Sciences (Archaeology, Genealogy)|CB - History of Civilization");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2913114", fldName, startLC + "D - World History|DH - Low Countries (History)");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1732616", fldName, startLC + "Q - Science|QA - Mathematics");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "115472", fldName, startLC + "H - Social Sciences|HC - Economic History & Conditions");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2913114", fldName, startLC + "D - World History|DH - Low Countries (History)");
 		// mult values for a single doc
-		solrFldMapTest.assertSolrFldValue(testFilePath, "3400092", fldName, "DC - France (History)");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "3400092", fldName, startLC + "D - World History|DC - France (History)");
 
 		// three char LC classification
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC3NoDec", fldName, "K - Law");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC3Dec", fldName, "K - Law");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC3DecSpace", fldName, "K - Law");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3NoDec", fldName, "KJH - Law of Andorra");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3Dec", fldName, "KJH - Law of Andorra");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3DecSpace", fldName, "KJH - Law of Andorra");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC3NoDec", fldName, startLC + "K - Law|K - Law");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC3Dec", fldName, startLC + "K - Law|K - Law");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC3DecSpace", fldName, startLC + "K - Law|K - Law");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3NoDec", fldName, startLC + "K - Law|KJH - Law of Andorra");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3Dec", fldName, startLC + "K - Law|KJH - Law of Andorra");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3DecSpace", fldName, startLC + "K - Law|KJH - Law of Andorra");
 
 		// LCPER
-		solrFldMapTest.assertSolrFldValue(testFilePath, "460947", fldName, "E - History of the Americas (General)");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "460947", fldName, startLC + "E - History of the Americas (General)|E - History of the Americas (General)");
 	}
-
-	/**
-	 * lc_b4cutter_facet contains the portion of local LC call numbers
-	 *  before the Cutter.
-	 */
-@Test
-	public final void testLCB4Cutter()
-	{
-		String fldName = "lc_b4cutter_facet";
-
-		// search for LC values
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "6661112", fldName, "Z");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "6661112", fldName, "Z3871");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC1dec", fldName, "D764.7");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC22", fldName, "C");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC22", fldName, "CB");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC22", fldName, "CB3");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC1dec", fldName, "D810");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "2913114", fldName, "D810");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "3400092", fldName, "D810");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2913114", fldName, "DH135");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC3NoDec", fldName, "K");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC3NoDec", fldName, "KJ");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC3NoDec", fldName, "KJH");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3NoDec", fldName, "KJH2678");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3DecSpace", fldName, "KJH66.6");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1033119", fldName, "BX4659");
-		// tricky cutter
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "115472", fldName, "HC241");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "115472", fldName, "HC241.25");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "3400092", fldName, "DC34.5");
-
-		// LCPER
-		solrFldMapTest.assertSolrFldValue(testFilePath, "460947", fldName, "E184");
-	}
-
 
 	/**
 	 * callnum_search contains all local call numbers, except those that are
@@ -270,86 +159,29 @@ public class CallNumberTests extends AbstractStanfordTest
 
 
 	/**
-	 * callnum_top_facet, for dewey, should be DEWEY_TOP_FACET_VAL
-	 */
-@Test
-	public final void testTopFacetDewey()
-	{
-		String fldName = "callnum_top_facet";
-		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2328381", fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "DeweyVol", fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
-	}
-
-
-	/**
-	 * dewey_1digit_facet contains the hundreds digit of a Dewey call
-	 *  number along with a user friendly description of the broad topic so
-	 *  indicated
-	 */
-@Test
-	public final void testLevel2FacetDewey()
-	{
-		String fldName = "dewey_1digit_facet";
-		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, "100s - Philosophy & Psychology");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2328381", fldName, "800s - Literature");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2214009", fldName, "300s - Social Sciences");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1849258", fldName, "300s - Social Sciences");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, "000s - Computer Science, Information & General Works");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "11", fldName, "000s - Computer Science, Information & General Works");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2", fldName, "000s - Computer Science, Information & General Works");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "22", fldName, "000s - Computer Science, Information & General Works");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "3", fldName, "900s - History & Geography");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, "900s - History & Geography");
-	}
-
-	/**
 	 * dewey_2digit_facet contains the hundred and tens digits of a
 	 *  Dewey call number (e.g 710s), along with a user friendly description of
 	 *  the topic indicated by the numbers.
 	 */
 @Test
-	public final void testLevel3FacetDewey()
+	public final void testDeweyCallnums()
 	{
-		String fldName = "dewey_2digit_facet";
-		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, "150s - Psychology");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2328381", fldName, "820s - English & Old English Literatures");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1849258", fldName, "350s - Public Administration");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2214009", fldName, "370s - Education");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, "000s - Computer Science, Information & General Works");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "11", fldName, "000s - Computer Science, Information & General Works");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2", fldName, "020s - Library & Information Sciences");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "22", fldName, "020s - Library & Information Sciences");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "3", fldName, "990s - General History of Other Areas");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, "990s - General History of Other Areas");
+		String fldName = "callnum_facet_sim";
+		String firstPart = edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL + "|";
+		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, firstPart + "100s - Philosophy & Psychology|150s - Psychology");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2328381", fldName, firstPart + "800s - Literature|820s - English & Old English Literatures");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1849258", fldName, firstPart + "300s - Social Sciences|350s - Public Administration");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2214009", fldName, firstPart + "300s - Social Sciences|370s - Education");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "DeweyVol", fldName, firstPart + "600s - Technology|660s - Chemical Engineering");
+		// these have leading zeros
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, firstPart + "000s - Computer Science, Information & General Works|000s - Computer Science, Information & General Works");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "11", fldName, firstPart + "000s - Computer Science, Information & General Works|000s - Computer Science, Information & General Works");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2", fldName, firstPart + "000s - Computer Science, Information & General Works|020s - Library & Information Sciences");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "22", fldName, firstPart + "000s - Computer Science, Information & General Works|020s - Library & Information Sciences");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "3", fldName, firstPart + "900s - History & Geography|990s - General History of Other Areas");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, firstPart + "900s - History & Geography|990s - General History of Other Areas");
 	}
 
-
-	/**
-	 * dewey_b4cutter_facet contains the portion of the Dewey call
-	 * numbers before the Cutter.
-	 */
-@Test
-	public final void testLevel4FacetDewey()
-	{
-		String fldName = "dewey_b4cutter_facet";
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "690002", fldName, "159");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, "159.32");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "2328381", fldName, "827");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2328381", fldName, "827.5");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "1849258", fldName, "352");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1849258", fldName, "352.042");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "2214009", fldName, "370");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2214009", fldName, "370.1");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, "001");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "11", fldName, "001.123");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2", fldName, "022");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "22", fldName, "022.456");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "3", fldName, "999");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, "999.85");
-	}
 
 	/**
 	 * callnum_search contains local call numbers.  LC and other searching
@@ -371,103 +203,50 @@ public class CallNumberTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, "999.85 .P84");
 	}
 
-
 	/**
-	 * test addition of leading zeros to Dewey call numbers with fewer than
-	 *  three digits before the decimal (or implied decimal)
-	 */
-@Test
-	public final void testDeweyLeadingZeros()
-	{
-		String fldName = "dewey_1digit_facet";
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, "000s - Computer Science, Information & General Works");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "11", fldName, "000s - Computer Science, Information & General Works");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2", fldName, "000s - Computer Science, Information & General Works");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "22", fldName, "000s - Computer Science, Information & General Works");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "3", fldName, "900s - History & Geography");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, "900s - History & Geography");
-
-		fldName = "dewey_2digit_facet";
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, "000s - Computer Science, Information & General Works");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "11", fldName, "000s - Computer Science, Information & General Works");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2", fldName, "020s - Library & Information Sciences");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "22", fldName, "020s - Library & Information Sciences");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "3", fldName, "990s - General History of Other Areas");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, "990s - General History of Other Areas");
-
-		fldName = "dewey_b4cutter_facet";
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, "001");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "11", fldName, "001.123");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2", fldName, "022");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "22", fldName, "022.456");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "3", fldName, "999");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, "999.85");
-	}
-
-
-	/**
-	 * Call number top level facet should be GOV_DOC_TOP_FACET_VAL if the "type"
+	 * Call number facet should be gov doc if the "type"
 	 *  of call number indicated in the 999 is "SUDOC" or if there is an 086
 	 *  present
 	 */
 @Test
-	public final void testGovtDocFromSUDOC()
+	public final void testGovtDocCallnumFromSUDOC()
 	{
-		String fldName = "callnum_top_facet";
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2557826", fldName, govDocStr);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "5511738", fldName, govDocStr);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2678655", fldName, govDocStr);
+		/**  @deprecated field replaced callnum_facet_sim */
+		String fldName = "callnum_facet_sim";
+	    String firstPart = edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL + "|";
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2557826", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5511738", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_UNKNOWN_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2678655", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
 	}
 
-
 	/**
-	 * Call number top level facet should be "Gov't Doc" if the location is
-	 *  a gov doc location, regardless of the type of call number
-	 */
-@Test
-	public final void testGovDocFromLocation()
-	{
-		String fldName = "callnum_top_facet";
-	    testFilePath = testDataParentPath + File.separator + "callNumberGovDocTests.mrc";
-		solrFldMapTest.assertSolrFldValue(testFilePath, "brit", fldName, edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "calif", fldName, edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "fed", fldName, edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "intl", fldName, edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcdocs", fldName, edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcfiche", fldName, edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcnwdoc", fldName, edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "sudoc", fldName, edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL);
-
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "ssrcfiche", fldName, "300s - Social Sciences");
-
-		// item has LC call number AND item has gov doc location
-		solrFldMapTest.assertSolrFldValue(testFilePath, "brit", fldName, "Z - Bibliography, Library Science, Information Resources");
-	}
-
-
-	/**
-	 * Call number top level facet should be both the LC call number stuff AND
+	 * Call number facet should be both the LC call number stuff AND
 	 *  "Gov't Doc" if the "type" of call number is LC and the location is
 	 *  a gov doc location.
 	 * If the call number is labeled LC, but does not parse, and the location is
-	 *  a gov doc location, then the top level facet hsould be gov doc only.
+	 *  a gov doc location, then the facet should be gov doc only.
 	 */
 @Test
-	public final void testLevel2FacetGovDoc()
+	public final void testGovDocCallnumFromLocation()
 	{
-		String fldName = "gov_doc_type_facet";
+		String fldName = "callnum_facet_sim";
 	    testFilePath = testDataParentPath + File.separator + "callNumberGovDocTests.mrc";
+	    String firstPart = edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL + "|";
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "brit", fldName, edu.stanford.CallNumUtils.GOV_DOC_BRIT_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "calif", fldName, edu.stanford.CallNumUtils.GOV_DOC_CALIF_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "intl", fldName, edu.stanford.CallNumUtils.GOV_DOC_INTL_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "fed", fldName, edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcdocs", fldName, edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcfiche", fldName, edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcnwdoc", fldName, edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "sudoc", fldName, edu.stanford.CallNumUtils.GOV_DOC_UNKNOWN_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "brit", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_BRIT_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "calif", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_CALIF_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "intl", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_INTL_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "fed", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcdocs", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcfiche", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcnwdoc", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "sudoc", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_UNKNOWN_FACET_VAL);
 
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "brit", fldName, govDocStr);
+		// ensure item has LC call number AND item has gov doc location
+		solrFldMapTest.assertSolrFldValue(testFilePath, "brit", fldName, edu.stanford.CallNumUtils.LC_TOP_FACET_VAL + "|Z - Bibliography, Library Science, Information Resources|Z - Bibliography, Library Science, Information Resources");
+
+		// but not dewey
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "ssrcfiche", fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL + "|300s - Social Sciences|300s - Social Sciences|370s - Education");
 	}
 
 
@@ -492,7 +271,7 @@ public class CallNumberTests extends AbstractStanfordTest
 @Test
 	public final void testIgnoreShelbyLocations()
 	{
-		String fldName = "lc_b4cutter_facet";
+		String fldName = "callnum_facet_sim";
 		MarcFactory factory = MarcFactory.newInstance();
 		Record record = factory.newRecord();
 	    DataField df = factory.newDataField("999", ' ', ' ');
@@ -529,7 +308,7 @@ public class CallNumberTests extends AbstractStanfordTest
 @Test
 	public final void testIgnoreBizShelbyLocations()
 	{
-		String fldName = "lc_b4cutter_facet";
+		String fldName = "callnum_facet_sim";
 		MarcFactory factory = MarcFactory.newInstance();
 		String[] bizShelbyLocs = {"NEWS-STKS"};
 		for (String loc : bizShelbyLocs)
@@ -542,7 +321,7 @@ public class CallNumberTests extends AbstractStanfordTest
 		    df.addSubfield(factory.newSubfield('l', loc));
 		    df.addSubfield(factory.newSubfield('m', "BUSINESS"));
 		    record.addVariableField(df);
-		    solrFldMapTest.assertSolrFldHasNoValue(record, fldName, "PQ9661");
+		    solrFldMapTest.assertSolrFldHasNoValue(record, fldName, edu.stanford.CallNumUtils.LC_TOP_FACET_VAL + "|P - Language & Literature|PQ - French, Italian, Spanish & Portuguese Literature");
 
 		    // don't ignore these locations if used by other libraries
 		    df = factory.newDataField("999", ' ', ' ');
@@ -552,7 +331,7 @@ public class CallNumberTests extends AbstractStanfordTest
 		    df.addSubfield(factory.newSubfield('l', loc));
 		    df.addSubfield(factory.newSubfield('m', "GREEN"));
 		    record.addVariableField(df);
-		    solrFldMapTest.assertSolrFldValue(record, fldName, "ML9661");
+		    solrFldMapTest.assertSolrFldValue(record, fldName, edu.stanford.CallNumUtils.LC_TOP_FACET_VAL + "|M - Music|ML - Literature on Music");
 		}
 	}
 
