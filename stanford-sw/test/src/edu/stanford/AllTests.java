@@ -17,7 +17,6 @@ import org.junit.runners.Suite;
         CallNumLibLocComboLopTests.class,
         CallNumLongestComnPfxTests.class,
         CallNumLoppingUnitTests.class,
-        CallNumTopFacetTests.class,
         CallNumUtilsLoppingUnitTests.class,
         DatabaseAZSubjectTests.class,
         DiacriticTests.class,

@@ -6,12 +6,12 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         CallNumberTests.class,
+        CallNumFacetSimTests.class,
         CallNumLaneTests.class,
         CallNumLCLoppingUnitTests.class,
         CallNumLibLocComboLopTests.class,
         CallNumLongestComnPfxTests.class,
         CallNumLoppingUnitTests.class,
-        CallNumTopFacetTests.class,
         CallNumUtilsLoppingUnitTests.class,
         ItemDisplayCallnumLoppingTests.class,
         ItemInfoTests.class,
@@ -23,7 +23,7 @@ import org.junit.runners.Suite;
 //        org.solrmarc.index.CallNumberUnitTests.class
         })
 
-        
-public class AllCallnumTests 
+
+public class AllCallnumTests
 {
 }
