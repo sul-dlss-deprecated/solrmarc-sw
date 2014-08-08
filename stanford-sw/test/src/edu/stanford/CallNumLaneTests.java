@@ -61,11 +61,11 @@ public class CallNumLaneTests extends AbstractStanfordTest
 @Test
 	public final void testFacetVals()
 	{
-		String fldName = "callnum_top_facet";
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidLC", fldName, "A - General Works");
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidDewey", fldName, CallNumUtils.DEWEY_TOP_FACET_VAL);
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "JacksonValidLC", fldName, "A - General Works");
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "JacksonValidDewey", fldName, CallNumUtils.DEWEY_TOP_FACET_VAL);
+		String fldName = "callnum_facet_sim";
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidLC", fldName, CallNumUtils.LC_TOP_FACET_VAL + "|A - General Works|A - General Works");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidDewey", fldName, CallNumUtils.DEWEY_TOP_FACET_VAL + "|600s - Technology|660s - Chemical Engineering");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "JacksonValidLC", fldName, CallNumUtils.LC_TOP_FACET_VAL + "|A - General Works|A - General Works");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "JacksonValidDewey", fldName, CallNumUtils.DEWEY_TOP_FACET_VAL + "|600s - Technology|660s - Chemical Engineering");
 		solrFldMapTest.assertNoSolrFld(testFilePath, "7811196", fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "8238755", fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "8373645", fldName);

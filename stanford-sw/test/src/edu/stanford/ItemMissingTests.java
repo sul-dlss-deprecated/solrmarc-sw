@@ -34,18 +34,16 @@ public class ItemMissingTests extends AbstractStanfordTest
 @Test
 	public final void testFacetVals()
 	{
-		String fldName = "callnum_top_facet";
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "onlyMissing", fldName, CallNumUtils.DEWEY_TOP_FACET_VAL);
+		String fldName = "callnum_facet_sim";
 		solrFldMapTest.assertNoSolrFld(testFilePath, "onlyMissing", fldName);
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "missingDiff", fldName, "B - Philosophy, Psychology, Religion");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "missingDiff", fldName, "A - General Works");
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "missingSame", fldName, "T - Technology");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "missingDiff", fldName, CallNumUtils.LC_TOP_FACET_VAL + "|B - Philosophy, Psychology, Religion|B - Philosophy, Psychology, Religion");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "missingDiff", fldName, CallNumUtils.LC_TOP_FACET_VAL + "|A - General Works|A - General Works");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "missingSame", fldName, CallNumUtils.LC_TOP_FACET_VAL + "|T - Technology|TR - Photography");
 
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "onlyLost", fldName, CallNumUtils.DEWEY_TOP_FACET_VAL);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "onlyLost", fldName);
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "lostDiff", fldName, "B - Philosophy, Psychology, Religion");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "lostDiff", fldName, "A - General Works");
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "lostSame", fldName, "T - Technology");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "lostDiff", fldName, CallNumUtils.LC_TOP_FACET_VAL + "|B - Philosophy, Psychology, Religion|B - Philosophy, Psychology, Religion");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "lostDiff", fldName, CallNumUtils.LC_TOP_FACET_VAL + "|A - General Works|A - General Works");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "lostSame", fldName, CallNumUtils.LC_TOP_FACET_VAL + "|T - Technology|TR - Photography");
 	}
 
 	private static String LCA_CNUM = "A1 .B2";
