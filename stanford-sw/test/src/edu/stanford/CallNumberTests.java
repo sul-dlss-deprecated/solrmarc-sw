@@ -57,9 +57,8 @@ public class CallNumberTests extends AbstractStanfordTest
 	}
 
 	/**
-	 * lc_alpha_facet contains the first alpha portion of the local LC
-	 *  call number along with a user friendly description of the topic
-	 *  indicated by the letters.
+	 * callnum_facet_sim contains the a user friendly hierarchical version of
+	 * local LC call number topic indicated by the letters.
 	 */
 @Test
 	public final void testLC()
@@ -159,9 +158,9 @@ public class CallNumberTests extends AbstractStanfordTest
 
 
 	/**
-	 * dewey_2digit_facet contains the hundred and tens digits of a
-	 *  Dewey call number (e.g 710s), along with a user friendly description of
-	 *  the topic indicated by the numbers.
+	 * callnum_facet_sim contains the a user friendly hierarchical version of
+	 * local Dewey call number topic indicated by the hundred and tens digits of a
+	 *  Dewey call number.
 	 */
 @Test
 	public final void testDeweyCallnums()
@@ -203,52 +202,7 @@ public class CallNumberTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, "999.85 .P84");
 	}
 
-	/**
-	 * Call number facet should be gov doc if the "type"
-	 *  of call number indicated in the 999 is "SUDOC" or if there is an 086
-	 *  present
-	 */
-@Test
-	public final void testGovtDocCallnumFromSUDOC()
-	{
-		/**  @deprecated field replaced callnum_facet_sim */
-		String fldName = "callnum_facet_sim";
-	    String firstPart = edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL + "|";
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2557826", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "5511738", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_UNKNOWN_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2678655", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
-	}
-
-	/**
-	 * Call number facet should be both the LC call number stuff AND
-	 *  "Gov't Doc" if the "type" of call number is LC and the location is
-	 *  a gov doc location.
-	 * If the call number is labeled LC, but does not parse, and the location is
-	 *  a gov doc location, then the facet should be gov doc only.
-	 */
-@Test
-	public final void testGovDocCallnumFromLocation()
-	{
-		String fldName = "callnum_facet_sim";
-	    testFilePath = testDataParentPath + File.separator + "callNumberGovDocTests.mrc";
-	    String firstPart = edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL + "|";
-
-		solrFldMapTest.assertSolrFldValue(testFilePath, "brit", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_BRIT_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "calif", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_CALIF_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "intl", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_INTL_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "fed", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcdocs", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcfiche", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcnwdoc", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "sudoc", fldName, firstPart + edu.stanford.CallNumUtils.GOV_DOC_UNKNOWN_FACET_VAL);
-
-		// ensure item has LC call number AND item has gov doc location
-		solrFldMapTest.assertSolrFldValue(testFilePath, "brit", fldName, edu.stanford.CallNumUtils.LC_TOP_FACET_VAL + "|Z - Bibliography, Library Science, Information Resources|Z - Bibliography, Library Science, Information Resources");
-
-		// but not dewey
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "ssrcfiche", fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL + "|300s - Social Sciences|300s - Social Sciences|370s - Education");
-	}
-
+	// See CallNumFacetSimTests for gov doc call number tests
 
 	/**
 	 * access facet should be "Online" for call number "INTERNET RESOURCE"
