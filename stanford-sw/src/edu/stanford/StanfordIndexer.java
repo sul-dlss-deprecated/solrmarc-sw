@@ -372,27 +372,27 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			}
 
 			/* If the call number prefixes in the MARC 999a are for Manuscript/Archive items, add Manuscript/Archive format
-			 * A (e.g. A0015), F (e.g. F0110), M (e.g. M1810), MISC (e.g. MISC 1773), MSS CODEX (e.g. MSS CODEX 0335), 
-				MSS MEDIA (e.g. MSS MEDIA 0025), MSS PHOTO (e.g. MSS PHOTO 0463), MSS PRINTS (e.g. MSS PRINTS 0417), 
-				PC (e.g. PC0012), SC (e.g. SC1076), SCD (e.g. SCD0012), SCM (e.g. SCM0348), and V (e.g. V0321).  However, 
+			 * A (e.g. A0015), F (e.g. F0110), M (e.g. M1810), MISC (e.g. MISC 1773), MSS CODEX (e.g. MSS CODEX 0335),
+				MSS MEDIA (e.g. MSS MEDIA 0025), MSS PHOTO (e.g. MSS PHOTO 0463), MSS PRINTS (e.g. MSS PRINTS 0417),
+				PC (e.g. PC0012), SC (e.g. SC1076), SCD (e.g. SCD0012), SCM (e.g. SCM0348), and V (e.g. V0321).  However,
 				A, F, M, PC, and V are also in the Library of Congress classification which could be in the 999a, so need to make sure that
 				the call number type in the 999w == ALPHANUM and the library in the 999m == SPEC-COLL.
 			 */
-			if (item.getLibrary().equals("SPEC-COLL") && item.getCallnumType().equals(CallNumberType.ALPHANUM)) 
+			if (item.getLibrary().equals("SPEC-COLL") && item.getCallnumType().equals(CallNumberType.ALPHANUM))
 			{
 				Pattern callNumPattern = Pattern.compile("^(A\\d|F\\d|M\\d|MISC \\d|(MSS (CODEX|MEDIA|PHOTO|PRINTS))|PC\\d|SC[\\d|D|M]|V\\d).*", Pattern.CASE_INSENSITIVE);
 				Matcher callNumMatcher = callNumPattern.matcher(item.getCallnum());
 
 				if (callNumMatcher.matches())
 					main_formats.add(Format.MANUSCRIPT_ARCHIVE.toString());
-			}	
-			
-			 // INDEX-124 If 245h = [manuscript] and 999m = LANE-MED --> Book resource type 
+			}
+
+			 // INDEX-124 If 245h = [manuscript] and 999m = LANE-MED --> Book resource type
 			DataField title = (DataField) record.getVariableField("245");
 			if (title != null && title.getSubfield('h') != null)
 				if (item.hasLaneLoc() && title.getSubfield('h').toString().contains("manuscript"))
 					main_formats.add(Format.BOOK.toString());
-			
+
 			// INDEX-124 If Leader/06 = a or t and Leader/07 = c or d and 999m = LANE-MED, assign Book as Resource Type
 			// remove Archive/Manuscript resource type and add Book resource type
 			if (item.hasLaneLoc()) {
@@ -429,7 +429,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				}
 			}
 		}
-		
+
 		// if we still don't have a format, it's an "other"
 		if (main_formats.isEmpty() || main_formats.size() == 0)
 			main_formats.add(Format.OTHER.toString());
@@ -1569,6 +1569,69 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					result.add(callnum);
 			}
 		}
+		return result;
+	}
+
+	/**
+	 * Get hierarchical values for call number facet
+	 *  for LC:
+	 *    "LC Classification|(first class letter trans)|(class letter trans)"
+	 *      e.g. "LC Classification|M - Music|ML - Music Literature"
+	 *      e.g. "LC Classification|M - Music|M - Music"
+	 *  for Dewey:
+	 *    "Dewey Classification|(first digit trans)|(first 2 digits trans)"
+	 *      e.g. "Dewey Classification|200s - Religion|210s - Natural Theology"
+	 *      e.g. "Dewey Classification|200s - Religion|200s - Religion"
+	 *  for gov docs:
+	 *    "Government Document|(type)"
+	 *      e.g. "Government Document|Federal"
+	 *  other types of call numbers currently ignored
+	 *
+	 * note that the separator is passed in
+	 *
+	 *  it is expected that these values will go to a field analyzed with
+	 *   solr.PathHierarchyTokenizerFactory  so a value like
+	 *    "LC Classification|M - Music|ML - Music Literature"
+	 *  will be indexed as 3 values:
+	 *    "LC Classification|M - Music|ML - Music Literature"
+	 *    "LC Classification|M - Music"
+	 *    "LC Classification"
+	 * @param record a marc4j Record object
+	 * @param separator the char(s) to use as a separator between levels of the hierarchy within a value
+	 * @param mapName the name of the translation map for the call number values
+	 */
+	public Set<String> getCallNumHierarchVals(final Record record, String separator, String mapName)
+	{
+		Set<String> result = new HashSet<String>();
+		for (String callnum : lcCallnums)
+		{
+			String firstLet = callnum.substring(0, 1).toUpperCase();
+			String letters = org.solrmarc.tools.CallNumUtils.getLCstartLetters(callnum);
+            if (firstLet != null && mapName != null && findTranslationMap(mapName) != null)
+           	{
+               	firstLet = Utils.remap(firstLet, findTranslationMap(mapName), true);
+               	letters = Utils.remap(letters, findTranslationMap(mapName), true);
+           	}
+			result.add(CallNumUtils.LC_TOP_FACET_VAL + separator + firstLet + separator + letters);
+		}
+
+		// TODO: ?need to REMOVE LC callnum if it's a gov doc location? not sure.
+		if (govDocCats.size() > 0)
+//			result.add(CallNumUtils.GOV_DOC_TOP_FACET_VAL);
+			result.add(CallNumUtils.GOV_DOC_TOP_FACET_VAL + separator + "second");
+
+		for (String callnum : deweyCallnums)
+		{
+			String firstDigit = callnum.substring(0, 1) + "00s";
+			String twoDigits = callnum.substring(0, 2) + "0s";
+            if (mapName != null && findTranslationMap(mapName) != null)
+           	{
+            	firstDigit = Utils.remap(firstDigit, findTranslationMap(mapName), true);
+            	twoDigits = Utils.remap(twoDigits, findTranslationMap(mapName), true);
+           	}
+			result.add(CallNumUtils.DEWEY_TOP_FACET_VAL + separator + firstDigit + separator + twoDigits);
+		}
+
 		return result;
 	}
 

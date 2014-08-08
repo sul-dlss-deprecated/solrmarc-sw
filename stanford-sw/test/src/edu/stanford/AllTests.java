@@ -11,6 +11,7 @@ import org.junit.runners.Suite;
         AuthorTitleMappingTests.class,
         BibOnlyXmlTests.class,
         CallNumberTests.class,
+        CallNumFacetSimTests.class,
         CallNumLaneTests.class,
         CallNumLCLoppingUnitTests.class,
         CallNumLibLocComboLopTests.class,
