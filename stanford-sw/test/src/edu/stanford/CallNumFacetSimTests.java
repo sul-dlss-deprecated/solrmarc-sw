@@ -1,5 +1,6 @@
 package edu.stanford;
 
+import java.io.File;
 import java.util.*;
 
 import org.junit.*;
@@ -174,7 +175,7 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 		solrFldMapTest.assertNoSolrFld(record, fldName);
 		record = getRecordWith999(Item.TMP_CALLNUM_PREFIX + "stuff", CallNumberType.LC);
 		solrFldMapTest.assertNoSolrFld(record, fldName);
-		// skipped callnåums
+		// skipped callnums
 		for (String skippedCallnum : StanfordIndexer.SKIPPED_CALLNUMS)
 		{
 			record = getRecordWith999(skippedCallnum, CallNumberType.LC);
@@ -558,19 +559,142 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 
 //---- Gov Doc (call numbers) --------------------------------
 
+	/**
+	 * some real life gov doc examples
+	 */
+@Test
 	public void testGovDocs()
 	{
-		Assert.fail("need to write govdoc tests");
+		String firstPart = CallNumUtils.GOV_DOC_TOP_FACET_VAL + "|";
 
-		// a| ICAO DOC 4444/15TH ED w| ALPHANUM c| 1 i| 36105133579198 d| 7/17/2008 e| 6/25/2008 l| INTL-DOCS m| GREEN n| 1 r| Y s| Y t| GOVSTKS
+		// due to gov doc location
+		for (String govDocLoc : StanfordIndexer.GOV_DOC_LOCS)
+		{
+			DataField df999 = factory.newDataField("999", ' ', ' ');
+			df999.addSubfield(factory.newSubfield('a', "ICAO DOC 4444/15TH ED"));
+			df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+			df999.addSubfield(factory.newSubfield('l', govDocLoc));
+			Record record = factory.newRecord();
+			record.addVariableField(df999);
+			solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
+		}
 
-		// a| I 19.76:97-600-C w| SUDOC c| 1 i| 36105050083034 l| SSRC-FICHE m| GREEN r| Y s| Y t| NONCIRC u| 11/12/1999 x| MARCIV
-		// a| I 19.66:979-981 w| SUDOC c| 1 i| 36105122902526 d| 10/25/2007 e| 8/10/2007 l| FED-DOCS m| GREEN n| 1 r| Y s| Y t| GOVSTKS u| 7/10/2007
+		// a| CALIF L425 .L52 w| ALPHANUM c| 1 i| 36105132406864 k| BINDERY l| CALIF-DOCS m| GREEN t| GOVSTKS u| 5/30/2014
+		DataField df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "CALIF L425 .L52"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('l', "CALIF-DOCS"));
+		Record record = factory.newRecord();
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, firstPart + CallNumUtils.GOV_DOC_CALIF_FACET_VAL);
 
-		// a| Y 3.2:C 44/C 76/2013+ERRATA w| SUDOC c| 1 i| 36105050649727 d| 7/23/2014 e| 6/13/2014 l| FED-DOCS m| GREEN r| Y s| Y t| GOVSTKS u| 1/25/2014 x| MARCIVE
+		// a| ICAO DOC 4444/15TH ED w| ALPHANUM c| 1 i| 36105133579198 l| INTL-DOCS m| GREEN t| GOVSTKS
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "ICAO DOC 4444/15TH ED"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('l', "INTL-DOCS"));
+		record = factory.newRecord();
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, firstPart + CallNumUtils.GOV_DOC_INTL_FACET_VAL);
 
-		// a| CALIF L425 .L52 w| ALPHANUM c| 1 i| 36105132406864 d| 6/9/2014 e| 6/9/2014 k| BINDERY l| CALIF-DOCS m| GREEN r| M s| Y t| GOVSTKS u| 5/30/2014
+		// a| I 19.76:97-600-C w| SUDOC c| 1 i| 36105050083034 l| SSRC-FICHE m| GREEN t| NONCIRC u| 11/12/1999 x| MARCIV
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "I 19.76:97-600-C"));
+		df999.addSubfield(factory.newSubfield('w', "SUDOC"));
+		df999.addSubfield(factory.newSubfield('l', "SSRC-FICHE"));
+		record = factory.newRecord();
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, firstPart + CallNumUtils.GOV_DOC_FED_FACET_VAL);
 
+		// a| I 19.66:979-981 w| SUDOC c| 1 i| 36105122902526 l| FED-DOCS m| GREEN t| GOVSTKS
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "I 19.66:979-981"));
+		df999.addSubfield(factory.newSubfield('w', "SUDOC"));
+		df999.addSubfield(factory.newSubfield('l', "FED-DOCS"));
+		record = factory.newRecord();
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, firstPart + CallNumUtils.GOV_DOC_FED_FACET_VAL);
+
+		// a| Y 3.2:C 44/C 76/2013+ERRATA w| SUDOC c| 1 i| 36105050649727 l| FED-DOCS m| GREEN t| GOVSTKS x| MARCIVE
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "Y 3.2:C 44/C 76/2013+ERRATA"));
+		df999.addSubfield(factory.newSubfield('w', "SUDOC"));
+		df999.addSubfield(factory.newSubfield('l', "FED-DOCS"));
+		record = factory.newRecord();
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, firstPart + CallNumUtils.GOV_DOC_FED_FACET_VAL);
+
+		// callnum type is SUDOC
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "something"));
+		df999.addSubfield(factory.newSubfield('w', "SUDOC"));
+		df999.addSubfield(factory.newSubfield('l', "somewhere"));
+		record = factory.newRecord();
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, firstPart + CallNumUtils.GOV_DOC_UNKNOWN_FACET_VAL);
+
+
+		// due to presence of 086
+		DataField df086 = factory.newDataField("086", ' ', ' ');
+
+		// a| ICAO DOC 4444/15TH ED w| ALPHANUM c| 1 i| 36105133579198 l| INTL-DOCS m| GREEN t| GOVSTKS
+		df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "something"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('l', "somewhere"));
+		record = factory.newRecord();
+		record.addVariableField(df999);
+		solrFldMapTest.assertNoSolrFld(record, fldName);
+		record.addVariableField(df086);  // not SUDOC, so recognized as gov doc by 086
+		solrFldMapTest.assertSolrFldValue(record, fldName, firstPart + CallNumUtils.GOV_DOC_UNKNOWN_FACET_VAL);
+	}
+
+	private String fileName = "callNumberTests.mrc";
+    private String testFilePath = testDataParentPath + File.separator + fileName;
+
+	/**
+	 * Call number facet should be gov doc if the "type"
+	 *  of call number indicated in the 999 is "SUDOC" or if there is an 086
+	 *  present
+	 */
+@Test
+	public final void govDocCallnumFromSUDOC()
+	{
+		String fldName = "callnum_facet_sim";
+	    String firstPart = CallNumUtils.GOV_DOC_TOP_FACET_VAL + "|";
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2557826", fldName, firstPart + CallNumUtils.GOV_DOC_FED_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5511738", fldName, firstPart + CallNumUtils.GOV_DOC_UNKNOWN_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2678655", fldName, firstPart + CallNumUtils.GOV_DOC_FED_FACET_VAL);
+	}
+
+	/**
+	 * Call number facet should be both the LC call number stuff AND
+	 *  "Gov't Doc" if the "type" of call number is LC and the location is
+	 *  a gov doc location.
+	 * If the call number is labeled LC, but does not parse, and the location is
+	 *  a gov doc location, then the facet should be gov doc only.
+	 */
+@Test
+	public final void govDocCallnumFromLocation()
+	{
+		String fldName = "callnum_facet_sim";
+	    testFilePath = testDataParentPath + File.separator + "callNumberGovDocTests.mrc";
+	    String firstPart = CallNumUtils.GOV_DOC_TOP_FACET_VAL + "|";
+
+		solrFldMapTest.assertSolrFldValue(testFilePath, "brit", fldName, firstPart + CallNumUtils.GOV_DOC_BRIT_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "calif", fldName, firstPart + CallNumUtils.GOV_DOC_CALIF_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "intl", fldName, firstPart + CallNumUtils.GOV_DOC_INTL_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "fed", fldName, firstPart + CallNumUtils.GOV_DOC_FED_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcdocs", fldName, firstPart + CallNumUtils.GOV_DOC_FED_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcfiche", fldName, firstPart + CallNumUtils.GOV_DOC_FED_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcnwdoc", fldName, firstPart + CallNumUtils.GOV_DOC_FED_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "sudoc", fldName, firstPart + CallNumUtils.GOV_DOC_UNKNOWN_FACET_VAL);
+
+		// ensure item has LC call number AND item has gov doc location
+		solrFldMapTest.assertSolrFldValue(testFilePath, "brit", fldName, CallNumUtils.LC_TOP_FACET_VAL + "|Z - Bibliography, Library Science, Information Resources|Z - Bibliography, Library Science, Information Resources");
+
+		// but not dewey
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "ssrcfiche", fldName, CallNumUtils.DEWEY_TOP_FACET_VAL + "|300s - Social Sciences|300s - Social Sciences|370s - Education");
 	}
 
 

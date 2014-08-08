@@ -1623,10 +1623,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			result.add(CallNumUtils.LC_TOP_FACET_VAL + separator + firstLet + separator + letters);
 		}
 
-		// TODO: ?need to REMOVE LC callnum if it's a gov doc location? not sure.
-		if (govDocCats.size() > 0)
-//			result.add(CallNumUtils.GOV_DOC_TOP_FACET_VAL);
-			result.add(CallNumUtils.GOV_DOC_TOP_FACET_VAL + separator + "second");
+		for (String govDocCat : govDocCats)
+		{
+			result.add(CallNumUtils.GOV_DOC_TOP_FACET_VAL + separator + govDocCat);
+		}
 
 		for (String callnum : deweyCallnums)
 		{
