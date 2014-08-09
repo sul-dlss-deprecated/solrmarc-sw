@@ -192,6 +192,8 @@ public class ItemUtils {
 
 	/**
 	 * given a set of non-skipped Item objects, return a set of item_display field values
+	 * INDEX-132 For SW redesign Summer 2014, add 999|o (public note) and 999|w (call number type)
+	 * to item_display
 	 * @param itemSet - set of Item objects
 	 * @param isSerial - true if the record is a serial, false otherwise
 	 * @param id - record id, used for error messages
@@ -205,7 +207,9 @@ public class ItemUtils {
 	 *   shelfkey + SEP +
 	 *   reversekey + SEP +
 	 *   fullCallnum + SEP +
-	 *   volSort
+	 *   volSort + SEP +
+	 *   publicNote + SEP +
+	 *   callnumType
 	 */
 	static Set<String> getItemDisplay(Set<Item> itemSet, boolean isSerial, String id)
 	{
@@ -292,6 +296,8 @@ public class ItemUtils {
 				fullCallnum = "";
 
 			// create field
+			// INDEX-132 For SW redesign Summer 2014, add 999|o (public note) and 999|w (call number type)
+			// to item_display
 			result.add( item.getBarcode() + SEP +
 						library + SEP +
 						homeLoc + SEP +
