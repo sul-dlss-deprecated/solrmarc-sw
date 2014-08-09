@@ -1299,12 +1299,13 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	{
 		String fldName = "item_display";
 
-		String callnum = "E184.S75 R47A V.1 1980";
-		String lopped = CallNumUtils.removeLCSerialVolSuffix(callnum) + " ...";
+		String callnum = "E184.S75 R47A 1980";
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.LC,"").toLowerCase();
+		String lopped = CallNumUtils.removeLCVolSuffix(callnum) + " ...";
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
-		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, "");
+		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, !isSerial, "");
 
+		// Has right data for Public Note - all uppercase PUBLIC
 		MarcFactory factory = MarcFactory.newInstance();
 		Record record = factory.newRecord();
 		Leader ldr = factory.newLeader("01247cas a2200337 a 4500");
@@ -1312,13 +1313,69 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	    DataField df = factory.newDataField("999", ' ', ' ');
 	    df.addSubfield(factory.newSubfield('a', callnum));
 	    df.addSubfield(factory.newSubfield('w', "LC"));
-	    df.addSubfield(factory.newSubfield('i', "36105007402873"));
-	    df.addSubfield(factory.newSubfield('l', "STACKS"));
-	    df.addSubfield(factory.newSubfield('m', "BIOLOGY"));
-	    df.addSubfield(factory.newSubfield('o', "Public Note"));
+	    df.addSubfield(factory.newSubfield('o', ".PUBLIC. Note"));
 	    record.addVariableField(df);
-		String expFldVal = "36105007402873 -|- BIOLOGY -|- STACKS -|- " + SEP + SEP + callnum + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + shelfkey + SEP +  SEP + "LC";
+		String expFldVal = SEP + SEP +  SEP + SEP + SEP +  callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + ".PUBLIC. Note" + SEP + "LC";
+		solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
+
+		// Has right data for Public Note - all lowercase public
+		record = factory.newRecord();
+		ldr = factory.newLeader("01247cas a2200337 a 4500");
+		record.setLeader(ldr);
+	    df = factory.newDataField("999", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', callnum));
+	    df.addSubfield(factory.newSubfield('w', "LC"));
+	    df.addSubfield(factory.newSubfield('o', ".public. Note"));
+	    record.addVariableField(df);
+		expFldVal =  SEP + SEP +  SEP + SEP + SEP +  callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + ".public. Note" + SEP + "LC";
+		solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
+
+		// Has right data for Public Note - mixed case public
+		record = factory.newRecord();
+		ldr = factory.newLeader("01247cas a2200337 a 4500");
+		record.setLeader(ldr);
+	    df = factory.newDataField("999", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', callnum));
+	    df.addSubfield(factory.newSubfield('w', "LC"));
+	    df.addSubfield(factory.newSubfield('o', ".PuBlIc. Note"));
+	    record.addVariableField(df);
+		expFldVal =  SEP + SEP +  SEP + SEP + SEP +  callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + ".PuBlIc. Note" + SEP + "LC";
+		solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
+
+		// Has wrong data for Public Note - no periods around public
+		record = factory.newRecord();
+		ldr = factory.newLeader("01247cas a2200337 a 4500");
+		record.setLeader(ldr);
+	    df = factory.newDataField("999", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', callnum));
+	    df.addSubfield(factory.newSubfield('w', "LC"));
+	    df.addSubfield(factory.newSubfield('o', "public Note"));
+	    record.addVariableField(df);
+		expFldVal =  SEP + SEP +  SEP + SEP + SEP +  callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + "LC";
+		solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
+
+		// Has wrong data for Public Note - doesn't start with .PUBLIC.
+		record = factory.newRecord();
+		ldr = factory.newLeader("01247cas a2200337 a 4500");
+		record.setLeader(ldr);
+	    df = factory.newDataField("999", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', callnum));
+	    df.addSubfield(factory.newSubfield('w', "LC"));
+	    df.addSubfield(factory.newSubfield('o', "Note .PUBLIC."));
+	    record.addVariableField(df);
+		expFldVal =  SEP + SEP +  SEP + SEP + SEP +  callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + "LC";
+		solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
+	
+		// Has wrong data for Public Note - doesn't have the word PUBLIC
+		record = factory.newRecord();
+		ldr = factory.newLeader("01247cas a2200337 a 4500");
+		record.setLeader(ldr);
+	    df = factory.newDataField("999", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', callnum));
+	    df.addSubfield(factory.newSubfield('w', "LC"));
+	    df.addSubfield(factory.newSubfield('o', "Note "));
+	    record.addVariableField(df);
+		expFldVal =  SEP + SEP +  SEP + SEP + SEP +  callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + "LC";
 		solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
 	}
 
@@ -1380,6 +1437,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 
 	/**
 	 * test if item_display field is populated correctly, focused on call number types
+	 * Cull Number Types are 	ALPHANUM, DEWEY, LC, SUDOC, THESIS, XX, OTHER
 	 *  item_display contains:  (separator is " -|- ")
 	 *    barcode -|- library(short version) -|- location -|-
 	 *     lopped call number (no volume/part info) -|-
@@ -1392,27 +1450,139 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	{
 		String fldName = "item_display";
 
-		String callnum = "E184.S75 R47A V.1 1980";
-		String lopped = CallNumUtils.removeLCSerialVolSuffix(callnum) + " ...";
-		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.LC,"").toLowerCase();
-		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
-
 		MarcFactory factory = MarcFactory.newInstance();
+		String callnum = "";
+		String shelfkey = "";
+
+		// ALPHANUM
+		callnum = "YUGOSLAV SERIAL 1973";
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.ALPHANUM,"").toLowerCase();
+		String lopped = CallNumUtils.removeLCVolSuffix(callnum) + " ...";
+		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.ALPHANUM, !isSerial, "");
+
 		Record record = factory.newRecord();
 		Leader ldr = factory.newLeader("01247cas a2200337 a 4500");
 		record.setLeader(ldr);
 	    DataField df = factory.newDataField("999", ' ', ' ');
 	    df.addSubfield(factory.newSubfield('a', callnum));
-	    df.addSubfield(factory.newSubfield('w', "LC"));
-	    df.addSubfield(factory.newSubfield('i', "36105007402873"));
-	    df.addSubfield(factory.newSubfield('l', "STACKS"));
-	    df.addSubfield(factory.newSubfield('m', "BIOLOGY"));
-	    df.addSubfield(factory.newSubfield('o', "Public Note"));
+	    df.addSubfield(factory.newSubfield('w', "ALPHANUM"));
 	    record.addVariableField(df);
-		String expFldVal = "36105007402873 -|- BIOLOGY -|- STACKS -|- " + SEP + SEP + callnum + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + shelfkey + SEP + SEP + "LC";
+		String expFldVal = SEP + SEP +  SEP + SEP + SEP +  callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + "ALPHANUM";
 	    solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
-	}
+
+	    // DEWEY
+	    callnum = "370.1 .S655";
+	    shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.DEWEY,"").toLowerCase();
+		lopped = CallNumUtils.removeLCVolSuffix(callnum) + " ...";
+		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.DEWEY, !isSerial, "");
+	    
+	    record = factory.newRecord();
+		ldr = factory.newLeader("01247cas a2200337 a 4500");
+		record.setLeader(ldr);
+	    df = factory.newDataField("999", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', callnum));
+	    df.addSubfield(factory.newSubfield('w', "DEWEY"));
+	    record.addVariableField(df);
+		expFldVal =  SEP + SEP +  SEP + SEP + SEP +  callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + "DEWEY";
+	    solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
+
+	    // LC
+		callnum = "E184.S75 R47A V.1 1980";
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.LC,"").toLowerCase();
+		lopped = CallNumUtils.removeLCVolSuffix(callnum) + " ...";
+		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, !isSerial, "");
+
+	    record = factory.newRecord();
+		ldr = factory.newLeader("01247cas a2200337 a 4500");
+		record.setLeader(ldr);
+	    df = factory.newDataField("999", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', callnum));
+	    df.addSubfield(factory.newSubfield('w', "LC"));
+	    record.addVariableField(df);
+		expFldVal =  SEP + SEP +  SEP + SEP + SEP +  callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + "LC";
+	    solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
+
+	    // SUDOC
+	    callnum = "E 1.28:COO-4274-1";
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.SUDOC,"").toLowerCase();
+		lopped = CallNumUtils.removeLCVolSuffix(callnum) + " ...";
+		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.SUDOC, !isSerial, "");
+
+	    record = factory.newRecord();
+		ldr = factory.newLeader("01247cas a2200337 a 4500");
+		record.setLeader(ldr);
+	    df = factory.newDataField("999", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', callnum));
+	    df.addSubfield(factory.newSubfield('w', "SUDOC"));
+	    record.addVariableField(df);
+		expFldVal = SEP + SEP +  SEP + SEP + SEP +  callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + "SUDOC";
+	    solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
+
+	    // THESIS
+	    callnum = "71 15446";
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.OTHER,"").toLowerCase();
+		lopped = CallNumUtils.removeLCVolSuffix(callnum) + " ...";
+		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.OTHER, !isSerial, "");
+
+	    record = factory.newRecord();
+		ldr = factory.newLeader("01247cas a2200337 a 4500");
+		record.setLeader(ldr);
+	    df = factory.newDataField("999", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', callnum));
+	    df.addSubfield(factory.newSubfield('w', "THESIS"));
+	    record.addVariableField(df);
+		expFldVal = SEP + SEP +  SEP + SEP + SEP +  callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + "OTHER";
+	    solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
+	    
+	    // XX
+	    callnum = "XX(3195846.2579)";
+
+	    record = factory.newRecord();
+		ldr = factory.newLeader("01247cas a2200337 a 4500");
+		record.setLeader(ldr);
+	    df = factory.newDataField("999", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', callnum));
+	    df.addSubfield(factory.newSubfield('w', "XX"));
+	    record.addVariableField(df);
+		expFldVal = SEP + SEP +  SEP + SEP + SEP +  SEP + SEP + SEP +  SEP + SEP + SEP + "OTHER";
+	    solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
+
+	    // ASIS
+	    callnum = "INTERNET RESOURCE";
+
+	    record = factory.newRecord();
+		ldr = factory.newLeader("01247cas a2200337 a 4500");
+		record.setLeader(ldr);
+	    df = factory.newDataField("999", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', callnum));
+	    df.addSubfield(factory.newSubfield('w', "ASIS"));
+	    record.addVariableField(df);
+		expFldVal = SEP + SEP +  SEP + SEP + SEP +  SEP + SEP + SEP +  SEP + SEP + SEP + "OTHER";
+	    solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
+
+	    // OTHER
+	    callnum = "X X";
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.OTHER,"").toLowerCase();
+		lopped = CallNumUtils.removeLCVolSuffix(callnum) + " ...";
+		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.OTHER, !isSerial, "");
+
+	    record = factory.newRecord();
+		ldr = factory.newLeader("01247cas a2200337 a 4500");
+		record.setLeader(ldr);
+	    df = factory.newDataField("999", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', callnum));
+	    df.addSubfield(factory.newSubfield('w', "OTHER"));
+	    record.addVariableField(df);
+		expFldVal = SEP + SEP +  SEP + SEP + SEP +  callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + "OTHER";
+	    solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
+
+}
 	
 	/**
 	 * test if item_display field is populated correctly, focused on sorting call numbers for show view
