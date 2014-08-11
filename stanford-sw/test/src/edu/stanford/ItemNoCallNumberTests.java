@@ -43,7 +43,7 @@ public class ItemNoCallNumberTests extends AbstractStanfordTest
 	{
 		String id = "NCN";
 		String id050 = "NCN050";
-		String fldName = "callnum_facet_sim";
+		String fldName = "callnum_facet_hsim";
 		solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
 		solrFldMapTest.assertSolrFldValue(testFilePath, id050, fldName, CallNumUtils.LC_TOP_FACET_VAL + "|A - General Works|A - General Works");
 

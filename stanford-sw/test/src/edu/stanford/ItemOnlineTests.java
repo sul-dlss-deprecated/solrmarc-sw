@@ -244,7 +244,7 @@ public class ItemOnlineTests extends AbstractStanfordTest
 @Test
 	public void testCallnumFacetFromBib()
 	{
-		String fldName = "callnum_facet_sim";
+		String fldName = "callnum_facet_hsim";
 
 	    solrFldMapTest.assertNoSolrFld(testFilePath, "only999", fldName);
 
@@ -285,7 +285,7 @@ public class ItemOnlineTests extends AbstractStanfordTest
 		String id = "onOrder";
 		String id050 = "onOrder050";
 
-		String fldName = "callnum_facet_sim";
+		String fldName = "callnum_facet_hsim";
 		solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, id050, fldName);
 
@@ -340,7 +340,7 @@ public class ItemOnlineTests extends AbstractStanfordTest
 	public void testPartialLC()
 	{
 		String id = "050partial";
-		String fldName = "callnum_facet_sim";
+		String fldName = "callnum_facet_hsim";
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, CallNumUtils.LC_TOP_FACET_VAL + "|A - General Works|A - General Works");
 
 		fldName = "preferred barcode";
@@ -363,7 +363,7 @@ public class ItemOnlineTests extends AbstractStanfordTest
 	public void testOnline856()
 	{
 		String id = "online856";
-		String fldName = "callnum_facet_sim";
+		String fldName = "callnum_facet_hsim";
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, CallNumUtils.LC_TOP_FACET_VAL + "|A - General Works|A - General Works");
 
 		fldName = "preferred_barcode";

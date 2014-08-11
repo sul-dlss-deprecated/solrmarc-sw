@@ -57,13 +57,13 @@ public class CallNumberTests extends AbstractStanfordTest
 	}
 
 	/**
-	 * callnum_facet_sim contains the a user friendly hierarchical version of
+	 * callnum_facet_hsim contains the a user friendly hierarchical version of
 	 * local LC call number topic indicated by the letters.
 	 */
 @Test
 	public final void testLC()
 	{
-		String fldName = "callnum_facet_sim";
+		String fldName = "callnum_facet_hsim";
 		String startLC = edu.stanford.CallNumUtils.LC_TOP_FACET_VAL + "|";
 
 		// single char LC classification
@@ -158,14 +158,14 @@ public class CallNumberTests extends AbstractStanfordTest
 
 
 	/**
-	 * callnum_facet_sim contains the a user friendly hierarchical version of
+	 * callnum_facet_hsim contains the a user friendly hierarchical version of
 	 * local Dewey call number topic indicated by the hundred and tens digits of a
 	 *  Dewey call number.
 	 */
 @Test
 	public final void testDeweyCallnumsFromFile()
 	{
-		String fldName = "callnum_facet_sim";
+		String fldName = "callnum_facet_hsim";
 		String firstPart = edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL + "|";
 		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, firstPart + "100s - Philosophy & Psychology|150s - Psychology");
 		solrFldMapTest.assertSolrFldValue(testFilePath, "2328381", fldName, firstPart + "800s - Literature|820s - English & Old English Literatures");
@@ -225,7 +225,7 @@ public class CallNumberTests extends AbstractStanfordTest
 @Test
 	public final void testIgnoreShelbyLocations()
 	{
-		String fldName = "callnum_facet_sim";
+		String fldName = "callnum_facet_hsim";
 		MarcFactory factory = MarcFactory.newInstance();
 		Record record = factory.newRecord();
 	    DataField df = factory.newDataField("999", ' ', ' ');
@@ -262,7 +262,7 @@ public class CallNumberTests extends AbstractStanfordTest
 @Test
 	public final void testIgnoreBizShelbyLocations()
 	{
-		String fldName = "callnum_facet_sim";
+		String fldName = "callnum_facet_hsim";
 		MarcFactory factory = MarcFactory.newInstance();
 		String[] bizShelbyLocs = {"NEWS-STKS"};
 		for (String loc : bizShelbyLocs)

@@ -10,12 +10,12 @@ import org.solrmarc.tools.SolrMarcIndexerException;
 import edu.stanford.enumValues.CallNumberType;
 
 /**
- * tests for callnum_facet_sim field, which is for the call number facet (hierarchical)
+ * tests for callnum_facet_hsim field, which is for the call number facet (hierarchical)
  * @author Naomi Dushay
  */
-public class CallNumFacetSimTests extends AbstractStanfordTest
+public class CallNumFacetHsimTests extends AbstractStanfordTest
 {
-	private final String fldName = "callnum_facet_sim";
+	private final String fldName = "callnum_facet_hsim";
 	private final MarcFactory factory = MarcFactory.newInstance();
 
 @Before
@@ -756,7 +756,6 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 @Test
 	public final void govDocCallnumFromSUDOC()
 	{
-		String fldName = "callnum_facet_sim";
 	    String firstPart = CallNumUtils.GOV_DOC_TOP_FACET_VAL + "|";
 		solrFldMapTest.assertSolrFldValue(testFilePath, "2557826", fldName, firstPart + CallNumUtils.GOV_DOC_FED_FACET_VAL);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "5511738", fldName, firstPart + CallNumUtils.GOV_DOC_UNKNOWN_FACET_VAL);
@@ -773,7 +772,6 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 @Test
 	public final void govDocCallnumFromLocation()
 	{
-		String fldName = "callnum_facet_sim";
 	    testFilePath = testDataParentPath + File.separator + "callNumberGovDocTests.mrc";
 	    String firstPart = CallNumUtils.GOV_DOC_TOP_FACET_VAL + "|";
 

@@ -34,7 +34,7 @@ public class ItemMissingTests extends AbstractStanfordTest
 @Test
 	public final void testFacetVals()
 	{
-		String fldName = "callnum_facet_sim";
+		String fldName = "callnum_facet_hsim";
 		solrFldMapTest.assertNoSolrFld(testFilePath, "onlyMissing", fldName);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "missingDiff", fldName, CallNumUtils.LC_TOP_FACET_VAL + "|B - Philosophy, Psychology, Religion|B - Philosophy, Psychology, Religion");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "missingDiff", fldName, CallNumUtils.LC_TOP_FACET_VAL + "|A - General Works|A - General Works");
