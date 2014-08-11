@@ -163,7 +163,7 @@ public class CallNumberTests extends AbstractStanfordTest
 	 *  Dewey call number.
 	 */
 @Test
-	public final void testDeweyCallnums()
+	public final void testDeweyCallnumsFromFile()
 	{
 		String fldName = "callnum_facet_sim";
 		String firstPart = edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL + "|";
