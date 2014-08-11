@@ -54,27 +54,21 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 		String badLC = "notLC";
 
 		// invalid LC from Lane -- this should set item.hasBadLcLaneCallnum
-		DataField df999 = factory.newDataField("999", ' ', ' ');
-		df999.addSubfield(factory.newSubfield('a', badLC));
-		df999.addSubfield(factory.newSubfield('w', "LC"));
+		DataField df999 = get999(badLC, "LC");
 		df999.addSubfield(factory.newSubfield('m', "LANE-MED"));
 		Record record = factory.newRecord();
 		record.addVariableField(df999);
 		solrFldMapTest.assertNoSolrFld(record, fldName);
 
 		// valid LC from Lane
-		df999 = factory.newDataField("999", ' ', ' ');
-		df999.addSubfield(factory.newSubfield('a', "M123 .M456"));
-		df999.addSubfield(factory.newSubfield('w', "LC"));
+		df999 = get999("M123 .M456", "LC");
 		df999.addSubfield(factory.newSubfield('m', "LANE-MED"));
 		record = factory.newRecord();
 		record.addVariableField(df999);
 		solrFldMapTest.assertSolrFldValue(record, fldName, "LC Classification|M - Music|M - Music");
 
 		// invalid LC not from Lane
-		df999 = factory.newDataField("999", ' ', ' ');
-		df999.addSubfield(factory.newSubfield('a', badLC));
-		df999.addSubfield(factory.newSubfield('w', "LC"));
+		df999 = get999(badLC, "LC");
 		df999.addSubfield(factory.newSubfield('m', "GREEN"));
 		record = factory.newRecord();
 		record.addVariableField(df999);
@@ -91,9 +85,7 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 		for (String loc : shelbyLocs)
 		{
 			// valid LC
-			DataField df999 = factory.newDataField("999", ' ', ' ');
-			df999.addSubfield(factory.newSubfield('a', "M123 .M456"));
-			df999.addSubfield(factory.newSubfield('w', "LC"));
+			DataField df999 = get999("M123 .M456", "LC");
 			df999.addSubfield(factory.newSubfield('l', loc));
 			Record record = factory.newRecord();
 			record.addVariableField(df999);
@@ -101,18 +93,14 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 			solrFldMapTest.assertSolrFldValue(record, fldName, "LC Classification|M - Music|M - Music");
 
 			// invalid LC
-			df999 = factory.newDataField("999", ' ', ' ');
-			df999.addSubfield(factory.newSubfield('a', "not valid!"));
-			df999.addSubfield(factory.newSubfield('w', "LC"));
+			df999 = get999("not valid!", "LC");
 			df999.addSubfield(factory.newSubfield('l', loc));
 			record = factory.newRecord();
 			record.addVariableField(df999);
 			solrFldMapTest.assertNoSolrFld(record, fldName);
 
 			// invalid Dewey
-			df999 = factory.newDataField("999", ' ', ' ');
-			df999.addSubfield(factory.newSubfield('a', "not valid!"));
-			df999.addSubfield(factory.newSubfield('w', "DEWEY"));
+			df999 = get999("not valid!", "DEWEY");
 			df999.addSubfield(factory.newSubfield('l', loc));
 			record = factory.newRecord();
 			record.addVariableField(df999);
@@ -133,9 +121,7 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 		for (String loc : StanfordIndexer.MISSING_LOCS)
 		{
 			// valid LC
-			DataField df999 = factory.newDataField("999", ' ', ' ');
-			df999.addSubfield(factory.newSubfield('a', "M123 .M456"));
-			df999.addSubfield(factory.newSubfield('w', "LC"));
+			DataField df999 = get999("M123 .M456", "LC");
 			df999.addSubfield(factory.newSubfield('l', loc));
 			Record record = factory.newRecord();
 			record.addVariableField(df999);
@@ -149,9 +135,7 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 			}
 
 			// invalid LC
-			df999 = factory.newDataField("999", ' ', ' ');
-			df999.addSubfield(factory.newSubfield('a', "not valid!"));
-			df999.addSubfield(factory.newSubfield('w', "LC"));
+			df999 = get999("not valid!", "LC");
 			df999.addSubfield(factory.newSubfield('l', loc));
 			record = factory.newRecord();
 			record.addVariableField(df999);
@@ -165,9 +149,7 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 			}
 
 			// valid Dewey
-			df999 = factory.newDataField("999", ' ', ' ');
-			df999.addSubfield(factory.newSubfield('a', "123.4 .B45"));
-			df999.addSubfield(factory.newSubfield('w', "DEWEY"));
+			df999 = get999("123.4 .B45", "DEWEY");
 			df999.addSubfield(factory.newSubfield('l', loc));
 			record = factory.newRecord();
 			record.addVariableField(df999);
@@ -181,9 +163,7 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 			}
 
 			// invalid Dewey
-			df999 = factory.newDataField("999", ' ', ' ');
-			df999.addSubfield(factory.newSubfield('a', "not valid!"));
-			df999.addSubfield(factory.newSubfield('w', "DEWEY"));
+			df999 = get999("not valid!", "DEWEY");
 			df999.addSubfield(factory.newSubfield('l', loc));
 			record = factory.newRecord();
 			record.addVariableField(df999);
@@ -694,9 +674,7 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 		// due to gov doc location
 		for (String govDocLoc : StanfordIndexer.GOV_DOC_LOCS)
 		{
-			DataField df999 = factory.newDataField("999", ' ', ' ');
-			df999.addSubfield(factory.newSubfield('a', "ICAO DOC 4444/15TH ED"));
-			df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+			DataField df999 = get999("ICAO DOC 4444/15TH ED", "ALPHANUM");
 			df999.addSubfield(factory.newSubfield('l', govDocLoc));
 			Record record = factory.newRecord();
 			record.addVariableField(df999);
@@ -704,54 +682,42 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 		}
 
 		// a| CALIF L425 .L52 w| ALPHANUM c| 1 i| 36105132406864 k| BINDERY l| CALIF-DOCS m| GREEN t| GOVSTKS u| 5/30/2014
-		DataField df999 = factory.newDataField("999", ' ', ' ');
-		df999.addSubfield(factory.newSubfield('a', "CALIF L425 .L52"));
-		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		DataField df999 = get999("CALIF L425 .L52", "ALPHANUM");
 		df999.addSubfield(factory.newSubfield('l', "CALIF-DOCS"));
 		Record record = factory.newRecord();
 		record.addVariableField(df999);
 		solrFldMapTest.assertSolrFldValue(record, fldName, firstPart + CallNumUtils.GOV_DOC_CALIF_FACET_VAL);
 
 		// a| ICAO DOC 4444/15TH ED w| ALPHANUM c| 1 i| 36105133579198 l| INTL-DOCS m| GREEN t| GOVSTKS
-		df999 = factory.newDataField("999", ' ', ' ');
-		df999.addSubfield(factory.newSubfield('a', "ICAO DOC 4444/15TH ED"));
-		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999 = get999("ICAO DOC 4444/15TH ED", "ALPHANUM");
 		df999.addSubfield(factory.newSubfield('l', "INTL-DOCS"));
 		record = factory.newRecord();
 		record.addVariableField(df999);
 		solrFldMapTest.assertSolrFldValue(record, fldName, firstPart + CallNumUtils.GOV_DOC_INTL_FACET_VAL);
 
 		// a| I 19.76:97-600-C w| SUDOC c| 1 i| 36105050083034 l| SSRC-FICHE m| GREEN t| NONCIRC u| 11/12/1999 x| MARCIV
-		df999 = factory.newDataField("999", ' ', ' ');
-		df999.addSubfield(factory.newSubfield('a', "I 19.76:97-600-C"));
-		df999.addSubfield(factory.newSubfield('w', "SUDOC"));
+		df999 = get999("I 19.76:97-600-C", "SUDOC");
 		df999.addSubfield(factory.newSubfield('l', "SSRC-FICHE"));
 		record = factory.newRecord();
 		record.addVariableField(df999);
 		solrFldMapTest.assertSolrFldValue(record, fldName, firstPart + CallNumUtils.GOV_DOC_FED_FACET_VAL);
 
 		// a| I 19.66:979-981 w| SUDOC c| 1 i| 36105122902526 l| FED-DOCS m| GREEN t| GOVSTKS
-		df999 = factory.newDataField("999", ' ', ' ');
-		df999.addSubfield(factory.newSubfield('a', "I 19.66:979-981"));
-		df999.addSubfield(factory.newSubfield('w', "SUDOC"));
+		df999 = get999("I 19.66:979-981", "SUDOC");
 		df999.addSubfield(factory.newSubfield('l', "FED-DOCS"));
 		record = factory.newRecord();
 		record.addVariableField(df999);
 		solrFldMapTest.assertSolrFldValue(record, fldName, firstPart + CallNumUtils.GOV_DOC_FED_FACET_VAL);
 
 		// a| Y 3.2:C 44/C 76/2013+ERRATA w| SUDOC c| 1 i| 36105050649727 l| FED-DOCS m| GREEN t| GOVSTKS x| MARCIVE
-		df999 = factory.newDataField("999", ' ', ' ');
-		df999.addSubfield(factory.newSubfield('a', "Y 3.2:C 44/C 76/2013+ERRATA"));
-		df999.addSubfield(factory.newSubfield('w', "SUDOC"));
+		df999 = get999("Y 3.2:C 44/C 76/2013+ERRATA", "SUDOC");
 		df999.addSubfield(factory.newSubfield('l', "FED-DOCS"));
 		record = factory.newRecord();
 		record.addVariableField(df999);
 		solrFldMapTest.assertSolrFldValue(record, fldName, firstPart + CallNumUtils.GOV_DOC_FED_FACET_VAL);
 
 		// callnum type is SUDOC
-		df999 = factory.newDataField("999", ' ', ' ');
-		df999.addSubfield(factory.newSubfield('a', "something"));
-		df999.addSubfield(factory.newSubfield('w', "SUDOC"));
+		df999 = get999("something", "SUDOC");
 		df999.addSubfield(factory.newSubfield('l', "somewhere"));
 		record = factory.newRecord();
 		record.addVariableField(df999);
@@ -762,9 +728,7 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 		DataField df086 = factory.newDataField("086", ' ', ' ');
 
 		// a| ICAO DOC 4444/15TH ED w| ALPHANUM c| 1 i| 36105133579198 l| INTL-DOCS m| GREEN t| GOVSTKS
-		df999 = factory.newDataField("999", ' ', ' ');
-		df999.addSubfield(factory.newSubfield('a', "something"));
-		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999 = get999("something", "ALPHANUM");
 		df999.addSubfield(factory.newSubfield('l', "somewhere"));
 		record = factory.newRecord();
 		record.addVariableField(df999);
