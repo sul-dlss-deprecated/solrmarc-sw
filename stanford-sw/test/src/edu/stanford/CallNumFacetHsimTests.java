@@ -1,11 +1,16 @@
 package edu.stanford;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import org.marc4j.marc.*;
 import org.solrmarc.tools.SolrMarcIndexerException;
+import org.xml.sax.SAXException;
 
 import edu.stanford.enumValues.CallNumberType;
 
@@ -871,9 +876,53 @@ public class CallNumFacetHsimTests extends AbstractStanfordTest
 	}
 
 	/** integration test to assert the index has a value for each level in the path */
+@Test
 	public void indexedAsHierarchy()
+			throws IOException, ParserConfigurationException, SAXException, SolrServerException
 	{
-		Assert.fail("need to write test asserting the indexed data gives a value for each level in the path");
+		createFreshIx(fileName);
+		String startLC = "\"" + edu.stanford.CallNumUtils.LC_TOP_FACET_VAL + "|";
+
+		// single char LC classification
+		assertResultSize(fldName, "\"" + edu.stanford.CallNumUtils.LC_TOP_FACET_VAL + "\"", 17);
+		assertSingleResult("6661112", fldName, startLC + "Z - Bibliography, Library Science, Information Resources\"");
+		assertSingleResult("6661112", fldName, startLC + "Z - Bibliography, Library Science, Information Resources|Z - Bibliography, Library Science, Information Resources\"");
+		// LC 999 one letter, space before Cutter
+		assertResultSize(fldName, startLC + "D - World History\"", 3);
+		assertSingleResult("999LC1dec", fldName, startLC + "D - World History|D - World History\"");
+
+		// two char LC classification
+		assertSingleResult("1033119", fldName, startLC + "B - Philosophy, Psychology, Religion\"");
+		assertSingleResult("1033119", fldName, startLC + "B - Philosophy, Psychology, Religion|BX - Christian Denominations\"");
+		// LC 999 two letters, space before Cutter
+		assertResultSize(fldName, startLC + "H - Social Sciences\"", 2);
+		assertSingleResult("999LC2", fldName, startLC + "H - Social Sciences|HG - Finance\"");
+
+		// three char LC classification
+		assertResultSize(fldName, startLC + "K - Law\"", 3);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC3Dec", fldName, startLC + "K - Law|K - Law\"");
+
+		// dewey
+	    assertResultSize(fldName, "\"" + CallNumUtils.DEWEY_TOP_FACET_VAL + "\"", 11);
+		String startDewey = "\"" + edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL + "|";
+		assertSingleResult("690002", fldName, startDewey + "100s - Philosophy & Psychology\"");
+		assertSingleResult("690002", fldName, startDewey + "100s - Philosophy & Psychology|150s - Psychology\"");
+		// these have leading zeros
+		assertResultSize(fldName, startDewey + "000s - Computer Science, Information & General Works\"", 4);
+		assertResultSize(fldName, startDewey + "000s - Computer Science, Information & General Works|000s - Computer Science, Information & General Works\"", 2);
+		assertResultSize(fldName, startDewey + "000s - Computer Science, Information & General Works|020s - Library & Information Sciences\"", 2);
+		assertResultSize(fldName, startDewey + "900s - History & Geography\"", 2);
+		assertResultSize(fldName, startDewey + "900s - History & Geography|990s - General History of Other Areas\"", 2);
+
+		// govdoc
+		createFreshIx("callNumberGovDocTests.mrc");
+	    assertResultSize(fldName, "\"" + CallNumUtils.GOV_DOC_TOP_FACET_VAL + "\"", 8);
+	    String startGovDoc = "\"" + CallNumUtils.GOV_DOC_TOP_FACET_VAL + "|";
+	    assertResultSize(fldName, startGovDoc + CallNumUtils.GOV_DOC_FED_FACET_VAL + "\"", 4);
+		assertSingleResult("brit", fldName, startGovDoc + CallNumUtils.GOV_DOC_BRIT_FACET_VAL + "\"");
+		assertSingleResult("calif", fldName, startGovDoc + CallNumUtils.GOV_DOC_CALIF_FACET_VAL + "\"");
+		assertSingleResult("intl", fldName, startGovDoc + CallNumUtils.GOV_DOC_INTL_FACET_VAL + "\"");
+		assertSingleResult("sudoc", fldName, startGovDoc + CallNumUtils.GOV_DOC_UNKNOWN_FACET_VAL + "\"");
 	}
 
 
