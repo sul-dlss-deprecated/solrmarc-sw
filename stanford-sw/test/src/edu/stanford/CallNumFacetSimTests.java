@@ -108,6 +108,15 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 			record = factory.newRecord();
 			record.addVariableField(df999);
 			solrFldMapTest.assertNoSolrFld(record, fldName);
+
+			// invalid Dewey
+			df999 = factory.newDataField("999", ' ', ' ');
+			df999.addSubfield(factory.newSubfield('a', "not valid!"));
+			df999.addSubfield(factory.newSubfield('w', "DEWEY"));
+			df999.addSubfield(factory.newSubfield('l', loc));
+			record = factory.newRecord();
+			record.addVariableField(df999);
+			solrFldMapTest.assertNoSolrFld(record, fldName);
 		}
 
 		// Hopkins weird Shelby
@@ -154,6 +163,38 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 			{
 				Assert.assertEquals("Record  purposely not indexed because item_display field is empty", e.getMessage());
 			}
+
+			// valid Dewey
+			df999 = factory.newDataField("999", ' ', ' ');
+			df999.addSubfield(factory.newSubfield('a', "123.4 .B45"));
+			df999.addSubfield(factory.newSubfield('w', "DEWEY"));
+			df999.addSubfield(factory.newSubfield('l', loc));
+			record = factory.newRecord();
+			record.addVariableField(df999);
+			try
+			{
+				solrFldMapTest.assertNoSolrFld(record, fldName);
+			}
+			catch (SolrMarcIndexerException e)
+			{
+				Assert.assertEquals("Record  purposely not indexed because item_display field is empty", e.getMessage());
+			}
+
+			// invalid Dewey
+			df999 = factory.newDataField("999", ' ', ' ');
+			df999.addSubfield(factory.newSubfield('a', "not valid!"));
+			df999.addSubfield(factory.newSubfield('w', "DEWEY"));
+			df999.addSubfield(factory.newSubfield('l', loc));
+			record = factory.newRecord();
+			record.addVariableField(df999);
+			try
+			{
+				solrFldMapTest.assertNoSolrFld(record, fldName);
+			}
+			catch (SolrMarcIndexerException e)
+			{
+				Assert.assertEquals("Record  purposely not indexed because item_display field is empty", e.getMessage());
+			}
 		}
 	}
 
@@ -181,6 +222,18 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 			record = getRecordWith999(skippedCallnum, CallNumberType.LC);
 			solrFldMapTest.assertNoSolrFld(record, fldName);
 		}
+
+		// dewey
+		record = getRecordWith999(Item.ECALLNUM + "stuff", CallNumberType.DEWEY);
+		solrFldMapTest.assertNoSolrFld(record, fldName);
+		record = getRecordWith999(Item.TMP_CALLNUM_PREFIX + "stuff", CallNumberType.DEWEY);
+		solrFldMapTest.assertNoSolrFld(record, fldName);
+		// skipped callnums
+		for (String skippedCallnum : StanfordIndexer.SKIPPED_CALLNUMS)
+		{
+			record = getRecordWith999(skippedCallnum, CallNumberType.DEWEY);
+			solrFldMapTest.assertNoSolrFld(record, fldName);
+		}
 	}
 
 	/** no value if call number is null, empty string, or normalizes to empty string */
@@ -194,6 +247,15 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 		record = getRecordWith999(" ", CallNumberType.LC);
 		solrFldMapTest.assertNoSolrFld(record, fldName);
 		record = getRecordWith999(". . ", CallNumberType.LC);
+		solrFldMapTest.assertNoSolrFld(record, fldName);
+		// dewey
+		record = getRecordWith999(null, CallNumberType.DEWEY);
+		solrFldMapTest.assertNoSolrFld(record, fldName);
+		record = getRecordWith999("", CallNumberType.DEWEY);
+		solrFldMapTest.assertNoSolrFld(record, fldName);
+		record = getRecordWith999(" ", CallNumberType.DEWEY);
+		solrFldMapTest.assertNoSolrFld(record, fldName);
+		record = getRecordWith999(". . ", CallNumberType.DEWEY);
 		solrFldMapTest.assertNoSolrFld(record, fldName);
 	}
 
@@ -502,26 +564,85 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 
 //---- DEWEY call numbers --------------------------------
 
-
-	public void testDewey()
+	/** dewey examples from our data */
+@Test
+	public void dewey()
 	{
-		// a| 159.32 .W211 w| DEWEY c| 1 i| 36105046693508 d| 8/6/1996 l| STACKS m| SAL3 r| Y s| Y t| STKS-MONO
-		// a| 370.6 .N28 V.113:PT.1 w| DEWEY c| 1 i| 36105212633767 k| INPROCESS l| STACKS m| EDUCATION r| Y s| Y t| STKS-MONO u| 7/15/2014
-		// a| 370.6 .N28 V.106:PT.1 w| DEWEY c| 1 i| 36105124266961 d| 12/2/2010 e| 11/3/2010 l| STACKS m| EDUCATION n| 1 q| 1 r| Y s| Y t| STKS-MONO u| 9/17/2007 z| DIGI-SENT
-		// a| 370.6 .N28 V.106:PT.1 w| DEWEY c| 2 i| 36105124266979 d| 6/8/2010 e| 5/5/2009 l| STACKS m| EDUCATION n| 3 r| Y s| Y t| STKS-MONO u| 9/17/2007
-		// a| 550.6 .U58P NO.1707 w| DEWEY c| 1 i| 7732531-1001 l| STACKS m| EARTH-SCI r| Y s| Y t| EASTK-DOC u| 10/11/2008 x| MARCIVE
-
+		// a| 159.32 .W211 w| DEWEY c| 1 i| 36105046693508 l| STACKS m| SAL3 t| STKS-MONO
+		Record record = getRecordWith999("159.32 .W211", CallNumberType.DEWEY);
+		solrFldMapTest.assertSolrFldValue(record, fldName, "Dewey Classification|100s - Philosophy & Psychology|150s - Psychology");
+		// a| 550.6 .U58P NO.1707 w| DEWEY c| 1 i| 7732531-1001 l| STACKS m| EARTH-SCI t| EASTK-DOC  x| MARCIVE
+		record = getRecordWith999("550.6 .U58P NO.1707", CallNumberType.DEWEY);
+		solrFldMapTest.assertSolrFldValue(record, fldName, "Dewey Classification|500s - Science|550s - Earth Sciences");
 	}
 
-
-	public void testDeweyAlwaysDigit()
+	/** dewey call numbers with and without 1 or 2 leading zeroes */
+@Test
+	public void deweyLeadingZeros()
 	{
-		// always a digit
+		// a| 062 .B862 V.193 w| DEWEY c| 1 i| 36105221123552 l| SOUTH-MEZZ m| SAL t| STKS-MONO
+		Record record = getRecordWith999("062 .B862 V.193", CallNumberType.DEWEY);
+		solrFldMapTest.assertSolrFldValue(record, fldName, "Dewey Classification|000s - Computer Science, Information & General Works|060s - General Organization & Museology");
+		record = getRecordWith999("62 .B862 V.193", CallNumberType.DEWEY);
+		solrFldMapTest.assertSolrFldValue(record, fldName, "Dewey Classification|000s - Computer Science, Information & General Works|060s - General Organization & Museology");
+
+		// a| 002 U73 w| DEWEY c| 1 i| 36105094464133 l| ND-PAGE-EA m| SAL t| STKS-MONO
+		record = getRecordWith999("002 U73", CallNumberType.DEWEY);
+		solrFldMapTest.assertSolrFldValue(record, fldName, "Dewey Classification|000s - Computer Science, Information & General Works|000s - Computer Science, Information & General Works");
+		record = getRecordWith999("2 U73", CallNumberType.DEWEY);
+		solrFldMapTest.assertSolrFldValue(record, fldName, "Dewey Classification|000s - Computer Science, Information & General Works|000s - Computer Science, Information & General Works");
 	}
 
+	/* single record has multiple 999s with same dewey facet value */
+@Test
+	public void multDeweySame()
+	{
+		// a| 370.6 .N28 V.113:PT.1 w| DEWEY c| 1 i| 36105212633767 k| INPROCESS l| STACKS m| EDUCATION t| STKS-MONO
+		Record record = getRecordWith999("370.6 .N28 V.113:PT.1", CallNumberType.DEWEY);
+		solrFldMapTest.assertSolrFldValue(record, fldName, "Dewey Classification|300s - Social Sciences|370s - Education");
+		// a| 370.6 .N28 V.106:PT.1 w| DEWEY c| 1 i| 36105124266961 l| STACKS m| EDUCATION t| STKS-MONO z| DIGI-SENT
+		record.addVariableField(get999("370.6 .N28 V.106:PT.1", "DEWEY"));
+		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, fldName, "Dewey Classification|300s - Social Sciences|370s - Education");
+		// a| 370.6 .N28 V.106:PT.1 w| DEWEY c| 2 i| 36105124266979 l| STACKS m| EDUCATION t| STKS-MONO
+		record.addVariableField(get999("370.6 .N28 V.106:PT.1", "DEWEY"));
+		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, fldName, "Dewey Classification|300s - Social Sciences|370s - Education");
+	}
+
+	/** single record has multiple 999s with different dewey call numbers */
+@Test
+	public void multDeweyDiff()
+	{
+		// a| 518 .M161 w| DEWEY c| 1 i| 36105046454513 l| STACKS m| SAL3 t| STKS-MONO
+		Record record = getRecordWith999("518 .M161", CallNumberType.DEWEY);
+		solrFldMapTest.assertSolrFldValue(record, fldName, "Dewey Classification|500s - Science|510s - Mathematics");
+		// a| 061 .R496 V.39:NO.4 w| DEWEY c| 1 i| 526284-4001 l| SOUTH-MEZZ m| SAL t| STKS-MONO
+		record.addVariableField(get999("061 .R496 V.39:NO.4", "DEWEY"));
+		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 2);
+		solrFldMapTest.assertSolrFldValue(record, fldName, "Dewey Classification|000s - Computer Science, Information & General Works|060s - General Organization & Museology");
+	}
+
+	/** single record with both LC and Dewey callnums */
+@Test
+	public void lcAndDewey()
+	{
+		// a| PR5190 .P3 Z48 2011 w| LC c| 1 i| 36105218632789 l| STACKS m| GREEN t| STKS-MONO
+		// a| 968.006 .V274 SER.2:NO.42 w| DEWEY c| 1 i| 36105218758519 l| STACKS m| SAL3  t| STKS-MONO
+		Record record = getRecordWith999("PR5190 .P3 Z48 2011", CallNumberType.LC);
+		solrFldMapTest.assertSolrFldValue(record, fldName, "LC Classification|P - Language & Literature|PR - English Literature");
+		record.addVariableField(get999("968.006 .V274 SER.2:NO.42", "DEWEY"));
+		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 2);
+		solrFldMapTest.assertSolrFldValue(record, fldName, "Dewey Classification|900s - History & Geography|960s - General History of Africa");
+	}
+
+	/** DEWEYPER classification */
+@Test
 	public void testDeweyPer()
 	{
-		//a| 550.6 .U58O 92-600 A w| DEWEYPER c| 1 i| 36105028076078 j| 2 l| MICROTEXT m| EARTH-SCI r| Y s| Y t| EASTK-DOC u| 2/26/2014
+		//a| 550.6 .U58O 92-600 A w| DEWEYPER c| 1 i| 36105028076078 j| 2 l| MICROTEXT m| EARTH-SCI t| EASTK-DOC
+		Record record = getRecordWith999("550.6 .U58O 92-600", "DEWEYPER");
+		solrFldMapTest.assertSolrFldValue(record, fldName, "Dewey Classification|500s - Science|550s - Earth Sciences");
 	}
 
 	/** call numbers that are Dewey, but have scheme listed as LC */
@@ -532,14 +653,17 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(record, fldName, "Dewey Classification|100s - Philosophy & Psychology|180s - Ancient, Medieval, Oriental Philosophy");
 		record = getRecordWith999("219.7 K193L V.5", CallNumberType.LC);
 		solrFldMapTest.assertSolrFldValue(record, fldName, "Dewey Classification|200s - Religion|210s - Natural Theology");
+		//	a| 3.37 D621 w| LC c| 1 i| 36105116366597 l| UARCH-30 m| SPEC-COLL r| Y s| Y t| NONCIRC u| 5/6/2004
+		record = getRecordWith999("3.37 D621", CallNumberType.LC);
+		solrFldMapTest.assertSolrFldValue(record, fldName, "Dewey Classification|000s - Computer Science, Information & General Works|000s - Computer Science, Information & General Works");
 	}
 
+	/** TX call numbers that are actually Dewey, not LC */
+// TODO:  @Test
 	public void cubberleyTXAsDewey()
 	{
 
 	}
-
-
 
 //---- END DEWEY call numbers --------------------------------
 
