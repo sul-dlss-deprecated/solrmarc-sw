@@ -614,6 +614,14 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 		record.addVariableField(get999("968.006 .V274 SER.2:NO.42", "DEWEY"));
 		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 2);
 		solrFldMapTest.assertSolrFldValue(record, fldName, "Dewey Classification|900s - History & Geography|960s - General History of Africa");
+
+		// a| QE539.2 .P34 O77 2005 w| LC c| 1 i| 36105114582328 l| SOUTH-MEZZ m| SAL t| STKS-MONO
+		// a| 550.6 .U58P NO.1707 w| DEWEY c| 1 i| 7732531-1001 l| STACKS m| EARTH-SCI t| EASTK-DOC x| MARCIVE
+		record = getRecordWith999("QE539.2 .P34 O77 2005", CallNumberType.LC);
+		solrFldMapTest.assertSolrFldValue(record, fldName, "LC Classification|Q - Science|QE - Geology");
+		record.addVariableField(get999("550.6 .U58P NO.1707", "DEWEY"));
+		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 2);
+		solrFldMapTest.assertSolrFldValue(record, fldName, "Dewey Classification|500s - Science|550s - Earth Sciences");
 	}
 
 	/** DEWEYPER classification */
@@ -783,6 +791,26 @@ public class CallNumFacetSimTests extends AbstractStanfordTest
 
 		// but not dewey
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "ssrcfiche", fldName, CallNumUtils.DEWEY_TOP_FACET_VAL + "|300s - Social Sciences|300s - Social Sciences|370s - Education");
+	}
+
+	/** from single record with all three types of call numbers */
+@Test
+	public void govDocLCandDewey()
+	{
+		// a| I 19.76:98-600-B w| SUDOC c| 1 i| 36105050102552 l| SSRC-FICHE m| GREEN t| NONCIRC x| MARCIVE
+		DataField df999 = get999("I 19.76:98-600-B", "SUDOC");
+		df999.addSubfield(factory.newSubfield('l', "SSRC-FICHE"));
+		Record record = factory.newRecord();
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldValue(record, fldName, CallNumUtils.GOV_DOC_TOP_FACET_VAL + "|" + CallNumUtils.GOV_DOC_FED_FACET_VAL);
+		// a| 550.6 .U58O 00-600 A w| DEWEYPER c| 1 i| 36105118388904 l| STACKS m| EARTH-SCI t| EASTK-DOC
+		record.addVariableField(get999("550.6 .U58O 00-600", "DEWEYPER"));
+		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 2);
+		solrFldMapTest.assertSolrFldValue(record, fldName, "Dewey Classification|500s - Science|550s - Earth Sciences");
+		// a| QE538.8 .N36 1985:APR. w| LCPER c| 2 i| 36105017155594 j| 4 l| STACKS m| EARTH-SCI t| EASTK-DOC
+		record.addVariableField(get999("QE538.8 .N36 1985:APR.", "LCPER"));
+		solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 3);
+		solrFldMapTest.assertSolrFldValue(record, fldName, "LC Classification|Q - Science|QE - Geology");
 	}
 
 
