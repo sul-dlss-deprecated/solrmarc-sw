@@ -182,14 +182,6 @@
 
     <!-- Item Info Fields (derived from 999) -->
     <!-- Call Number Fields -->
-    <field name="callnum_top_facet" type="string" indexed="true" stored="false" multiValued="true" />
-    <field name="lc_alpha_facet" type="string" indexed="true" stored="false" multiValued="true" />
-    <field name="lc_b4cutter_facet" type="string" indexed="true" stored="false" multiValued="true" />
-    <field name="dewey_1digit_facet" type="string" indexed="true" stored="false" multiValued="true" />
-    <field name="dewey_2digit_facet" type="string" indexed="true" stored="false" multiValued="true" />
-    <field name="dewey_b4cutter_facet" type="string" indexed="true" stored="false" multiValued="true" />
-    <field name="gov_doc_type_facet" type="string" indexed="true" stored="false" multiValued="true" />
-
     <field name="callnum_search" type="callnum_ws" indexed="true" stored="false" multiValued="true"/>
 
     <!-- for nearby on shelf:  term lookups to get next X alpha sorted terms -->

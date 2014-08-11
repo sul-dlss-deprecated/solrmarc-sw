@@ -87,8 +87,8 @@
           <int name="facet.limit">30</int>
           <str name="facet.field">building_facet</str>
             <str name="f.building_facet.facet.method">enum</str>
-          <str name="facet.field">callnum_top_facet</str>
-            <str name="f.callnum_top_facet.facet.method">enum</str>
+          <str name="facet.field">callnum_facet_hsim</str>
+            <str name="f.callnum_facet_hsim.facet.method">enum</str>
           <str name="facet.field">format</str>
             <str name="f.format.facet.method">enum</str>
         </lst>
@@ -109,9 +109,9 @@
           <int name="facet.limit">30</int>
           <str name="facet.field">building_facet</str>
             <str name="f.building_facet.facet.method">enum</str>
-          <str name="facet.field">callnum_top_facet</str>
-            <str name="f.callnum_top_facet.facet.sort">index</str>
-            <str name="f.callnum_top_facet.facet.method">enum</str>
+          <str name="facet.field">callnum_facet_hsim</str>
+            <str name="f.callnum_facet_hsim.facet.sort">index</str>
+            <str name="f.callnum_facet_hsim.facet.method">enum</str>
           <str name="facet.field">format</str>
             <str name="f.format.facet.method">enum</str>
         </lst>
@@ -126,8 +126,8 @@
           <int name="facet.limit">30</int>
           <str name="facet.field">building_facet</str>
             <str name="f.building_facet.facet.method">enum</str>
-          <str name="facet.field">callnum_top_facet</str>
-            <str name="f.callnum_top_facet.facet.method">enum</str>
+          <str name="facet.field">callnum_facet_hsim</str>
+            <str name="f.callnum_facet_hsim.facet.method">enum</str>
           <str name="facet.field">collection</str>
             <str name="f.collection.facet.method">enum</str>
           <str name="facet.field">crez_course_info</str>
@@ -215,7 +215,7 @@
         context_search^2               vern_context_search^2
         summary_unstem_search^5
         summary_search^2               vern_summary_search^2
-        
+
         pub_date_search^2
         isbn_search^1.5
         issn_search^1.5
@@ -318,7 +318,7 @@
         title_variant_search^40        vern_title_variant_search^40
         title_related_search^30        vern_title_related_search^30
         series_search^20               vern_series_search^20
-        
+
         author_1xx_search^50           vern_author_1xx_search^50
         author_7xx_search^40           vern_author_7xx_search^40
         author_8xx_search^20           vern_author_8xx_search^20
@@ -331,7 +331,7 @@
         geographic_subz_search^10      vern_geographic_subz_search^10
         subject_other_subvy_search^10  vern_subject_other_subvy_search^10
         subject_all_search^10          vern_subject_all_search^10
-        
+
         toc_search^5                   vern_toc_search^5
         context_search^5               vern_context_search^5
         summary_search^5               vern_summary_search^5
@@ -386,7 +386,7 @@
         context_search^2               vern_context_search^2               cjk_context_search^2
         summary_unstem_search^5
         summary_search^2               vern_summary_search^2               cjk_summary_search^2
- 
+
         pub_date_search^2
         isbn_search^1.5
         issn_search^1.5
@@ -914,17 +914,8 @@
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
         <str name="f.building_facet.facet.method">enum</str>
-      <str name="facet.field">callnum_top_facet</str>
-        <str name="f.callnum_top_facet.facet.method">enum</str>
-        <str name="facet.field">lc_alpha_facet</str>
-          <str name="f.lc_alpha_facet.facet.method">enum</str>
-        <str name="facet.field">lc_b4cutter_facet</str>
-        <str name="facet.field">dewey_1digit_facet</str>
-          <str name="f.dewey_1digit_facet.facet.method">enum</str>
-        <str name="facet.field">dewey_2digit_facet</str>
-        <str name="facet.field">dewey_b4cutter_facet</str>
-        <str name="facet.field">gov_doc_type_facet</str>
-          <str name="f.gov_doc_type_facet.facet.method">enum</str>
+      <str name="facet.field">callnum_facet_hsim</str>
+        <str name="f.callnum_facet_hsim.facet.method">enum</str>
       <str name="facet.field">collection</str>
         <str name="f.collection.facet.method">enum</str>
       <str name="facet.field">db_az_subject</str>
