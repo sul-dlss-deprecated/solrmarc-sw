@@ -501,6 +501,10 @@ public class FormatUtils {
 							// VHS - 007/00 = v, 007/04 = b
 							result.add(FormatPhysical.VHS.toString());
 							break;
+						case 'g':
+							// Laser disc - 007/00 - v, 007/04 = g
+							result.add(FormatPhysical.LASER_DISC.toString());
+							break;
 						case 'q':
 							// Hi-8 mm - 007/00 = v, 007/04 = q
 							result.add(FormatPhysical.HI_8.toString());
@@ -525,8 +529,14 @@ public class FormatUtils {
 	}
 
 	/**
-	 * Assign physical format if 538$a contains Bluray or VHS.
  	 * INDEX-89 - Add video physical formats
+	 * Assign physical format if 538$a contains the following:
+	 * 
+	 * BLURAY - Bluray, Blu-Ray, or Blu ray
+	 * VHS - VHS
+	 * DVD - DVD
+	 * LASER_DISC - CAV or CLV
+	 * VIDEO_CD - VCD, Video CD, or VideoCD
 	 *
 	 * @param record
 	 * @return String containing Physical Format enum value per the given data, or null
@@ -542,23 +552,79 @@ public class FormatUtils {
 			result.add(FormatPhysical.VHS.toString());
 		if (Utils.setItemContains(f538a, "DVD"))
 			result.add(FormatPhysical.DVD.toString());
+		if (Utils.setItemContains(f538a, "CAV") || Utils.setItemContains(f538a, "CLV"))
+			result.add(FormatPhysical.LASER_DISC.toString());
+		if (Utils.setItemContains(f538a, "VCD") || Utils.setItemContains(f538a, "Video CD") || Utils.setItemContains(f538a, "VideoCD"))
+			result.add(FormatPhysical.VIDEO_CD.toString());
 		return result;
 	}
 
 	/**
-	 * Assign physical format if 300$b contains MP4 or 347$b contains MPEG-4
  	 * INDEX-89 - Add video physical formats
+	 * Assign physical format if 300$b and/or 347$b contain the following:
+	 * 
+	 * MPEG-4 - 300$b = MP4, 347$b = MPEG-4
+	 * VIDEO_CD - 300$b or 347$b = VCD, Video CD, or VideoCD
 	 *
 	 * @param record
 	 * @return String containing Physical Format enum value per MP4, or null
 	 */
-	static String getPhysicalFormatMP4(Record record)
+	static  Set<String> getPhysicalFormat3xxb(Record record)
 	{
+		Set<String> result = new HashSet<String>();
+
 		Set<String> f300b = MarcUtils.getSubfieldDataAsSet(record, "300", "b", "");
 		Set<String> f347b = MarcUtils.getSubfieldDataAsSet(record, "347", "b", "");
 		if (Utils.setItemContains(f300b, "MP4") || Utils.setItemContains(f347b, "MPEG-4"))
-			return FormatPhysical.MP4.toString();
-		return null;
+			result.add(FormatPhysical.MP4.toString());
+		if (Utils.setItemContains(f300b, "VCD") || Utils.setItemContains(f347b, "VCD") || 
+			Utils.setItemContains(f300b, "Video CD") || Utils.setItemContains(f347b, "Video CD") || 
+			Utils.setItemContains(f300b, "VideoCD") || Utils.setItemContains(f347b, "VideoCD"))
+			result.add(FormatPhysical.VIDEO_CD.toString());
+		return result;
+	}
+
+	/**
+ 	 * INDEX-89 - Add video physical formats
+	 * Assign video physical format if call number contains the following:
+	 * Green Library
+	 * ZDVD - DVDS
+	 * ZDVD ..... BLU-RAY That's the ZDVD plus a number plus the text string BLU-RAY, all in the same subfield
+	 * ZVC VHS videocassette
+	 * ZVD laserdiscs
+	 * 
+	 * Art Library
+	 * ARTDVD - DVD (we have no procedure for blu-ray so not sure what that number would be)
+	 * ARTVC - VHS videocassette
+	 * 
+	 * Music Library
+	 * MDVD - DVD (no info on blu-ray practice)
+	 * MVC - VHS videocassette
+	 * MVD - laserdiscs
+	 * 
+	 * Archive of Recorded Sound:
+	 * AVC - videocassettes (not necessarily only VHS)
+	 * ADVD - DVD
+	 * 
+	 * @param record
+	 * @return String containing Physical Format enum value per the given data, or null
+	 */
+	static Set<String> getPhysicalFormat999(Record record)
+	{
+		Set<String> result = new HashSet<String>();
+
+		Set<String> f999a = MarcUtils.getSubfieldDataAsSet(record, "999", "a", "");
+		if (Utils.setItemContains(f999a, "BLU-RAY"))
+			result.add(FormatPhysical.BLURAY.toString());
+		if (Utils.setItemContains(f999a, "ZVC") || Utils.setItemContains(f999a, "ARTVC") || Utils.setItemContains(f999a, "MVC"))
+			result.add(FormatPhysical.VHS.toString());
+		if (Utils.setItemContains(f999a, "ZDVD") || Utils.setItemContains(f999a, "ARTDVD") || Utils.setItemContains(f999a, "MDVD") || Utils.setItemContains(f999a, "ADVD"))
+			result.add(FormatPhysical.DVD.toString());
+		if (Utils.setItemContains(f999a, "AVC"))
+			result.add(FormatPhysical.VIDEOCASSETTE.toString());
+		if (Utils.setItemContains(f999a, "ZVD") || Utils.setItemContains(f999a, "MVD"))
+			result.add(FormatPhysical.LASER_DISC.toString());
+		return result;
 	}
 
 	/**

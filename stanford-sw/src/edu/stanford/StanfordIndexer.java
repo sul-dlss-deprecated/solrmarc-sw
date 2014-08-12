@@ -436,23 +436,35 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 	/**
+	 * INDEX-89 Video Physical Formats - The order of checking for data has discussed and this is the order suggested: call number, then 538$a, 
+	 * then 300$b and 347$b, and finally 007
 	 * @return Set of strings containing physical format values for the resource
 	 * @param record a marc4j Record object
 	 */
 	public Set<String> getPhysicalFormats(final Record record)
 	{
 		Set<String> format538 = new HashSet<String>();
+		Set<String> format3xx = new HashSet<String>();
+		Set<String> format999a = new HashSet<String>();
 
 		Set<String> physicalFormats = new HashSet<String>();
+
+		// INDEX-89 - Add video physical formats from call numbers
+		format999a = FormatUtils.getPhysicalFormat999(record);
+		if (format999a != null)
+			physicalFormats.addAll(format999a);
+
 		physicalFormats.addAll(FormatUtils.getPhysicalFormatsPer007(record.getVariableFields("007"), accessMethods));
 
-		// INDEX-89 - Add video physical formats from 300$b, 347$b, and 538$a
+		// INDEX-89 - Add video physical formats from 538$a
 		format538 = FormatUtils.getPhysicalFormat538(record);
 		if (format538 != null)
 			physicalFormats.addAll(format538);
 		
-		if (FormatUtils.getPhysicalFormatMP4(record) != null)
-			physicalFormats.add(FormatPhysical.MP4.toString());
+		// INDEX-89 - Add video physical formats from 300$b, 347$b
+		format3xx = FormatUtils.getPhysicalFormat3xxb(record);
+		if (format3xx != null)
+			physicalFormats.addAll(format3xx);
 		
 		String mfilmVal = FormatPhysical.MICROFILM.toString();
 		String mficheVal = FormatPhysical.MICROFICHE.toString();
