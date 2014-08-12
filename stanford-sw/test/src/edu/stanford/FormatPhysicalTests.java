@@ -501,9 +501,6 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 	INSTANTANEOUS_DISC,
 	CARTRIDGE_8_TRACK,
 	DAT,
-	REEL_TO_REEL,
-	OTHER_RECORDING,
-
 
 	// maps
 	ATLAS,
