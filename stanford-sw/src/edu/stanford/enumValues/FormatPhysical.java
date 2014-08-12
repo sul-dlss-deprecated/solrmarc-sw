@@ -53,6 +53,7 @@ public enum FormatPhysical
 
 	/**
 	 * need to override for text of multiple words
+	 * INDEX-134 Change Audio cassette to Audiocassette 
 	 */
 	@Override
 	public String toString() {
@@ -71,7 +72,7 @@ public enum FormatPhysical
 			case INSTANTANEOUS_DISC:
 				return "Instantaneous disc";
 			case CASSETTE:
-				return "Audio cassette";
+				return "Audiocassette";
 			case CARTRIDGE_8_TRACK:
 				return "8-track cartridge";
 			case DAT:
