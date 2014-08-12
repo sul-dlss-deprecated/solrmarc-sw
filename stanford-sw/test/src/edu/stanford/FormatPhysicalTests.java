@@ -480,6 +480,18 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		record.removeVariableField(df999atLibrary);
 		record.addVariableField(df999online);
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 0);
+
+		// INDEX-134 Change Audio cassette to Audiocassette 
+		String oneWord = "Audiocassette";
+		// with 007: based on 4730355
+		ldr = factory.newLeader("01205cim a2200337Ia 4500");
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("ss lunjlc-----");
+		record.addVariableField(cf007);
+		record.addVariableField(df999atLibrary);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, oneWord);
+	
 	}
 
 /*
