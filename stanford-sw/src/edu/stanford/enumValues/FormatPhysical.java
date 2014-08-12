@@ -34,6 +34,9 @@ public enum FormatPhysical
 	BETA_SP,
 	MP4, 
 	HI_8,
+	LASER_DISC,
+	VIDEO_CD,
+	VIDEOCASSETTE,
 	OTHER_VIDEO,
 
 	// maps
@@ -103,6 +106,10 @@ public enum FormatPhysical
 				return "MPEG-4";
 			case HI_8:
 				return "Hi-8 mm.";
+			case LASER_DISC:
+				return "Laser disc";
+			case VIDEO_CD:
+				return "Video CD";
 			case OTHER_VIDEO:
 				return "Other video";
 
