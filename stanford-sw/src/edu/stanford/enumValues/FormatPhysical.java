@@ -106,7 +106,7 @@ public enum FormatPhysical
 			case MP4:
 				return "MPEG-4";
 			case HI_8:
-				return "Hi-8 mm.";
+				return "Hi-8 mm";  // INDEX-155 - removed ending period
 			case LASER_DISC:
 				return "Laser disc";
 			case VIDEO_CD:
