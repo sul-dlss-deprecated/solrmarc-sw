@@ -56,7 +56,7 @@ nohup java -Xmx1g -Xms256m $DEL_ARG -Dsolr.commit_at_end="true" -cp $CP -jar $SI
 # email the results
 mail -s 'pullThenIndexSirsiIncr.sh output' searchworks-reports@lists.stanford.edu, datacontrol@stanford.edu < $LOG_FILE
 # email the solr log messages
-$SOLRMARC_BASEDIR/stanford-sw/scripts/grep_and_email_tomcat_log.sh
+#$SOLRMARC_BASEDIR/stanford-sw/scripts/grep_and_email_tomcat_log.sh
 
 # include latest course reserves data
 LANG="en_US.UTF-8"
