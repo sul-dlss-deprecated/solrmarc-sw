@@ -44,6 +44,130 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 //OTHER_IMAGE,
 
 	/**
+	 * Need to make sure that the 007 is long enough to be able to determine the format physical value
+	 * INDEX-167 - Added checks for length of 007 to prevent out of bounds errors
+	 */
+@Test
+	public void test007Length()
+	{
+		Leader ldr = factory.newLeader("01103cem a22002777a 4500");
+		Record record = factory.newRecord();
+		record.setLeader(ldr);
+
+		// 007/00 = m (Film) or r (Remote Sensing Image) require no more characters from the 007
+		cf007.setData("m");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.FILM.toString());
+
+		// 007/00 = g, h, or k must have an 007/01 = s (Slide), bcdhj (Microflim), efg (Michrofiche), or h (Photo)
+		// 007/00 = g and length = 1, so no value for format_physical_ssim
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("g");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 0);
+
+		// 007/00 = h, 007/01 = b and length = 2, so has one value for format_physical_ssim - microfilm
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("hb");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.MICROFILM.toString());
+
+		// 007/00 = s, requires access.AT_LIBRARY and either an 007/01 = d and 007/03 - b (Vinyl), d (Shellac 78), or f (CD) or an 007/06 = j (Cassette)
+		// 007/00 = s, access = At Library, 007/01 = d but length = 2, so no value for format_physical_ssim
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("sd");
+		record.addVariableField(cf007);
+		record.addVariableField(df999atLibrary);
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 0);
+
+		// 007/00 = s, access = At Library, 007/01 = d, 007/03 = f, so has value for format_physical_ssim - CD
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("sd f");
+		record.addVariableField(cf007);
+		record.addVariableField(df999atLibrary);
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.CD.toString());
+
+		// 007/00 = s, access = At Library, 007/06 = j, so has value for format_physical_ssim - Cassette
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("s     j");
+		record.addVariableField(cf007);
+		record.addVariableField(df999atLibrary);
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.CASSETTE.toString());
+
+		// 007/00 = s, access = At Library, 007/01 = d, 007/03 = ' ', so no value for format_physical_ssim
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("sd    j");
+		record.addVariableField(cf007);
+		record.addVariableField(df999atLibrary);
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 0);
+
+		// 007/00 = s, 007/01 = d, 007/03 = f but  access != At Library, so no value for format_physical_ssim
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("sd f");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 0);
+
+		// 007/00 = v requires 007/04 = aij (Beta), b (VHS), g (Laser Disc), q Hi-8 mm), s (Blu-Ray), v (DVD) or nothing (Other video)
+		// 007/00 = v but length = 1, so no value for format_physical_ssim
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("v");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 0);
+
+		// 007/00 = v but length = 3, so no value for format_physical_ssim
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("v  ");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 0);
+
+		// 007/00 = v and 007/04 = ' ', so has value for format_physical_ssim - Other video
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("v    ");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.OTHER_VIDEO.toString());
+
+		// 007/00 = v and 007/04 = g, so has value for format_physical_ssim - Laser disc
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("v   g");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.LASER_DISC.toString());
+
+		// 007 is an empty string
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 0);
+
+		// No 007 but still should have one format_physical_ssim based upon 538
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		DataField df538 = factory.newDataField("538", ' ', ' ');
+		df538.addSubfield(factory.newSubfield('a', "DVD"));
+		record.addVariableField(df538);
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, FormatPhysical.DVD.toString());
+
+	}
+
+	/**
 	 *  Spec (per Vitus 2013-11, email to gryph-search with Excel spreadsheet attachment):
 	 *   (007/00 = g AND  007/01 = s)  OR  300a contains "slide"
 	 */

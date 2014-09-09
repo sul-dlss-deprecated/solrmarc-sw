@@ -422,6 +422,7 @@ public class FormatUtils {
 	/**
 	 * Assign physical formats based on 007, leader chars and 008 chars
 	 * INDEX-89 - Add video physical formats
+	 * INDEX-167 - Added checks for length of 007 to prevent out of bounds errors
 	 *
 	 * @param cf007List - a list of 007 fields as VariableField objects
 	 * @param accessMethods - set of Strings that can be Online or 'At the Library' or both
@@ -439,89 +440,94 @@ public class FormatUtils {
 		{
 			ControlField cf007 = (ControlField) vf007;
 			String cf007data = cf007.getData();
-			char cf007_0 = cf007data.charAt(0);
-			char cf007_1 = cf007data.charAt(1);
-			char cf007_4 = cf007data.charAt(4);
-			switch (cf007_0)
+			if (cf007data != null && cf007data.length() > 0)
 			{
-				case 'g':
-					if (cf007_1 == 's')
-						result.add(FormatPhysical.SLIDE.toString());
-					break;
-				case 'h':
-					if ("bcdhj".contains(String.valueOf(cf007_1)))
-						result.add(FormatPhysical.MICROFILM.toString());
-					else if ("efg".contains(String.valueOf(cf007_1)))
-						result.add(FormatPhysical.MICROFICHE.toString());
-					break;
-				case 'k':
-					if (cf007_1 == 'h')
-						result.add(FormatPhysical.PHOTO.toString());
-					break;
-				case 'm':
-					// INDEX-89 - Add video physical formats
-					// FILM - 007/00 = m
-					result.add(FormatPhysical.FILM.toString());
-					break;
-				case 'r':
-					result.add(FormatPhysical.REMOTE_SENSING_IMAGE.toString());
-					break;
-				case 's':
-					if (cf007_1 == 'd' && accessMethods.contains(Access.AT_LIBRARY.toString()))
-					{
-						switch (cf007data.charAt(3))
+				switch (cf007data.charAt(0))
+				{
+					case 'g':
+						if (cf007data.length() > 1 && cf007data.charAt(1) == 's')
+							result.add(FormatPhysical.SLIDE.toString());
+						break;
+					case 'h':
+						if (cf007data.length() > 1)
 						{
-							case 'b':
-								result.add(FormatPhysical.VINYL.toString());
-								break;
-							case 'd':
-								result.add(FormatPhysical.SHELLAC_78.toString());
-								break;
-							case 'f':
-								result.add(FormatPhysical.CD.toString());
-								break;
+							if ("bcdhj".contains(String.valueOf(cf007data.charAt(1))))
+								result.add(FormatPhysical.MICROFILM.toString());
+							else if ("efg".contains(String.valueOf(cf007data.charAt(1))))
+								result.add(FormatPhysical.MICROFICHE.toString());
 						}
-					}
-					else if (cf007data.charAt(6) == 'j' && accessMethods.contains(Access.AT_LIBRARY.toString()))
-						result.add(FormatPhysical.CASSETTE.toString());
-					break;
-				case 'v':
-					// INDEX-89 - Add video physical formats
-					switch (cf007_4)
-					{
-						case 'a':
-						case 'i':
-						case 'j':
-							// Beta - 007/00 = v, 007/04 = a 
-							// Betacam - 007/00 = v, 007/04 = i 
-							// Betacam SP - 007/00 = v, 007/04 = j
-							result.add(FormatPhysical.BETA.toString());
-							break;
-						case 'b':
-							// VHS - 007/00 = v, 007/04 = b
-							result.add(FormatPhysical.VHS.toString());
-							break;
-						case 'g':
-							// Laser disc - 007/00 - v, 007/04 = g
-							result.add(FormatPhysical.LASER_DISC.toString());
-							break;
-						case 'q':
-							// Hi-8 mm - 007/00 = v, 007/04 = q
-							result.add(FormatPhysical.HI_8.toString());
-							break;
-						case 's':
-							// BLURAY - 007/00 = v, 007/04 = s
-							result.add(FormatPhysical.BLURAY.toString());
-							break;
-						case 'v':
-							// DVD - 007/00 = v, 007/04 = v
-							result.add(FormatPhysical.DVD.toString());
-							break;
-						default:
-							result.add(FormatPhysical.OTHER_VIDEO.toString());
-							break;
-					} // switch cf007_4
-					break;  //case v
+						break;
+					case 'k':
+						if (cf007data.length() > 1 && cf007data.charAt(1) == 'h')
+							result.add(FormatPhysical.PHOTO.toString());
+						break;
+					case 'm':
+						// INDEX-89 - Add video physical formats
+						// FILM - 007/00 = m
+						result.add(FormatPhysical.FILM.toString());
+						break;
+					case 'r':
+						result.add(FormatPhysical.REMOTE_SENSING_IMAGE.toString());
+						break;
+					case 's':
+						if (cf007data.length() > 1 && accessMethods.contains(Access.AT_LIBRARY.toString()))
+						{
+							if (cf007data.charAt(1) == 'd' && cf007data.length() > 3)
+								switch (cf007data.charAt(3))
+								{
+									case 'b':
+										result.add(FormatPhysical.VINYL.toString());
+										break;
+									case 'd':
+										result.add(FormatPhysical.SHELLAC_78.toString());
+										break;
+									case 'f':
+										result.add(FormatPhysical.CD.toString());
+										break;
+								}
+							else if (cf007data.length() > 6 && cf007data.charAt(6) == 'j')
+								result.add(FormatPhysical.CASSETTE.toString());
+						}
+						break;
+					case 'v':
+						if (cf007data.length() > 4)
+							// INDEX-89 - Add video physical formats
+							switch (cf007data.charAt(4))
+							{
+								case 'a':
+								case 'i':
+								case 'j':
+									// Beta - 007/00 = v, 007/04 = a 
+									// Betacam - 007/00 = v, 007/04 = i 
+									// Betacam SP - 007/00 = v, 007/04 = j
+									result.add(FormatPhysical.BETA.toString());
+									break;
+								case 'b':
+									// VHS - 007/00 = v, 007/04 = b
+									result.add(FormatPhysical.VHS.toString());
+									break;
+								case 'g':
+									// Laser disc - 007/00 - v, 007/04 = g
+									result.add(FormatPhysical.LASER_DISC.toString());
+									break;
+								case 'q':
+									// Hi-8 mm - 007/00 = v, 007/04 = q
+									result.add(FormatPhysical.HI_8.toString());
+									break;
+								case 's':
+									// BLURAY - 007/00 = v, 007/04 = s
+									result.add(FormatPhysical.BLURAY.toString());
+									break;
+								case 'v':
+									// DVD - 007/00 = v, 007/04 = v
+									result.add(FormatPhysical.DVD.toString());
+									break;
+								default:
+									result.add(FormatPhysical.OTHER_VIDEO.toString());
+									break;
+							} // switch cf007_4
+						break;  //case v
+				}
 			}
 		}
 
