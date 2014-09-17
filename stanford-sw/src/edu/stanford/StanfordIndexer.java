@@ -661,7 +661,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		// 2. if no ISSN from any 022 subfields a, use 022 subfield z
 
 		// NOTE 1: the ISSN is always an eight digit number divided into two halves by a hyphen.
-    	// NOTE 2: the last digit of an ISSN is a check digit and could be an uppercase X.
+     	// NOTE 2: the last digit of an ISSN is a check digit and could be an uppercase X.
+    		// INDEX-142 NOTE 3: Lane Medical adds (Print) or (Digital) descriptors to their ISSNs
+    		// so need to account for it in the pattern match below
 
 		Set<String> issnSet = new HashSet<String>();
 
@@ -669,7 +671,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		if (set.isEmpty())
 			set.addAll(MarcUtils.getFieldList(record, "022z"));
 
-		Pattern p = Pattern.compile("^\\d{4}-\\d{3}[X\\d]$");
+		Pattern p = Pattern.compile("^\\d{4}-\\d{3}[X\\d]\\D*$");
 		Iterator<String> iter = set.iterator();
 		while (iter.hasNext()) {
 			String value = (String) iter.next().trim();

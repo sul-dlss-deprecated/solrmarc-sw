@@ -361,6 +361,67 @@ public class StandardNumberTests extends AbstractStanfordTest
 		assertSingleResult("022subZ", fldName, "1144-585x");
 	}
 
+/**
+ * Test population of issn_display field: the ISSNs used for
+ *  external lookups (e.g. xISSN) - for Lane-specific ISSNs
+ */
+@Test
+public final void testISSNdisplayLane()
+{
+	String fldName = "issn_display";
+	String testFilePath = testDataParentPath + File.separator + "issnTestsLane.xml";
+
+	// no issn
+    solrFldMapTest.assertNoSolrFld(testFilePath, "No022", fldName);
+    solrFldMapTest.assertNoSolrFld(testFilePath, "022subaNoHyphen", fldName);
+    solrFldMapTest.assertNoSolrFld(testFilePath, "022subaTooManyChars", fldName);
+	// 022 single subfield
+    solrFldMapTest.assertSolrFldValue(testFilePath, "022suba", fldName, "1047-2010 (Print)");
+    solrFldMapTest.assertSolrFldValue(testFilePath, "022subaX", fldName, "1047-201X (Print)");
+    // 022 mult subfields
+    solrFldMapTest.assertSolrFldValue(testFilePath, "022subAandL", fldName, "0945-2419 (Print)");
+	solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "022subAandL", fldName, "0796-5621");
+	solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "022subLandM", fldName, "0038-6073 (Print)");
+	solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "022subLandM", fldName, "0796-5621 (George)");
+}
+
+/**
+	 * Test population of issn_search field: the ISSNs that an end user can
+	 *  search for in our index - Lane-specific ISSNs
+ */
+@Test
+public final void testISSNSearchLane()
+	throws IOException, ParserConfigurationException, SAXException, SolrServerException
+{
+	String fldName = "issn_search";
+	createFreshIx("issnTestsLane.xml");
+
+	assertSingleResult("022suba", fldName, "1047-2010");
+	assertSingleResult("022subaX", fldName, "1047-201X");
+
+	Set<String> docIds = new HashSet<String>();
+	docIds.add("022subL");
+	docIds.add("022subAandL");
+	docIds.add("022subLandM");
+	assertSearchResults(fldName, "0796-5621", docIds);
+
+	assertSingleResult("022subM", fldName, "0863-4564");
+	assertSingleResult("022subY", fldName, "0813-1964");
+	assertSingleResult("022subMandZ", fldName, "1144-5858");
+	assertSingleResult("022subLandM", fldName, "0038-6073");
+	assertSingleResult("022subMandZ", fldName, "0103-8915");
+	assertSingleResult("022subZ", fldName, "1144-585X");
+	assertSingleResult("022subAandL", fldName, "0945-2419");
+	assertSingleResult("Two022a", fldName, "0666-7770");
+	assertSingleResult("Two022a", fldName, "1221-2112");
+
+	// without hyphen:
+	assertSingleResult("022subM", fldName, "08634564");
+	assertSingleResult("022subZ", fldName, "1144585X");
+
+	assertSingleResult("785x", fldName, "8750-2836");
+
+}
 
 	/**
 	 * Test population of lccn field
