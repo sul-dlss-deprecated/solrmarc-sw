@@ -56,7 +56,6 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	    assertSingleResult("4823592", fldName, "\"Law (Crown)\"");
 	    assertSingleResult("5666387", fldName, "Music");
 	    assertSingleResult("6676531", fldName, "\"East Asia\"");
-	    assertSingleResult("2797607", fldName, "Meyer");
 	    assertSingleResult("10421123", fldName, "Lathrop");
 
 	    // hoover tests are a separate method below
@@ -135,6 +134,10 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		// PHYSICS (Physics Library is no longer a valid building)
 //	    assertSingleResult("3142611", fldName, "Physics");
 	    assertZeroResults(fldName, "\"PHYSICS\"");
+
+	    // INDEX-168 Meyer no longer exists
+	    assertZeroResults(fldName, "\"MEYER\"");
+	
 	}
 
 	/**
@@ -414,16 +417,6 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, CallNumberType.LC, !isSerial, id);
 		fldVal = "36105033142303 -|- MATH-CS -|- STACKS -|- " + SEP + "STKS" + SEP +
-				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
-	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-
-		// MEYER
-		id = "2797607";
-		callnum = "B781 .A33 I55 1993";
-		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.LC, id).toLowerCase();
-		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
-		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, CallNumberType.LC, !isSerial, id);
-		fldVal = "36105004381195 -|- MEYER -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
