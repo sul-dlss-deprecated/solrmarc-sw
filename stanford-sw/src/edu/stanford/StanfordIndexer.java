@@ -69,6 +69,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         SKIPPED_CALLNUMS = PropertiesUtils.loadPropertiesSet(propertyDirs, "callnums_skipped_list.properties");
         /** INDEX-92 - Add on-order library as a library facet */
         ON_ORDER_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "library_from_596.properties");
+
         // try to reuse HashSet, etc. objects instead of creating fresh each time
         old_formats = new LinkedHashSet<String>();
         main_formats = new LinkedHashSet<String>();
