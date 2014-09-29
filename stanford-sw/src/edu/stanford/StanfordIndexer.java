@@ -1603,6 +1603,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		if (!has999s) {
 			if (!has596s) {
 				result.add( "" + sep +	// barcode
+<<<<<<< HEAD
 						"" + sep + 	// library
 						"ON-ORDER" + sep +	// home loc
 						"ON-ORDER" + sep +	// current loc
@@ -1615,6 +1616,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			} 
 			else {
 					result.add( "" + sep +	// barcode
+=======
+>>>>>>> Broken version for Naomi
 						"" + sep + 	// library
 						"ON-ORDER" + sep +	// home loc
 						"ON-ORDER" + sep +	// current loc
@@ -1624,6 +1627,24 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 						"" + sep + 	// reverse shelfkey
 						"" + sep + 	// fullCallnum
 						""); 	// volSort
+<<<<<<< HEAD
+=======
+			} 
+			else {
+				Set<String> ooLibs = getOnOrderLibraries(record);
+				for (String ool: ooLibs) {
+					result.add( "" + sep +	// barcode
+						ool + sep + 	// library
+						"ON-ORDER" + sep +	// home loc
+						"ON-ORDER" + sep +	// current loc
+						"" + sep +	// item type
+						"" + sep + 	// lopped Callnum
+						"" + sep + 	// shelfkey
+						"" + sep + 	// reverse shelfkey
+						"" + sep + 	// fullCallnum
+						""); 	// volSort
+				}
+>>>>>>> Broken version for Naomi
 			}
 		}
 		else result.addAll(ItemUtils.getItemDisplay(itemSet, isSerial, id));
@@ -1637,12 +1658,42 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getOnOrderLibraries(final Record record)
 	{
+<<<<<<< HEAD
 		Set<String> onOrderLibrariesSet = new LinkedHashSet<String>();
 		//	onOrderLibrariesSet = MarcUtils.getFieldList(record, "596a");
 		onOrderLibrariesSet.add("5");
 
 		return onOrderLibrariesSet;
 
+=======
+        try
+        {
+        	loadTranslationMap(null, "library_from_596.properties");
+        }
+        catch (IllegalArgumentException e)
+        {
+			e.printStackTrace();
+		}
+
+		Set<String>onOrderLibrary = new HashSet<String>();
+		String data = "";
+
+		if (!has999s && has596s) {
+			List<VariableField> list596vf = record.getVariableFields("596");
+			for (VariableField vf : list596vf) {
+				DataField df = (DataField) vf;
+				if (df.getSubfield('a') != null) {
+					data = df.getSubfield('a').getData().trim();
+					String[] sepLibs = data.split("\\s");
+					for (String sl : sepLibs) {
+						String mapSL = Utils.remap(sl, findTranslationMap("library_from_596.properties"), true);
+						onOrderLibrary.add(mapSL);
+					}
+				}
+			}
+		}
+		return onOrderLibrary;
+>>>>>>> Broken version for Naomi
 	}
 
 	// Item Related Methods -------------  End  --------------- Item Related Methods
