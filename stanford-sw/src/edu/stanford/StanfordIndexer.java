@@ -1614,10 +1614,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 						""); 	// volSort
 			} 
 			else {
-				Set<String> ooLibs = getOnOrderLibraries(record);
-				for (String ool: ooLibs) {
 					result.add( "" + sep +	// barcode
-						ool + sep + 	// library
+						"" + sep + 	// library
 						"ON-ORDER" + sep +	// home loc
 						"ON-ORDER" + sep +	// current loc
 						"" + sep +	// item type
@@ -1626,7 +1624,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 						"" + sep + 	// reverse shelfkey
 						"" + sep + 	// fullCallnum
 						""); 	// volSort
-				}
 			}
 		}
 		else result.addAll(ItemUtils.getItemDisplay(itemSet, isSerial, id));
