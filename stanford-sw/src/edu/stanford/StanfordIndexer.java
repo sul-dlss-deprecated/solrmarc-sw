@@ -1595,33 +1595,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getOnOrderLibraries(final Record record)
 	{
-        try
-        {
-        	loadTranslationMap(null, "library_from_596.properties");
-        }
-        catch (IllegalArgumentException e)
-        {
-			e.printStackTrace();
-		}
+		Set<String> onOrderLibrariesSet = new LinkedHashSet<String>();
+		//	onOrderLibrariesSet = MarcUtils.getFieldList(record, "596a");
+		onOrderLibrariesSet.add("5");
 
-		Set<String>onOrderLibrary = new HashSet<String>();
-		String data = "";
+		return onOrderLibrariesSet;
 
-		if (!has999s && has596s) {
-			List<VariableField> list596vf = record.getVariableFields("596");
-			for (VariableField vf : list596vf) {
-				DataField df = (DataField) vf;
-				if (df.getSubfield('a') != null) {
-					data = df.getSubfield('a').getData().trim();
-					String[] sepLibs = data.split("\\s");
-					for (String sl : sepLibs) {
-						String mapSL = Utils.remap(sl, findTranslationMap("library_from_596.properties"), true);
-						onOrderLibrary.add(mapSL);
-					}
-				}
-			}
-		}
-		return onOrderLibrary;
 	}
 
 	// Item Related Methods -------------  End  --------------- Item Related Methods
