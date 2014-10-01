@@ -137,7 +137,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 
 	    // INDEX-168 Meyer no longer exists
 	    assertZeroResults(fldName, "\"MEYER\"");
-	
+
 	}
 
 	/**
@@ -1358,7 +1358,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	    record.addVariableField(df);
 		expFldVal =  SEP + SEP +  SEP + SEP + SEP +  callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + "LC";
 		solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
-	
+
 		// Has wrong data for Public Note - doesn't have the word PUBLIC
 		record = factory.newRecord();
 		ldr = factory.newLeader("01247cas a2200337 a 4500");
@@ -1470,7 +1470,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		lopped = CallNumUtils.removeLCVolSuffix(callnum) + " ...";
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.DEWEY, !isSerial, "");
-	    
+
 	    record = factory.newRecord();
 		ldr = factory.newLeader("01247cas a2200337 a 4500");
 		record.setLeader(ldr);
@@ -1531,7 +1531,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	    record.addVariableField(df);
 		expFldVal = SEP + SEP +  SEP + SEP + SEP +  callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + "OTHER";
 	    solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
-	    
+
 	    // XX
 	    callnum = "XX(3195846.2579)";
 
@@ -1574,9 +1574,8 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	    record.addVariableField(df);
 		expFldVal = SEP + SEP +  SEP + SEP + SEP +  callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + "OTHER";
 	    solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
+	}
 
-}
-	
 	/**
 	 * test if item_display field is populated correctly, focused on sorting call numbers for show view
 	 *  item_display contains:  (separator is " -|- ")
@@ -1669,20 +1668,6 @@ public class ItemInfoTests extends AbstractStanfordTest {
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.DEWEY;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "item_display", fldVal);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "shelfkey", shelfkey);
-	}
-
-
-	/**
-	 * test preferred_barcode field is created correctly in index
-	 */
-@Test
-	public void testPreferredBarcodeInIx()
-			throws ParserConfigurationException, IOException, SAXException, SolrServerException
-	{
-		// single test to make sure this field is created properly
-		createFreshIx("itemPreferredTests.mrc");
-		String fldName = "preferred_barcode";
-		assertDocHasFieldValue("multLC", fldName, "12");
 	}
 
 
