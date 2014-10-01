@@ -2,13 +2,10 @@ package edu.stanford;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
-
 import edu.stanford.AbstractStanfordTest;
 import edu.stanford.enumValues.CallNumberType;
 
 import org.junit.*;
-import org.marc4j.marc.*;
 
 /**
  * unit tests for edu.stanford.ItemUtils methods

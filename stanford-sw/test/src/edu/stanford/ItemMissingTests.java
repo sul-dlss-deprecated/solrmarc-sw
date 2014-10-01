@@ -111,24 +111,19 @@ public class ItemMissingTests extends AbstractStanfordTest
 	}
 
 
-	/**
-	 * There should be no preferred item barcode value when call number is
-	 *   invalid LC and library is Lane.  (This means there is no
-	 *   preferred item for nearby-on-shelf)
-	 */
 @Test
 	public final void testNoPreferredItemBarcode()
 	{
 		String fldName = "preferred_barcode";
-		solrFldMapTest.assertNoSolrFld(testFilePath, "onlyMissing", fldName);
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "missingDiff", fldName, "111");
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "missingDiff", fldName, "222");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "missingSame", fldName, "36105042256730");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "onlyMissing", fldName, "36105002467384");
+		// these are equivalent according to the algorithm so it doesn't matter if it's 111 or 222
+		solrFldMapTest.assertSolrFldHasNumValues(testFilePath, "missingDiff", fldName, 1);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "missingSame", fldName, "36105042256730");
 
-	    solrFldMapTest.assertNoSolrFld(testFilePath, "onlyLost", fldName);
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "lostDiff", fldName, "111");
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "lostDiff", fldName, "222");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "lostSame", fldName, "36105042256730");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "onlyLost", fldName, "36105002467384");
+	    // these are equivalent according to the algorithm so it doesn't matter if it's 111 or 222
+		solrFldMapTest.assertSolrFldHasNumValues(testFilePath, "lostDiff", fldName, 1);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "lostSame", fldName, "36105042256730");
 	}
 
 

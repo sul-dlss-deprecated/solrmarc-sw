@@ -30,6 +30,7 @@ public class ItemUtils {
 	 *
 	 * @param itemSet - set of Item objects that does NOT include any items to be skipped
 	 * @param locationMap - mapping from raw locations to translated location
+	 * @param isSerial - true if the record is a serial, false otherwise
 	 */
 	static void lopItemCallnums(Set<Item> itemSet, Map<String,String> locationMap, boolean isSerial)
 	{
@@ -123,70 +124,212 @@ public class ItemUtils {
 
 
 	/**
-	 * Return the barcode of the item with the preferred callnumber.  The algorithm is:
-	 *   1.  if there is only one item, choose it.
-	 *   2.  Select the item with the longest LC call number.
-	 *   3.  if no LC call numbers, select the item with the longest Dewey call number.
-	 *   4.  if no LC or Dewey call numbers, select the item with the longest SUDOC call number.
-	 *   5.  otherwise, select the item with the longest call number.
+	 * preferred item algorithm, per INDEX-153:
+	 * 1. If Green item(s) have shelfkey, do this:
+	 * - pick the LC truncated callnum with the most items
+	 * - pick the shortest LC untruncated callnum if no truncation
+	 * - if no LC, got through callnum scheme order of preference:  LC, Dewey, Sudoc, Alphanum (without box and folder)
+	 * 2. If no Green shelfkey, use the above algorithm libraries (raw codes in 999) in alpha order.
 	 *
 	 * @param itemSet - the set of items from which selection will be made
+	 * @param isSerial - true if the record is a serial, false otherwise
 	 * @return the barcode of the item with the preferred callnumber
 	 */
-	static String getPreferredItemBarcode(Set<Item> itemSet)
+	static String getPreferredItemBarcode(Set<Item> itemSet, boolean isSerial)
 	{
-		int longestLCLen = 0;
-		String bestLCBarcode = "";
+		boolean haveGreen = false;  // set to true if we have items from Green
 
-		int longestDeweyLen = 0;
-		String bestDeweyBarcode = "";
-
-		int longestSudocLen = 0;
-		String bestSudocBarcode = "";
-
-		int longestOtherLen = 0;
-		String bestOtherBarcode = "";
-
+		// set up data structure counting num items by lib/callnum scheme/lopped Callnum
+		Set<LibSchemeCallNum> libSchemeCallNumSet = new HashSet<LibSchemeCallNum>();
 		for (Item item : itemSet)
 		{
-			if (!item.hasIgnoredCallnum() && !item.hasBadLcLaneCallnum() &&
-					!item.isOnline() &&
-					!item.hasShelbyLoc() &&
-					!item.isMissingOrLost())
+			if (item.getShelfkey(isSerial) != null && !item.hasBadLcLaneCallnum())
 			{
-				int callnumLen = item.getCallnum().length();
-				String barcode = item.getBarcode();
-				if (item.getCallnumType() == CallNumberType.LC && callnumLen > longestLCLen)
+				String itemLib = item.getLibrary();
+				if (itemLib.equals("GREEN"))
+					haveGreen = true;
+
+				// if we have Green, we can ignore all items not in Green
+				if (haveGreen && !itemLib.equals("GREEN"))
+					continue;
+
+				// add item to libSchemeCallNumSet
+				boolean foundMatch = false;
+				for (LibSchemeCallNum setObj : libSchemeCallNumSet)
 				{
-					longestLCLen = callnumLen;
-					bestLCBarcode = barcode;
+					if (setObj.itemMatches(item, isSerial))
+					{
+						foundMatch = true;
+						setObj.addItem(item, isSerial);
+						break;
+					}
 				}
-				else if (item.getCallnumType() == CallNumberType.DEWEY && callnumLen > longestDeweyLen)
+				if (!foundMatch)
 				{
-					longestDeweyLen = callnumLen;
-					bestDeweyBarcode = barcode;
-				}
-				else if (item.getCallnumType() == CallNumberType.SUDOC && callnumLen > longestSudocLen)
-				{
-					longestSudocLen = callnumLen;
-					bestSudocBarcode = barcode;
-				}
-				else if (callnumLen > longestOtherLen)
-				{
-					longestOtherLen = callnumLen;
-					bestOtherBarcode = barcode;
+					LibSchemeCallNum newObj = new LibSchemeCallNum(item, isSerial);
+					libSchemeCallNumSet.add(newObj);
 				}
 			}
 		}
 
-		if (bestLCBarcode.length() > 0)
-			return bestLCBarcode;
-		else if (bestDeweyBarcode.length() > 0)
-			return bestDeweyBarcode;
-		else if (bestSudocBarcode.length() > 0)
-			return bestSudocBarcode;
+		// choose library:  prefer Green, then first alphabetically
+		String chosenLib = "ZZZZZ";
+		if (haveGreen)
+			chosenLib = "GREEN";
 		else
-			return bestOtherBarcode;
+		{
+			for (Iterator iter = libSchemeCallNumSet.iterator(); iter.hasNext();)
+			{
+				LibSchemeCallNum setObj = (LibSchemeCallNum) iter.next();
+				String setObjLib = setObj.lib;
+				if (chosenLib.compareTo(setObjLib) > 0)
+					chosenLib = setObjLib;
+				else if (chosenLib.compareTo(setObjLib) < 0)
+					// won't need this object if it is doomed to be from unchosen library
+					iter.remove();
+			}
+		}
+
+		// pick callnum scheme: LC, Dewey, Sudoc, Alphanum (without box and folder)
+		CallNumberType chosenScheme = CallNumberType.OTHER;
+		for (Iterator iter = libSchemeCallNumSet.iterator(); iter.hasNext();)
+		{
+			LibSchemeCallNum setObj = (LibSchemeCallNum) iter.next();
+			// drop all set members not matching chosen library
+			if (!chosenLib.equals(setObj.lib))
+			{
+				iter.remove();
+				continue;
+			}
+
+			CallNumberType scheme = setObj.scheme;
+			if (scheme.equals(CallNumberType.LC))
+			{
+				chosenScheme = scheme;
+				break;
+			}
+			else if (scheme.equals(CallNumberType.DEWEY) &&
+					!chosenScheme.equals(CallNumberType.LC))
+			{
+				// we have a Dewey callnum and no LC yet
+				if (!chosenScheme.equals(CallNumberType.DEWEY))
+					chosenScheme = scheme;
+			}
+			else if (scheme.equals(CallNumberType.SUDOC) &&
+					!chosenScheme.equals(CallNumberType.LC) &&
+					!chosenScheme.equals(CallNumberType.DEWEY))
+			{
+				// we have a Sudoc callnum and no LC or Dewey yet
+				if (!chosenScheme.equals(CallNumberType.SUDOC))
+					chosenScheme = scheme;
+			}
+			else if (scheme.equals(CallNumberType.ALPHANUM) &&
+					!chosenScheme.equals(CallNumberType.LC) &&
+					!chosenScheme.equals(CallNumberType.DEWEY) &&
+					!chosenScheme.equals(CallNumberType.SUDOC))
+			{
+				// we have an alphanum callnum and no LC or Dewey or Sudoc yet
+				if (!chosenScheme.equals(CallNumberType.ALPHANUM))
+					chosenScheme = scheme;
+			}
+		}
+
+		// pick most items
+		int mostItems = 1;
+		for (Iterator iter = libSchemeCallNumSet.iterator(); iter.hasNext();)
+		{
+			LibSchemeCallNum setObj = (LibSchemeCallNum) iter.next();
+			// drop all set members not matching chosen scheme
+			if (!chosenScheme.equals(setObj.scheme))
+			{
+				iter.remove();
+				continue;
+			}
+
+			int numItems = setObj.numItems;
+			if (numItems > mostItems)
+				mostItems = numItems;
+			else if (numItems < mostItems)
+				// won't need this object
+				iter.remove();
+		}
+
+		// pick shortest (lopped) callnum if it's a tie
+		int shortestLoppedCallnumLen = 999999;
+		for (Iterator iter = libSchemeCallNumSet.iterator(); iter.hasNext();)
+		{
+			LibSchemeCallNum setObj = (LibSchemeCallNum) iter.next();
+			// drop all set members with too few items
+			if (mostItems > (setObj.numItems))
+			{
+				iter.remove();
+				continue;
+			}
+
+			int loppedCallnumLen = setObj.loppedCallnum.length();
+			if (loppedCallnumLen < shortestLoppedCallnumLen)
+				shortestLoppedCallnumLen = loppedCallnumLen;
+			else if (loppedCallnumLen > shortestLoppedCallnumLen)
+				// won't need this object
+				iter.remove();
+		}
+
+		String preferredBarcode = null;
+		for (Iterator iter = libSchemeCallNumSet.iterator(); iter.hasNext();)
+		{
+			LibSchemeCallNum setObj = (LibSchemeCallNum) iter.next();
+			// drop all set members with callnum too long
+			if (shortestLoppedCallnumLen < (setObj.loppedCallnum.length()))
+			{
+				iter.remove();
+				continue;
+			}
+
+			Map<String,String> objCallnum2barcode = setObj.callnum2barcode;
+			Set<String> rawCallnums = objCallnum2barcode.keySet();
+			preferredBarcode = objCallnum2barcode.get(rawCallnums.toArray()[0]);
+		}
+
+		return preferredBarcode;
+	}
+
+	/**
+	 * helper class to compute the preferred item and its barcode
+	 * @author ndushay
+	 */
+	static class LibSchemeCallNum
+	{
+		String lib;
+		CallNumberType scheme;
+		String loppedCallnum;
+		int numItems = 0;
+		/** key: full raw callnum;  value: barcode */
+		Map callnum2barcode = new HashMap();
+
+		LibSchemeCallNum(Item item, boolean isSerial)
+		{
+			lib = item.getLibrary();
+			scheme = item.getCallnumType();
+			loppedCallnum = item.getBrowseCallnum(isSerial);
+			numItems = 1;
+			callnum2barcode.put(item.getCallnumVolSort(isSerial), item.getBarcode());
+		}
+
+		void addItem(Item item, boolean isSerial)
+		{
+			if (itemMatches(item, isSerial))
+			{
+				numItems++;
+				callnum2barcode.put(item.getCallnumVolSort(isSerial), item.getBarcode());
+			}
+		}
+
+		boolean itemMatches(Item item, boolean isSerial)
+		{
+			return lib.equals(item.getLibrary()) &&
+					scheme.equals(item.getCallnumType()) &&
+					loppedCallnum.equals(item.getBrowseCallnum(isSerial));
+		}
 	}
 
 
@@ -292,6 +435,7 @@ public class ItemUtils {
 
 			if ( item.hasSeparateBrowseCallnum()
 					|| fullCallnum.startsWith(Item.TMP_CALLNUM_PREFIX)
+					|| loppedCallnum.equals(Item.ECALLNUM)
 					|| StanfordIndexer.SKIPPED_CALLNUMS.contains(fullCallnum))
 				fullCallnum = "";
 

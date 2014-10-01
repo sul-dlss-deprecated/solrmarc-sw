@@ -436,7 +436,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 	/**
-	 * INDEX-89 Video Physical Formats - The order of checking for data has discussed and this is the order suggested: call number, then 538$a, 
+	 * INDEX-89 Video Physical Formats - The order of checking for data has discussed and this is the order suggested: call number, then 538$a,
 	 * then 300$b and 347$b, and finally 007
 	 * @return Set of strings containing physical format values for the resource
 	 * @param record a marc4j Record object
@@ -460,12 +460,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		format538 = FormatUtils.getPhysicalFormat538(record);
 		if (format538 != null)
 			physicalFormats.addAll(format538);
-		
+
 		// INDEX-89 - Add video physical formats from 300$b, 347$b
 		format3xx = FormatUtils.getPhysicalFormat3xxb(record);
 		if (format3xx != null)
 			physicalFormats.addAll(format3xx);
-		
+
 		String mfilmVal = FormatPhysical.MICROFILM.toString();
 		String mficheVal = FormatPhysical.MICROFICHE.toString();
 
@@ -1502,28 +1502,26 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * @return the barcode for the item to be used as the default choice for
 	 *  nearby-on-shelf display (i.e. when no particular item is selected by
 	 *  the user).  The current algorithm is:
-	 *   1.  if there is only one item, choose it.
-	 *   2.  Select the item with the longest LC call number.
-	 *   3.  if no LC call numbers, select the item with the longest Dewey call number.
-	 *   4.  if no LC or Dewey call numbers, select the item with the longest
-	 *     SUDOC call number.
-	 *   5.  otherwise, select the item with the longest call number.
+	 *  1. If Green item(s) have shelfkey, do this:
+	 *  - pick the LC truncated callnum with the most items
+	 *  - pick the shortest LC untruncated callnum if no truncation
+	 *  - if no LC, got through callnum scheme order of preference: LC, Dewey, Sudoc, Alphanum (without box and folder)
+	 *  2. If no Green shelfkey, use the above algorithm for libraries (can use raw codes) in alpha order until you get a shelfkey
 	 * @param record a marc4j Record object
 	 */
 	public String getPreferredItemBarcode(final Record record)
 	{
-		String barcode = ItemUtils.getPreferredItemBarcode(itemSet);
+		String barcode = ItemUtils.getPreferredItemBarcode(itemSet, isSerial);
 		if (barcode == null || barcode.length() == 0) {
 			for (Item item : itemSet) {
 				if ( ( item.isOnline() || item.hasIgnoredCallnum() )
-					 && item.hasSeparateBrowseCallnum()) {
+						&& item.hasSeparateBrowseCallnum()) {
 					String skey = item.getShelfkey(isSerial);
 					if (skey != null && skey.length() > 0)
 						return item.getBarcode();
+					}
 				}
-			}
 		}
-
 		return barcode;
 	}
 
