@@ -33,7 +33,7 @@ public class Item {
 	private final boolean hasShelbyLoc;
 	private final boolean hasBizShelbyLoc;
 	private final boolean hasLaneLoc;
-	
+
 	/* normal instance variables */
 	private CallNumberType callnumType;
 	private String homeLoc;
@@ -304,8 +304,8 @@ public class Item {
 
 	/**
 	 * return the call number for browsing - it could be a call number provided
-	 *  outside of the item record.   This method will SET the lopped call
-	 *  number if the raw call number is from the item record and no
+	 *  outside of the item record (e.g. in 082).  This method will SET the
+	 *  lopped call number if the raw call number is from the item record and no
 	 *  lopped call number has been set yet.
 	 */
 	public String getBrowseCallnum(boolean isSerial) {

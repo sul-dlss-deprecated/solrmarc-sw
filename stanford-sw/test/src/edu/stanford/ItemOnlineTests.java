@@ -196,6 +196,7 @@ public class ItemOnlineTests extends AbstractStanfordTest
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "only999", fldName, fldVal);
 		fldVal = firstPart + sep + sep + sep + sep + sep + CallNumberType.OTHER;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "only999", fldName, fldVal);
+
 	    fldVal = firstPart.replace('1', '2') + sep + sep + "INTERNET RESOURCE KF3400 .S36 2009" + sep + sep + sep + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "addlItem", fldName, fldVal);
 

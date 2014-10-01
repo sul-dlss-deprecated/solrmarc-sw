@@ -679,7 +679,7 @@ public class CallNumUtils
 		{
 			commonPrefix = Utils.getCommonPrefix(commonPrefix, itemArray[i].getCallnum(), Utils.compareNoPeriodsOrSpaces);
 		}
-		commonPrefix.trim();
+		commonPrefix = commonPrefix.trim();
 
 		// watch for ending years (where "19" or "20" is common ...)
 		String yearRegex = "(20|19|18)\\d{2}";
@@ -827,9 +827,8 @@ public class CallNumUtils
 		for (Item item: itemSet)
 		{
 			String callnumFromItem = item.getCallnum();
-			if ((callnumFromItem == null || callnumFromItem.length() == 0
-				|| item.hasIgnoredCallnum())
-				&& !(item.isInProcess() || item.isOnOrder()) )
+			if ((callnumFromItem == null || callnumFromItem.length() == 0 || item.hasIgnoredCallnum()) &&
+				!(item.isInProcess() || item.isOnOrder()) )
 			{
 				// get 086 call number if record is a gov doc
 				//   (isGovDoc is set by calling routine if there is an 086, among other conditions)
@@ -865,6 +864,7 @@ public class CallNumUtils
 						{
 							item.setCallnumType(CallNumberType.LC);
 							item.setBrowseCallnum(lcCandidate);
+							break;
 						}
 					}
 					// if we don't have a call number from 050, look in 090
@@ -877,6 +877,7 @@ public class CallNumUtils
 							{
 								item.setCallnumType(CallNumberType.LC);
 								item.setBrowseCallnum(lcCandidate);
+								break;
 							}
 						}
 					}

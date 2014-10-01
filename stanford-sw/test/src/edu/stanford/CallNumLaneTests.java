@@ -183,9 +183,7 @@ public class CallNumLaneTests extends AbstractStanfordTest
 		String sep = " -|- ";
 		String barcode = "LL111";
 		String LANE = "LANE-MED";
-		String BUSINESS = "BUSINESS";
 		String ASK_LANE = "ASK@LANE";
-		String ASK_BIZ = "ASK@GSB";
 		String callnum = "A27 .B36";
 		String fldVal = barcode + sep + LANE + sep + ASK_LANE + sep + sep + sep +
 						callnum + sep + LC_SKEY + sep + LC_RSKEY + sep + callnum + sep + LC_SKEY + sep + sep + CallNumberType.LC;
