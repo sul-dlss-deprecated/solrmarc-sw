@@ -962,6 +962,7 @@
         modsxml,
         oclc,
         physical,                     vern_physical,
+        preferred_barcode,
         pub_date,
         publication_year_isi,
         beginning_year_isi,
