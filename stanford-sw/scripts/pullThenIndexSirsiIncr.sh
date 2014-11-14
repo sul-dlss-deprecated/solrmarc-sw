@@ -1,7 +1,7 @@
 #! /bin/bash
 # pullThenIndexSirsiIncr.sh
 # NOTE:  this is deprecated and will be replaced by pullThenIndexBodoniNightly.sh
-# Pull over nightly update files from Sirsi bodoni, then
+# Pull over nightly update files from Sirsi bodoni-local, then
 #  Remove deleted records (per file of ids) from index and update index (with marc records in file)
 # defaults to most recent; can take a date arg in the form yymmdd
 #
@@ -26,9 +26,9 @@ else
 fi
 
 #  sftp remote files with datestamp to "latest/updates"
-sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/$COUNTS_FNAME $LOCAL_DATA_DIR
-sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/$DEL_KEYS_FNAME $LATEST_DATA_DIR/
-sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/$RECORDS_FNAME $LATEST_DATA_DIR/
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni-local:$REMOTE_DATA_DIR/$COUNTS_FNAME $LOCAL_DATA_DIR
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni-local:$REMOTE_DATA_DIR/$DEL_KEYS_FNAME $LATEST_DATA_DIR/
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni-local:$REMOTE_DATA_DIR/$RECORDS_FNAME $LATEST_DATA_DIR/
 
 
 #########

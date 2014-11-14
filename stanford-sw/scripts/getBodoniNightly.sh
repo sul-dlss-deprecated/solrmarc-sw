@@ -1,6 +1,6 @@
 #! /bin/bash
 # getBodoniNightly.sh
-# Pull the nightly update files from Sirsi bodoni
+# Pull the nightly update files from Sirsi bodoni-local
 # defaults to most recent; can take a date arg in the form yymmdd
 #  Naomi Dushay 2010-01-08
 
@@ -22,8 +22,8 @@ else
 fi
     
 #  sftp remote files with datestamp to "latest/updates"
-sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/$COUNTS_FNAME $LOCAL_DATA_DIR
-sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/$DEL_KEYS_FNAME $LATEST_DATA_DIR/
-sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/$RECORDS_FNAME $LATEST_DATA_DIR/
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni-local:$REMOTE_DATA_DIR/$COUNTS_FNAME $LOCAL_DATA_DIR
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni-local:$REMOTE_DATA_DIR/$DEL_KEYS_FNAME $LATEST_DATA_DIR/
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni-local:$REMOTE_DATA_DIR/$RECORDS_FNAME $LATEST_DATA_DIR/
 
 exit 0

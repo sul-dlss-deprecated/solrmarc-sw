@@ -1,6 +1,6 @@
 #! /bin/bash
 # getBodoniFullDump.sh
-# Pull over the latest full dump from Sirsi bodoni
+# Pull over the latest full dump from Sirsi bodoni-local
 #  Naomi Dushay 2008-10-12
 
 COUNTS_FNAME=files_counts
@@ -10,10 +10,10 @@ LOCAL_DATA_DIR=/data/sirsi
 LATEST_DATA_DIR=$LOCAL_DATA_DIR/latest
 PREVIOUS_DATA_DIR=$LOCAL_DATA_DIR/previous
 
-# check if dump is on bodoni
+# check if dump is on bodoni-local
 
 # grab remote files_counts
-sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/$COUNTS_FNAME $LOCAL_DATA_DIR
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni-local:$REMOTE_DATA_DIR/$COUNTS_FNAME $LOCAL_DATA_DIR
 
 
 # ***** TODO:  THIS DIFF CONDITIONAL DOESN'T WORK!!!!  ******
@@ -49,6 +49,6 @@ mv $LATEST_DATA_DIR/logs/* $PREVIOUS_DATA_DIR/logs
 
 
 #  scp remote files to "latest" preserving timestamps
-sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/* $LATEST_DATA_DIR/
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni-local:$REMOTE_DATA_DIR/* $LATEST_DATA_DIR/
 
 exit 0
