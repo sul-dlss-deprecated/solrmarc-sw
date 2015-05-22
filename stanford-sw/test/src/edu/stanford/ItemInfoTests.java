@@ -1503,6 +1503,28 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		expFldVal =  SEP + SEP +  SEP + SEP + SEP +  callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + "LC";
 	    solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
 
+	    // LC
+		callnum = "KF8202 2014";
+		System.out.println("Callnum is " + callnum);
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.LC,"").toLowerCase();
+		System.out.println("ShelfKey is " + shelfkey);
+		lopped = CallNumUtils.removeLCVolSuffix(callnum) + " ...";
+		System.out.println("lopped is " + lopped);
+		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		System.out.println("reversekey is " + reversekey);
+		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, !isSerial, "");
+		System.out.println("volSort is " + volSort);
+
+	    record = factory.newRecord();
+		ldr = factory.newLeader("01247cas a2200337 a 4500");
+		record.setLeader(ldr);
+	    df = factory.newDataField("999", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', "KF8202 2014"));
+	    df.addSubfield(factory.newSubfield('w', "LC"));
+	    record.addVariableField(df);
+		expFldVal =  SEP + SEP +  SEP + SEP + SEP +  callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + "LC";
+	    solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
+
 	    // SUDOC
 	    callnum = "E 1.28:COO-4274-1";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.SUDOC,"").toLowerCase();

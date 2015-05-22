@@ -70,10 +70,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         accessMethods = new HashSet<String>();
     	sfxUrls = new LinkedHashSet<String>();
     	fullTextUrls = new LinkedHashSet<String>();
+		managedPurls = new LinkedHashSet<String>();
     	buildings = new HashSet<String>();
     	shelfkeys = new HashSet<String>();
     	govDocCats = new HashSet<String>();
     	itemSet = new LinkedHashSet<Item>();
+        collectionDruids = new HashSet<String>();
+        collectionsWithTitles = new HashSet<String>();
+        displayType = new HashSet<String>();
 	}
 
 	// variables used in more than one method
@@ -97,6 +101,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	Set<String> govDocCats;
 	/** isSerial is used for shelfkeys and item_display */
 	boolean isSerial;
+	/** managedPurls are used for access_method */
+	Set<String> managedPurls;
+	/** collectionDruids are used in UI to display corresponding collections for digitized items */
+	Set<String> collectionDruids;
+	/** collectionsWithTitles are used in UI to display corresponding collections for digitized items */
+	Set<String> collectionsWithTitles;
+	Set<String> displayType;
+	String collectionType = null;
 
 	/** 008 field */
 	ControlField cf008 = null;
@@ -193,6 +205,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		}
 
 		deweyCallnums = CallNumUtils.getDeweyNormCallnums(itemSet);
+
+		displayType.add("sirsi");
+		processManaged856s(record);
+
 	}
 
 // Id Methods  -------------------- Begin --------------------------- Id Methods
@@ -1128,7 +1144,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		}
 	}
 
-
 	/**
 	 * returns the URLs for restricted full text of a resource described
 	 *  by the 856u.  Restricted is determined by matching a string against
@@ -1852,6 +1867,139 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 // Vernacular Methods ---------------  End  ----------------- Vernacular Methods
+
+// Digital Objects Methods ---------------  Begin  ----------------- Digital Objects Methods
+
+	/**
+	 * returns the PURLs that are managed through StanfordSync
+	 * @param record a marc4j Record object
+	 */
+	public Set<String> getManagedPurls(final Record record)
+	{
+		return managedPurls;
+	}
+
+	/**
+	 * assign managedPurls to be the PURLs for objects that have been digitized and are
+	 *   managed through StanfordSync
+	 * @param all 856 subfield u
+	 */
+	private void setManagedPurls(List<String> subus) {
+		managedPurls.addAll(subus);
+	}
+
+	/**
+	 * returns the display_type that is passed through StanfordSync 856 subfield x #3
+	 * @param record a marc4j Record object
+	 */
+	public Set<String> getDisplayType(final Record record)
+	{
+		return displayType;
+	}
+
+	/**
+	 * assign display_type from the third 856 subfield x in 856s
+	 *   managed through StanfordSync
+	 * @param record a marc4j Record object
+	 */
+	private void setDisplayType(String display) {
+		displayType.add(display);
+	}
+
+	/**
+	 * returns the collection druids for items that are managed through StanfordSync 
+	 *   856 subfield x #4..n
+	 * @param record a marc4j Record object
+	 */
+	public Set<String> getCollectionDruids(final Record record)
+	{
+		return collectionDruids;
+	}
+
+	/**
+	 * assign collection druids from the items managed through StanfordSync
+	 *   856 subfield #4..n
+	 * @param collection druid
+	 */
+	private void setCollectionDruids(String coll_druid) {
+		collectionDruids.add(coll_druid);
+	}
+
+	/**
+	 * returns collection druids and titles from the items managed through StanfordSync
+	 *   856 subfield #4..n
+	 * @param record a marc4j Record object
+	 */
+	public Set<String> getCollectionsWithTitles(final Record record)
+	{
+		return collectionsWithTitles;
+	}
+
+	/**
+	 * assigns collection druids and titles from the items managed through StanfordSync
+	 *   856 subfield #4..n
+	 * @param record a marc4j Record object
+	 */
+	private void setcollectionsWithTitles(String coll_with_title) {
+		collectionsWithTitles.add(coll_with_title);
+	}
+
+	/**
+	 * returns the collection_type that is set to "Digital Collection" if managed 856 from
+	 *   StanfordSync is a collection object
+	 * @param record a marc4j Record object
+	 */
+	public String getCollectionType(final Record record)
+	{
+		return collectionType;
+	}
+
+	/**
+	 * assign collectionType if object that has an 856 managed through StanfordSync
+	 *  if a collection object
+	 */
+	private void setCollectionType() {
+		collectionType = "Digital Collection";
+	}
+
+	/**
+	 * process 856s managed through StanfordSync
+	 * @param record a marc4j Record object
+	 */
+	private void processManaged856s(final Record record) {
+
+		Pattern MANAGED_PATTERN = Pattern.compile("SDR-PURL");
+
+        List<VariableField> list856 = record.getVariableFields("856");
+        for (VariableField vf : list856)
+        {
+            DataField df = (DataField) vf;
+            List<String> subxs = MarcUtils.getSubfieldStrings(df, 'x');
+            if (subxs.size() > 0)
+            {
+				Matcher matcher = MANAGED_PATTERN.matcher(subxs.get(0));
+				if (matcher.find())
+				{
+					setManagedPurls(MarcUtils.getSubfieldStrings(df, 'u'));
+					buildings.add("Stanford Digital Repository");
+					accessMethods.add(Access.ONLINE.toString());
+					if (subxs.get(1).equalsIgnoreCase("item")) {
+						for(int i=4; i<subxs.size(); i++){
+							String[] coll_split = subxs.get(i).split(":");
+							setCollectionDruids(coll_split[0]);
+							String field_data = coll_split[0] + "-|-" + coll_split[1];
+							setcollectionsWithTitles(field_data);
+						}
+					} else if (subxs.get(1).equalsIgnoreCase("collection")) {
+						setCollectionType();
+					}
+					setDisplayType(subxs.get(2));
+				}
+            }
+		}
+	}
+
+// Digital Objects Methods ---------------  End  ----------------- Digital Objects Methods
 
 // Generic Methods ---------------- Begin ---------------------- Generic Methods
 
