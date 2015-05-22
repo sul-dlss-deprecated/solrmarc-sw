@@ -971,7 +971,8 @@
         url_fulltext,
         url_restricted,
         url_suppl,
-        url_sfx
+        url_sfx,
+        managed_purl_urls
       </str>
     </lst>
   </requestHandler>
