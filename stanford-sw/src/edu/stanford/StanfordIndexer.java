@@ -206,6 +206,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		deweyCallnums = CallNumUtils.getDeweyNormCallnums(itemSet);
 
+		managedPurls.clear();
+		collectionDruids.clear();
+        collectionsWithTitles.clear();
+        collectionType = null;
+
+		collectionDruids.add("sirsi");
 		displayType.add("sirsi");
 		processManaged856s(record);
 
@@ -1940,7 +1946,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 *   856 subfield #4..n
 	 * @param record a marc4j Record object
 	 */
-	private void setcollectionsWithTitles(String coll_with_title) {
+	private void setCollectionsWithTitles(String coll_with_title) {
 		collectionsWithTitles.add(coll_with_title);
 	}
 
@@ -1988,7 +1994,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 							String[] coll_split = subxs.get(i).split(":");
 							setCollectionDruids(coll_split[0]);
 							String field_data = coll_split[0] + "-|-" + coll_split[1];
-							setcollectionsWithTitles(field_data);
+							setCollectionsWithTitles(field_data);
 						}
 					} else if (subxs.get(1).equalsIgnoreCase("collection")) {
 						setCollectionType();
