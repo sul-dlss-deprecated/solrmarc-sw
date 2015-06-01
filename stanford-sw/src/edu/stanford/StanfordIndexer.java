@@ -1910,10 +1910,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * @param record a marc4j Record object
 	 */
 	private void setDisplayType(String display) {
-		if (display.contains('Image') || display.contains('Map') || display.contains('Manuscript')) {
-			displayType.add('image');
+		if (display.contains("Image") || display.contains("Map") || display.contains("Manuscript")) {
+			displayType.add("image");
 		} else {
-			displayType.add('file');
+			displayType.add("file");
 		}
 	}
 
