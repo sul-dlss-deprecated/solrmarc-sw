@@ -31,7 +31,7 @@
       <subfield code="x">file:[file1.jpg, file2.jpg]</subfield>
       <subfield code="x">collection:yg867hg1375:9615156:Francis E. Stafford photographs, 1909-1933</subfield>
       <subfield code="x">collection:aa000bb1111:123456789:Test Collection, 1963-2015</subfield>
-      <subfield code="x">collection:yy000zz1111:987654321:Test Collection2, 1968-2015</subfield>
+      <subfield code="x">collection:yy000zz1111::Test Collection2, 1968-2015</subfield>
     </datafield>
   </record>
   <record>

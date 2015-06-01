@@ -86,7 +86,7 @@ public class ManagedPurlTests extends AbstractStanfordTest
 	{
 		String fldName = "collection_with_title";
 			
-		assertDocHasFieldValue("managedPurlItem1Collection", fldName, "yg867hg1375-|-Francis E. Stafford photographs, 1909-1933");
+		assertDocHasFieldValue("managedPurlItem1Collection", fldName, "9615156-|-Francis E. Stafford photographs, 1909-1933");
 		assertDocHasFieldValue("managedPurlItem3Collections", fldName, "yy000zz1111-|-Test Collection2, 1968-2015");
 		assertDocHasNoField("managedPurlCollection", fldName);
 		assertDocHasNoField("ManagedAnd2UnmanagedPurlCollection", fldName);
