@@ -2041,13 +2041,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 						for(int i=3; i<subxs.size(); i++){
 							String[] coll_split = subxs.get(i).split(":");
 							if (coll_split[0].equalsIgnoreCase("file")) {
-								setFileId(subxs.get(i));
+								setFileId(coll_split[1]);
 							} else if (coll_split[0].equalsIgnoreCase("collection")) {
-								setCollectionDruids(coll_split[1]);
 								if (coll_split[2].length() > 2) {
 									setCollectionsWithTitles(coll_split[2] + "-|-" + coll_split[3]);
+									setCollectionDruids(coll_split[2]);
 								} else {
 									setCollectionsWithTitles(coll_split[1] + "-|-" + coll_split[3]);
+									setCollectionDruids(coll_split[1]);
 								}
 							}
 						}
