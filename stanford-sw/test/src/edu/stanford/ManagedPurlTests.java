@@ -54,7 +54,7 @@ public class ManagedPurlTests extends AbstractStanfordTest
 	{
 		String fldName = "display_type";
 	
-		assertDocHasFieldValue("managedPurlItem3Collections", fldName, "citation"); 
+		assertDocHasFieldValue("managedPurlItem3Collections", fldName, "file"); 
 		assertDocHasFieldValue("ManagedAnd2UnmanagedPurlCollection", fldName, "image"); 
 		
 		assertDocHasFieldValue("NoManagedPurlItem", fldName, "sirsi");
