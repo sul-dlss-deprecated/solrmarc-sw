@@ -2038,6 +2038,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					buildings.add("SDR");
 					accessMethods.add(Access.ONLINE.toString());
 					if (subxs.get(1).equalsIgnoreCase("item")) {
+						setFileId(subxs.get(4));
 						for(int i=5; i<subxs.size(); i++){
 							String[] coll_split = subxs.get(i).split(":");
 							setCollectionDruids(coll_split[0]);
@@ -2048,7 +2049,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 						setCollectionType();
 					}
 					setDisplayType(subxs.get(2));
-					setFileId(subxs.get(4));
 				}
             }
 		}
