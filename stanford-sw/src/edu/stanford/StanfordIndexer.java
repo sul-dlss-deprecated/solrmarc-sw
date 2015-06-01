@@ -1987,7 +1987,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				if (matcher.find())
 				{
 					setManagedPurls(MarcUtils.getSubfieldStrings(df, 'u'));
-					buildings.add("Stanford Digital Repository");
+					buildings.add("SDR");
 					accessMethods.add(Access.ONLINE.toString());
 					if (subxs.get(1).equalsIgnoreCase("item")) {
 						for(int i=4; i<subxs.size(); i++){
