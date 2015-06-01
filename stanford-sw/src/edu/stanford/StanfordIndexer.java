@@ -78,6 +78,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         collectionDruids = new HashSet<String>();
         collectionsWithTitles = new HashSet<String>();
         displayType = new HashSet<String>();
+        fileId = new HashSet<String>();
 	}
 
 	// variables used in more than one method
@@ -109,6 +110,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	Set<String> collectionsWithTitles;
 	Set<String> displayType;
 	String collectionType = null;
+	Set<String> fileId;
 
 	/** 008 field */
 	ControlField cf008 = null;
@@ -211,6 +213,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         collectionsWithTitles.clear();
         collectionType = null;
         displayType.clear();
+        fileId.clear();
 
 		collectionDruids.add("sirsi");
 		displayType.add("sirsi");
@@ -1940,8 +1943,26 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 	/**
+	 * returns the file Ids that is passed through StanfordSync 856 subfield x #5
+	 * @param record a marc4j Record object
+	 */
+	public Set<String> getFileId(final Record record)
+	{
+		return fileId;
+	}
+
+	/**
+	 * assign file_id from the fifth 856 subfield x in 856s
+	 *   managed through StanfordSync
+	 * @param record a marc4j Record object
+	 */
+	private void setFileId(String file) {
+		fileId.add(file);
+	}
+
+	/**
 	 * returns the collection druids for items that are managed through StanfordSync 
-	 *   856 subfield x #4..n
+	 *   856 subfield x #6..n
 	 * @param record a marc4j Record object
 	 */
 	public Set<String> getCollectionDruids(final Record record)
@@ -1951,7 +1972,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 	/**
 	 * assign collection druids from the items managed through StanfordSync
-	 *   856 subfield #4..n
+	 *   856 subfield #6..n
 	 * @param collection druid
 	 */
 	private void setCollectionDruids(String coll_druid) {
@@ -2017,7 +2038,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					buildings.add("SDR");
 					accessMethods.add(Access.ONLINE.toString());
 					if (subxs.get(1).equalsIgnoreCase("item")) {
-						for(int i=4; i<subxs.size(); i++){
+						for(int i=5; i<subxs.size(); i++){
 							String[] coll_split = subxs.get(i).split(":");
 							setCollectionDruids(coll_split[0]);
 							String field_data = coll_split[0] + "-|-" + coll_split[2];
@@ -2027,6 +2048,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 						setCollectionType();
 					}
 					setDisplayType(subxs.get(2));
+					setFileId(subxs.get(4))
 				}
             }
 		}
