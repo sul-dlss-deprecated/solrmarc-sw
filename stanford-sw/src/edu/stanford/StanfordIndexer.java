@@ -2026,7 +2026,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 						setCollectionType();
 					}
 					setDisplayType(subxs.get(2));
-					setFileId(subxs.get(4))
+					setFileId(subxs.get(4));
 				}
             }
 		}

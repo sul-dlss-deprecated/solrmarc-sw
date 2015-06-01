@@ -13,6 +13,7 @@
       <subfield code="x">item</subfield>
       <subfield code="x">image</subfield>
       <subfield code="x"></subfield>
+      <subfield code="x">file1.jpg</subfield>
       <subfield code="x">yg867hg1375:9615156:Francis E. Stafford photographs, 1909-1933</subfield>
     </datafield>
   </record>
@@ -29,6 +30,7 @@
       <subfield code="x">item</subfield>
       <subfield code="x">citation</subfield>
       <subfield code="x"></subfield>
+      <subfield code="x">[file1.jpg, file2.jpg]</subfield>
       <subfield code="x">yg867hg1375:9615156:Francis E. Stafford photographs, 1909-1933</subfield>
       <subfield code="x">aa000bb1111:123456789:Test Collection, 1963-2015</subfield>
       <subfield code="x">yy000zz1111:987654321:Test Collection2, 1968-2015</subfield>
@@ -47,6 +49,8 @@
       <subfield code="x">collection</subfield>
       <subfield code="x">image</subfield>
       <subfield code="x"></subfield>
+      <subfield code="x"></subfield>
+      <subfield code="x"></subfield>
     </datafield>
   </record>
   <record>
@@ -62,6 +66,7 @@
       <subfield code="x">item</subfield>
       <subfield code="x">image</subfield>
       <subfield code="x"></subfield>
+      <subfield code="x">[file1.jpg, file2.jpg]</subfield>
       <subfield code="x">aa000bb1111:123456789:Test Collection, 1963-2015</subfield>
     </datafield>
   </record>
@@ -78,6 +83,8 @@
       <subfield code="x">collection</subfield>
       <subfield code="x">image</subfield>
       <subfield code="x"></subfield>
+      <subfield code="x"></subfield>
+      <subfield code="x"></subfield>
     </datafield>
   </record>
   <record>
@@ -93,6 +100,8 @@
       <subfield code="x">collection</subfield>
       <subfield code="x">book</subfield>
       <subfield code="x"></subfield>
+      <subfield code="x"></subfield>
+      <subfield code="x"></subfield>
     </datafield>
     <datafield tag="856" ind1="4" ind2="0">
       <subfield code="u">http://purl.stanford.edu/ct961sj2730</subfield>
@@ -100,12 +109,16 @@
       <subfield code="x">collection</subfield>
       <subfield code="x">image</subfield>
       <subfield code="x"></subfield>
+      <subfield code="x"></subfield>
+      <subfield code="x"></subfield>
     </datafield>
     <datafield tag="856" ind1="4" ind2="0">
       <subfield code="u">http://purl.stanford.edu/aa000bb1111</subfield>
       <subfield code="x">DDR-PURL</subfield>
       <subfield code="x">collection</subfield>
       <subfield code="x">image</subfield>
+      <subfield code="x"></subfield>
+      <subfield code="x"></subfield>
       <subfield code="x"></subfield>
     </datafield>
   </record>
