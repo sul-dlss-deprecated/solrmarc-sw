@@ -2044,7 +2044,11 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 								setFileId(subxs.get(i));
 							} else if (coll_split[0].equalsIgnoreCase("collection")) {
 								setCollectionDruids(coll_split[1]);
-								String field_data = coll_split[1] + "-|-" + coll_split[3];
+								if (coll_split[2].length > 2) {
+									String field_data = coll_split[2] + "-|-" + coll_split[3];
+								} else {
+									String field_data = coll_split[1] + "-|-" + coll_split[3];
+								}
 								setCollectionsWithTitles(field_data);
 							}
 						}
