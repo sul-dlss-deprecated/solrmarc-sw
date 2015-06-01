@@ -210,6 +210,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		collectionDruids.clear();
         collectionsWithTitles.clear();
         collectionType = null;
+        displayType.clear();
 
 		collectionDruids.add("sirsi");
 		displayType.add("sirsi");
@@ -1909,7 +1910,11 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * @param record a marc4j Record object
 	 */
 	private void setDisplayType(String display) {
-		displayType.add(display);
+		if (display.contains('Image') || display.contains('Map') || display.contains('Manuscript')) {
+			displayType.add('image');
+		} else {
+			displayType.add('file');
+		}
 	}
 
 	/**
