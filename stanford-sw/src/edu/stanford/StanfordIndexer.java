@@ -2016,12 +2016,15 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					buildings.add("SDR");
 					accessMethods.add(Access.ONLINE.toString());
 					if (subxs.get(1).equalsIgnoreCase("item")) {
-						setFileId(subxs.get(4));
-						for(int i=5; i<subxs.size(); i++){
+						for(int i=3; i<subxs.size(); i++){
 							String[] coll_split = subxs.get(i).split(":");
-							setCollectionDruids(coll_split[0]);
-							String field_data = coll_split[0] + "-|-" + coll_split[2];
-							setCollectionsWithTitles(field_data);
+							if (coll_split[0].equalsIgnoreCase("file")) {
+								setFileId(subxs.get(i));
+							} else if (coll_split[0].equalsIgnoreCase("collection")) {
+								setCollectionDruids(coll_split[1]);
+								String field_data = coll_split[1] + "-|-" + coll_split[3];
+								setCollectionsWithTitles(field_data);
+							}
 						}
 					} else if (subxs.get(1).equalsIgnoreCase("collection")) {
 						setCollectionType();
