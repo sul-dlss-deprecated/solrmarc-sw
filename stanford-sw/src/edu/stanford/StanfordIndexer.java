@@ -2020,7 +2020,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 						for(int i=4; i<subxs.size(); i++){
 							String[] coll_split = subxs.get(i).split(":");
 							setCollectionDruids(coll_split[0]);
-							String field_data = coll_split[0] + "-|-" + coll_split[1];
+							String field_data = coll_split[0] + "-|-" + coll_split[2];
 							setCollectionsWithTitles(field_data);
 						}
 					} else if (subxs.get(1).equalsIgnoreCase("collection")) {
