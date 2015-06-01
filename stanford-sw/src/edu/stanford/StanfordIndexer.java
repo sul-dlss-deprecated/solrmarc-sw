@@ -2043,7 +2043,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 							if (coll_split[0].equalsIgnoreCase("file")) {
 								setFileId(coll_split[1]);
 							} else if (coll_split[0].equalsIgnoreCase("collection")) {
-<<<<<<< HEAD
 								if (coll_split[2].length() > 2) {
 									setCollectionsWithTitles(coll_split[2] + "-|-" + coll_split[3]);
 									setCollectionDruids(coll_split[2]);
@@ -2051,15 +2050,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 									setCollectionsWithTitles(coll_split[1] + "-|-" + coll_split[3]);
 									setCollectionDruids(coll_split[1]);
 								}
-=======
-								setCollectionDruids(coll_split[1]);
-								if (coll_split[2].length > 2) {
-									String field_data = coll_split[2] + "-|-" + coll_split[3];
-								} else {
-									String field_data = coll_split[1] + "-|-" + coll_split[3];
-								}
 								setCollectionsWithTitles(field_data);
->>>>>>> Put catkey in collection_with_title if there is one
 							}
 						}
 					} else if (subxs.get(1).equalsIgnoreCase("collection")) {
