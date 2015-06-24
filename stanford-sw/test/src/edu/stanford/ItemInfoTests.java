@@ -104,7 +104,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		String fldName = "building_facet";
-		createFreshIx("buildingTests.mrc");
+		createFreshIx("buildingTests.xml");
 
 		// APPLIEDPHY (Applied Physics Department is no longer a valid building)
 //	    assertSingleResult("115472", fldName, "\"Applied Physics Department\"");
@@ -138,6 +138,11 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	    // INDEX-168 Meyer no longer exists
 	    assertZeroResults(fldName, "\"MEYER\"");
 
+	    // Skip MEDIA-MTXT library until UI is ready
+	    assertZeroResults(fldName, "\"MEDIA-MTXT\"");
+
+	    // Skip RUMSEYMAP library until UI is ready
+	    assertZeroResults(fldName, "\"RUMSEYMAP\"");
 	}
 
 	/**

@@ -776,4 +776,38 @@
        <subfield code="t">STKS-MONO</subfield>
     </datafield>
    </record>
+  <record>
+    <leader>01341nam a2200289 a 4500</leader>
+    <controlfield tag="001">a2797608</controlfield>
+    <controlfield tag="008">940412s1993    gw c     b    001 0 ger c</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">MEDIA-MTXT = MEDIA MICROTEXT</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">B781 .A33 I55 1993</subfield>
+      <subfield code="w">LC</subfield>
+      <subfield code="i">36105004381195</subfield>
+      <subfield code="l">STACKS</subfield>
+      <subfield code="m">MEDIA-MTXT</subfield>
+      <subfield code="t">STKS-MONO</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>01341nam a2200289 a 4500</leader>
+    <controlfield tag="001">a2797609</controlfield>
+    <controlfield tag="008">940412s1993    gw c     b    001 0 ger c</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">RUMSEYMAP = RUMSEY MAP</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">B781 .A33 I55 1993</subfield>
+      <subfield code="w">LC</subfield>
+      <subfield code="i">36105004381195</subfield>
+      <subfield code="l">STACKS</subfield>
+      <subfield code="m">RUMSEYMAP</subfield>
+      <subfield code="t">STKS-MONO</subfield>
+    </datafield>
+  </record>
+
+
 </collection>

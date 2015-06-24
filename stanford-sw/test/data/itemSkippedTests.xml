@@ -147,4 +147,57 @@
             <subfield code="t">STKS-MONO</subfield>
         </datafield>
     </record>
+    <!-- Temporarily skip NEDIA-MTXT and RUMSEYMAP libraries for indexing items-->    
+    <record>
+        <leader>01149nam a22002891  4500</leader>
+        <controlfield tag="001">akeepOneTemp</controlfield>
+        <controlfield tag="008">840514s1962    enk      b    000 0 eng  </controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">keep one temp, skip one temp</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">KEEPTEMP</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">KEEPTEMP</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="t">STKS</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">SKIPTEMP</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">2</subfield>
+            <subfield code="i">SKIPTEMP</subfield>
+            <subfield code="m">RUMSEYMAP</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+        </datafield>
+    </record>
+    <!-- mult skipped libraries -->
+    <record>
+        <leader>01151cam a2200277 i 4500</leader>
+        <controlfield tag="001">amultSkipTemp</controlfield>
+        <controlfield tag="008">800812s1979    ilu      b    000 0 eng  </controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">one home temp</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">Z7164.T23.W45</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105035887392</subfield>
+            <subfield code="m">MEDIA-MTXT</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">WDRNALW4497</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">111</subfield>
+            <subfield code="k">WITHDRAWN</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">RUMSEYMAP</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+        </datafield>
+    </record>
 </collection>

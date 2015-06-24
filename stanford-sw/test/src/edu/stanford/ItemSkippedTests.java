@@ -20,7 +20,7 @@ public class ItemSkippedTests extends AbstractStanfordTest
 {
 	static String fldName = "item_display";
 	static String SEP = " -|- ";
-	static String testDataFname = "itemSkippedTests.mrc";
+	static String testDataFname = "itemSkippedTests.xml";
 	String testFilePath = testDataParentPath + File.separator + testDataFname;
 	static boolean isSerial = true;
 	
@@ -46,6 +46,8 @@ public class ItemSkippedTests extends AbstractStanfordTest
 		id = "multSkip";
 		assertZeroResults(fldName, id);
 		id = "EdiRemove";
+		assertZeroResults(fldName, id);
+		id = "multSkipTemp";
 		assertZeroResults(fldName, id);
 	}
 
@@ -78,6 +80,24 @@ public class ItemSkippedTests extends AbstractStanfordTest
 
 	    id = "keepOne";
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
+
+	    id = "keepOneTemp";
+		callnum = "KEEPTEMP";
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.OTHER, id).toLowerCase();
+		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, CallNumberType.OTHER, !isSerial, id);
+		fldVal = "KEEPTEMP -|- GREEN -|- STACKS" + SEP + SEP + "STKS" + SEP + callnum + SEP +
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.OTHER;
+	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
+
+	    callnum = "SKIPTEMP";
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.OTHER, id).toLowerCase();
+		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, CallNumberType.OTHER, !isSerial, id);
+		fldVal = "SKIPTEMP -|- RUMSEYMAP -|- STACKS" + SEP + SEP + SEP + callnum + SEP +
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.OTHER;
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
+
 	}
 
 
