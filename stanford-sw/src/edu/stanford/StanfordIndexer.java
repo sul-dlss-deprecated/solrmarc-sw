@@ -1363,7 +1363,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * returns the date cataloged in the format of YYYY-MM-DDT00:00:00Z
 	 * @param record a marc4j Record object
 	 * @return String with correct format
-	 * @deprecated
 	 */
 	public String getDateCataloged(final Record record)
 	{
@@ -1372,7 +1371,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		if (date != null && date.getSubfield('b') != null) {
 			String date_str = date.getSubfield('b').getData();
 			if (!date_str.equalsIgnoreCase("NEVER")) {
-				date_cat = date_str.substring(0, 3) + "-" + date_str.substring(4, 5) + "-" + date_str.substring(6, 7) + "T00:00:00Z";
+				date_cat = date_str.substring(0, 4) + "-" + date_str.substring(4, 6) + "-" + date_str.substring(6, 8) + "T00:00:00Z";
 			}
 		}
 		return date_cat;

@@ -43,6 +43,7 @@ import org.junit.runners.Suite;
         MhldDisplayUnitTests.class,
         MhldMappingTests.class,
         MiscellaneousFieldTests.class,
+        NewItemTests.class,
         NoteFieldsTests.class,
         PhysicalTests.class,
         PhysicsLibraryItemTests.class,
