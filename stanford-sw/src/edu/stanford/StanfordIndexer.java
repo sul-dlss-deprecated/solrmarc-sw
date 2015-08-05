@@ -68,7 +68,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         BIZ_SHELBY_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "locations_biz_shelby_list.properties");
         SKIPPED_CALLNUMS = PropertiesUtils.loadPropertiesSet(propertyDirs, "callnums_skipped_list.properties");
         /** INDEX-92 - Add on-order library as a library facet */
-        ON_ORDER_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "library_from_596.properties");
+        ON_ORDER_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "library_on_order_map.properties");
 
         // try to reuse HashSet, etc. objects instead of creating fresh each time
         old_formats = new LinkedHashSet<String>();
@@ -1615,16 +1615,17 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 						""); 	// volSort
 			} 
 			else {
-					result.add( "" + sep +	// barcode
-						"" + sep + 	// library
-						"ON-ORDER" + sep +	// home loc
-						"ON-ORDER" + sep +	// current loc
-						"" + sep +	// item type
-						"" + sep + 	// lopped Callnum
-						"" + sep + 	// shelfkey
-						"" + sep + 	// reverse shelfkey
-						"" + sep + 	// fullCallnum
-						""); 	// volSort
+					// Get spec for how to pass info into item_display from 596 if there is no 999
+					// result.add( "" + sep +	// barcode
+					// 	"" + sep + 	// library
+					// 	"ON-ORDER" + sep +	// home loc
+					// 	"ON-ORDER" + sep +	// current loc
+					// 	"" + sep +	// item type
+					// 	"" + sep + 	// lopped Callnum
+					// 	"" + sep + 	// shelfkey
+					// 	"" + sep + 	// reverse shelfkey
+					// 	"" + sep + 	// fullCallnum
+					// 	""); 	// volSort
 			}
 		}
 		else result.addAll(ItemUtils.getItemDisplay(itemSet, isSerial, id));
