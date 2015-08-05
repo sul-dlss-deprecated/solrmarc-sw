@@ -58,7 +58,6 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	    assertSingleResult("6676531", fldName, "\"East Asia\"");
 	    assertSingleResult("10421123", fldName, "Lathrop");
 	    assertSingleResult("2797608", fldName, "\"Media & Microtext Center\"");
-	    assertSingleResult("2797609", fldName, "\"David Rumsey Map Center\"");
 
 	    // hoover tests are a separate method below
 
@@ -139,6 +138,9 @@ public class ItemInfoTests extends AbstractStanfordTest {
 
 	    // INDEX-168 Meyer no longer exists
 	    assertZeroResults(fldName, "\"MEYER\"");
+
+		// Skip RUMSEYMAP library until UI is ready
+	    assertZeroResults(fldName, "\"RUMSEYMAP\"");
 	}
 
 	/**
