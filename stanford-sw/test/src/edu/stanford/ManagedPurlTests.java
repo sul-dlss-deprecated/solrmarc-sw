@@ -19,7 +19,7 @@ import org.xml.sax.SAXException;
  */
 public class ManagedPurlTests extends AbstractStanfordTest 
 {
-	private final String testDataFname = "ManagedPurlTests.xml";
+	private final String testDataFname = "managedPurlTests.xml";
 
 @Before
 	public final void setup() 
