@@ -2050,7 +2050,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 									setCollectionsWithTitles(coll_split[1] + "-|-" + coll_split[3]);
 									setCollectionDruids(coll_split[1]);
 								}
-								setCollectionsWithTitles(field_data);
 							}
 						}
 					} else if (subxs.get(1).equalsIgnoreCase("collection")) {
