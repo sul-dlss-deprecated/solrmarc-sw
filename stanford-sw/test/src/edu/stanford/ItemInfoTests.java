@@ -40,7 +40,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		createFreshIx("buildingTests.xml");
 
 	    assertSingleResult("229800", fldName, "\"Archive of Recorded Sound\"");
-	    assertSingleResult("345228", fldName, "\"Art & Architecture\"");
+	    assertSingleResult("345228", fldName, "\"Art & Architecture (Bowes)\"");
 	    assertSingleResult("460947", fldName, "\"Biology (Falconer)\"");
 	    assertSingleResult("804724", fldName, "\"SAL Newark (off-campus storage)\"");
 	    assertSingleResult("919006", fldName, "\"Chemistry & ChemEng (Swain)\"");
