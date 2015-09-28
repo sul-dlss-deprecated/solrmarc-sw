@@ -2,11 +2,13 @@ package edu.stanford.enumValues;
 
 /** 
  * access facet values for Stanford University
- * @author - Naomi Dushay
+ * INDEX-92 - Add "On order" as an access facet
+ * @author - Naomi Dushay, Laney McGlohon
  */
 public enum Access {
 	ONLINE,
-	AT_LIBRARY;
+	AT_LIBRARY,
+    ON_ORDER;
 
 	/**
 	 * need to override for text of multiple words
@@ -18,6 +20,8 @@ public enum Access {
 			return "At the Library";
 		case ONLINE:
 			return "Online";
+		case ON_ORDER:
+			return "On order";
 		}
 		String lc = super.toString().toLowerCase();
 		String firstchar = lc.substring(0, 1).toUpperCase();

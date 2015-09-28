@@ -37,6 +37,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	static Set<String> BIZ_SHELBY_LOCS = null;
 	/** call numbers that should not be displayed */
 	static Set<String> SKIPPED_CALLNUMS = null;
+	/** locations indicating item is on-order 
+	 * INDEX-92 - Add on-oder library as a library facet */
+	static Set<String> ON_ORDER_LOCS = null;
 
 	/**
 	 * Default constructor
@@ -64,6 +67,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         SHELBY_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "locations_shelby_list.properties");
         BIZ_SHELBY_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "locations_biz_shelby_list.properties");
         SKIPPED_CALLNUMS = PropertiesUtils.loadPropertiesSet(propertyDirs, "callnums_skipped_list.properties");
+        /** INDEX-92 - Add on-order library as a library facet */
+        ON_ORDER_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "library_on_order_map.properties");
+
         // try to reuse HashSet, etc. objects instead of creating fresh each time
         old_formats = new LinkedHashSet<String>();
         main_formats = new LinkedHashSet<String>();
@@ -79,6 +85,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         collectionsWithTitles = new HashSet<String>();
         displayType = new HashSet<String>();
         fileId = new HashSet<String>();
+        onOrderLibraries = new HashSet<String>();
 	}
 
 	// variables used in more than one method
@@ -136,11 +143,15 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 	/** true if the record has items, false otherwise.  Used to detect on-order records */
 	boolean has999s = false;
+	boolean has596s = false;
 
 	/** all LC call numbers from the items without skipped locations */
 	Set<String> lcCallnums;
 	/** all Dewey call numbers from the items without skipped locations */
 	Set<String> deweyCallnums;
+
+	/** used for on order ordering libraries */
+	Set<String> onOrderLibraries;
 
 	/**
 	 * Method from superclass allowing processing that can be done once per
@@ -163,7 +174,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		f956subu = MarcUtils.getFieldList(record, "956u");
 
 		List<VariableField> list999df = record.getVariableFields("999");
+		List<VariableField> list596df = record.getVariableFields("596");
 		has999s = !list999df.isEmpty();
+		has596s = !list596df.isEmpty();
 
 		setId(record);
 		boolean getBrowseCallnumFromBib = true;
@@ -1071,6 +1084,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 	/**
 	 * sets the accessMethods for a record.
+	 * INDEX-92 - Add "On order" as an access facet
 	 * @param record a marc4j Record object
 	 * @return Set of Strings containing access facet values.
 	 */
@@ -1080,6 +1094,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		for (Item item : itemSet) {
 			if (item.isOnline())
 				accessMethods.add(Access.ONLINE.toString());
+			else if (item.isOnOrder())
+					accessMethods.add(Access.ON_ORDER.toString());
 			else
 				accessMethods.add(Access.AT_LIBRARY.toString());
 		}
@@ -1580,12 +1596,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getItemDisplay(final Record record)
 	{
-		Set<String> result = new LinkedHashSet<String>();
 
-		// if there are no 999s, then it's on order
+		Set<String> result = new LinkedHashSet<String>();
+		String sep = ItemUtils.SEP;
+
+		// if there are no 999s and no 596s, then it's on order and cannot determine ordering library
 		if (!has999s) {
-			String sep = ItemUtils.SEP;
-			result.add( "" + sep +	// barcode
+			if (!has596s) {
+				result.add( "" + sep +	// barcode
 						"" + sep + 	// library
 						"ON-ORDER" + sep +	// home loc
 						"ON-ORDER" + sep +	// current loc
@@ -1595,13 +1613,41 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 						"" + sep + 	// reverse shelfkey
 						"" + sep + 	// fullCallnum
 						""); 	// volSort
+			} 
+			else {
+					// Get spec for how to pass info into item_display from 596 if there is no 999
+					// result.add( "" + sep +	// barcode
+					// 	"" + sep + 	// library
+					// 	"ON-ORDER" + sep +	// home loc
+					// 	"ON-ORDER" + sep +	// current loc
+					// 	"" + sep +	// item type
+					// 	"" + sep + 	// lopped Callnum
+					// 	"" + sep + 	// shelfkey
+					// 	"" + sep + 	// reverse shelfkey
+					// 	"" + sep + 	// fullCallnum
+					// 	""); 	// volSort
+			}
 		}
 		else result.addAll(ItemUtils.getItemDisplay(itemSet, isSerial, id));
 
 		return result;
+	}	
+	
+	/**
+	 * set on order library from the 596 subfield a
+	 * @param record a marc4j Record object
+	 */
+	public Set<String> getOnOrderLibraries(final Record record)
+	{
+		Set<String> onOrderLibrariesSet = new LinkedHashSet<String>();
+		//	onOrderLibrariesSet = MarcUtils.getFieldList(record, "596a");
+		onOrderLibrariesSet.add("5");
+
+		return onOrderLibrariesSet;
+
 	}
 
-// Item Related Methods -------------  End  --------------- Item Related Methods
+	// Item Related Methods -------------  End  --------------- Item Related Methods
 
 // Mhld Methods ---------------------- Begin ---------------------- Mhld Methods
 
