@@ -37,13 +37,13 @@ public class ManagedPurlTests extends AbstractStanfordTest
 	{
 		String fldName = "managed_purl_urls";
 			
-		assertDocHasFieldValue("managedPurlItem1Collection", fldName, "http://purl.stanford.edu/nz353cp1092"); 
-		assertDocHasFieldValue("managedPurlItem3Collections", fldName, "http://purl.stanford.edu/wd297xz1362"); 
-		assertDocHasFieldValue("managedPurlCollection", fldName, "http://purl.stanford.edu/ct961sj2730"); 
-		assertDocHasFieldValue("ManagedAnd2UnmanagedPurlCollection", fldName, "http://purl.stanford.edu/ct961sj2730"); 
+		assertDocHasFieldValue("managedPurlItem1Collection", fldName, "https://purl.stanford.edu/nz353cp1092"); 
+		assertDocHasFieldValue("managedPurlItem3Collections", fldName, "https://purl.stanford.edu/wd297xz1362"); 
+		assertDocHasFieldValue("managedPurlCollection", fldName, "https://purl.stanford.edu/ct961sj2730"); 
+		assertDocHasFieldValue("ManagedAnd2UnmanagedPurlCollection", fldName, "https://purl.stanford.edu/ct961sj2730"); 
 		
 		assertDocHasNoField("NoManagedPurlItem", fldName);
-		assertDocHasNoFieldValue("ManagedAnd2UnmanagedPurlCollection", fldName, "http://purl.stanford.edu/yy000zz0000");
+		assertDocHasNoFieldValue("ManagedAnd2UnmanagedPurlCollection", fldName, "https://purl.stanford.edu/yy000zz0000");
 	}
 	
 	/**

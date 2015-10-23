@@ -8,7 +8,7 @@
       <subfield code="a">Managed PURL Item with 1 Collection</subfield>
     </datafield>
     <datafield tag="856" ind1="4" ind2="0">
-      <subfield code="u">http://purl.stanford.edu/nz353cp1092</subfield>
+      <subfield code="u">https://purl.stanford.edu/nz353cp1092</subfield>
       <subfield code="x">SDR-PURL</subfield>
       <subfield code="x">item</subfield>
       <subfield code="x">image</subfield>
@@ -24,7 +24,7 @@
       <subfield code="a">Managed PURL Item with 3 Collections</subfield>
     </datafield>
     <datafield tag="856" ind1="4" ind2="0">
-      <subfield code="u">http://purl.stanford.edu/wd297xz1362</subfield>
+      <subfield code="u">https://purl.stanford.edu/wd297xz1362</subfield>
       <subfield code="x">SDR-PURL</subfield>
       <subfield code="x">item</subfield>
       <subfield code="x">citation</subfield>
@@ -42,7 +42,7 @@
       <subfield code="a">Managed PURL Collection</subfield>
     </datafield>
     <datafield tag="856" ind1="4" ind2="0">
-      <subfield code="u">http://purl.stanford.edu/ct961sj2730</subfield>
+      <subfield code="u">https://purl.stanford.edu/ct961sj2730</subfield>
       <subfield code="x">SDR-PURL</subfield>
       <subfield code="x">collection</subfield>
       <subfield code="x">image</subfield>
@@ -56,7 +56,7 @@
       <subfield code="a">No Managed PURL</subfield>
     </datafield>
     <datafield tag="856" ind1="4" ind2="0">
-      <subfield code="u">http://purl.stanford.edu/ct961sj2730</subfield>
+      <subfield code="u">https://purl.stanford.edu/ct961sj2730</subfield>
       <subfield code="x">DDR-PURL</subfield>
       <subfield code="x">item</subfield>
       <subfield code="x">image</subfield>
@@ -72,7 +72,7 @@
       <subfield code="a">No Managed PURL</subfield>
     </datafield>
     <datafield tag="856" ind1="4" ind2="0">
-      <subfield code="u">http://purl.stanford.edu/ct961sj2730</subfield>
+      <subfield code="u">https://purl.stanford.edu/ct961sj2730</subfield>
       <subfield code="x">DDR-PURL</subfield>
       <subfield code="x">collection</subfield>
       <subfield code="x">image</subfield>
@@ -86,19 +86,19 @@
       <subfield code="a">Managed And Two Unmanaged 856</subfield>
     </datafield>
     <datafield tag="856" ind1="4" ind2="0">
-      <subfield code="u">http://purl.stanford.edu/yy000zz0000</subfield>
+      <subfield code="u">https://purl.stanford.edu/yy000zz0000</subfield>
       <subfield code="x">DDR-PURL</subfield>
       <subfield code="x">collection</subfield>
       <subfield code="x">book</subfield>
     </datafield>
     <datafield tag="856" ind1="4" ind2="0">
-      <subfield code="u">http://purl.stanford.edu/ct961sj2730</subfield>
+      <subfield code="u">https://purl.stanford.edu/ct961sj2730</subfield>
       <subfield code="x">SDR-PURL</subfield>
       <subfield code="x">collection</subfield>
       <subfield code="x">image</subfield>
     </datafield>
     <datafield tag="856" ind1="4" ind2="0">
-      <subfield code="u">http://purl.stanford.edu/aa000bb1111</subfield>
+      <subfield code="u">https://purl.stanford.edu/aa000bb1111</subfield>
       <subfield code="x">DDR-PURL</subfield>
       <subfield code="x">collection</subfield>
       <subfield code="x">image</subfield>
