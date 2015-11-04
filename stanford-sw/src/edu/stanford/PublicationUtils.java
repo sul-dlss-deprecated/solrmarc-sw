@@ -26,7 +26,7 @@ public class PublicationUtils {
 	private static String CURRENT_YEAR_AS_STR = Integer.toString(CURRENT_YEAR_AS_INT);
 
 	private static int EARLIEST_VALID_YEAR = 500;
-	private static int LATEST_VALID_YEAR = CURRENT_YEAR_AS_INT + 1;
+	private static int LATEST_VALID_YEAR = CURRENT_YEAR_AS_INT + 10;
 
 	/**
 	 * Default Constructor: private, so it can't be instantiated by other objects
