@@ -49,7 +49,6 @@ public class BookplatesDisplayTests extends AbstractStanfordTest
    */
 @Test
   public void testBookplatesDisplayMultiples()
-      throws ParserConfigurationException, IOException, SAXException, SolrServerException
   {
     Record record = factory.newRecord();
     DataField df = factory.newDataField("979", ' ', ' ');
@@ -64,7 +63,15 @@ public class BookplatesDisplayTests extends AbstractStanfordTest
     df.addSubfield(factory.newSubfield('c', "No content metadata"));
     df.addSubfield(factory.newSubfield('d', "Lucie King Harris Fund"));
     record.addVariableField(df);
+    df = factory.newDataField("979", ' ', ' ');
+    df.addSubfield(factory.newSubfield('a', "BENDERRM"));
+    df.addSubfield(factory.newSubfield('b', "druid:hd360gv1231"));
+    df.addSubfield(factory.newSubfield('c', "hd360gv1231_00_0001.jp2"));
+    df.addSubfield(factory.newSubfield('d', "Stanford Bookstore : Centennial"));
+    record.addVariableField(df);
+    solrFldMapTest.assertSolrFldHasNumValues(record, fldNameBk, 2);
     solrFldMapTest.assertSolrFldValue(record, fldNameBk, "BAILEYT -|- tf882hn2198 -|- tf882hn2198_00_0001.jp2 -|- Annie Nelson Bailey Memorial Book Fund");
+    solrFldMapTest.assertSolrFldValue(record, fldNameBk, "BENDERRM -|- hd360gv1231 -|- hd360gv1231_00_0001.jp2 -|- Stanford Bookstore : Centennial");
     solrFldMapTest.assertSolrFldHasNoValue(record, fldNameBk, "HARRISL -|- bm267dr4255 -|- No content metadata -|- Lucie King Harris Fund");
   }
 
@@ -90,15 +97,17 @@ public class BookplatesDisplayTests extends AbstractStanfordTest
    */
 @Test
   public void testFundFacet()
+    throws ParserConfigurationException, IOException, SAXException, SolrServerException
   {
+    createFreshIx(testDataFname);
     Record record = factory.newRecord();
     DataField df = factory.newDataField("979", ' ', ' ');
-    df.addSubfield(factory.newSubfield('a', "HARRISL"));
-    df.addSubfield(factory.newSubfield('b', "druid:bm267dr4255"));
-    df.addSubfield(factory.newSubfield('c', "tf882hn2198_00_0001.jp2"));
-    df.addSubfield(factory.newSubfield('d', "Lucie King Harris Fund"));
+    df.addSubfield(factory.newSubfield('a', "BENDERRM"));
+    df.addSubfield(factory.newSubfield('b', "druid:hd360gv1231"));
+    df.addSubfield(factory.newSubfield('c', "hd360gv1231_00_0001.jp2"));
+    df.addSubfield(factory.newSubfield('d', "Stanford Bookstore : Centennial"));
     record.addVariableField(df);
-    solrFldMapTest.assertSolrFldValue(record, fldNameFund, "bm267dr4255");
+    solrFldMapTest.assertSolrFldValue(record, fldNameFund, "hd360gv1231");
   }
 
   /**
@@ -109,10 +118,10 @@ public class BookplatesDisplayTests extends AbstractStanfordTest
   {
     Record record = factory.newRecord();
     DataField df = factory.newDataField("979", ' ', ' ');
-    df.addSubfield(factory.newSubfield('a', "HARRISL"));
-    df.addSubfield(factory.newSubfield('b', "druid:bm267dr4255"));
-    df.addSubfield(factory.newSubfield('c', "bm267dr4255_00_0001.jp2"));
-    df.addSubfield(factory.newSubfield('d', "Lucie King Harris Fund"));
+    df.addSubfield(factory.newSubfield('a', "BENDERRM"));
+    df.addSubfield(factory.newSubfield('b', "druid:hd360gv1231"));
+    df.addSubfield(factory.newSubfield('c', "hd360gv1231_00_0001.jp2"));
+    df.addSubfield(factory.newSubfield('d', "Stanford Bookstore : Centennial"));
     record.addVariableField(df);
     df = factory.newDataField("979", ' ', ' ');
     df.addSubfield(factory.newSubfield('a', "BAILEYT"));
@@ -120,8 +129,16 @@ public class BookplatesDisplayTests extends AbstractStanfordTest
     df.addSubfield(factory.newSubfield('c', "tf882hn2198_00_0001.jp2"));
     df.addSubfield(factory.newSubfield('d', "Annie Nelson Bailey Memorial Book Fund"));
     record.addVariableField(df);
+    df = factory.newDataField("979", ' ', ' ');
+    df.addSubfield(factory.newSubfield('a', "HARRISL"));
+    df.addSubfield(factory.newSubfield('b', "druid:bm267dr4255"));
+    df.addSubfield(factory.newSubfield('c', "No content metadata"));
+    df.addSubfield(factory.newSubfield('d', "Lucie King Harris Fund"));
+    record.addVariableField(df);
+    solrFldMapTest.assertSolrFldHasNumValues(record, fldNameFund, 2);
     solrFldMapTest.assertSolrFldValue(record, fldNameFund, "tf882hn2198");
-    solrFldMapTest.assertSolrFldValue(record, fldNameFund, "bm267dr4255");
+    solrFldMapTest.assertSolrFldValue(record, fldNameFund, "hd360gv1231");
+    solrFldMapTest.assertSolrFldHasNoValue(record, fldNameFund, "bm267dr4255");
   }
 
 }
