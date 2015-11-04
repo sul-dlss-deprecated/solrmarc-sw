@@ -202,6 +202,12 @@
     <!-- lib -|- location -|- note -|- holdings summary -|- last received  -->
     <field name="mhld_display" type="string" indexed="false" stored="true" multiValued="true" />
 
+    <!-- Digital Bookplates fields -->
+    <!-- fund_code -|- druid -|- filename -|- long fund code text  -->
+    <field name="bookplates_display" type="string" indexed="false" stored="true" multiValued="true" />
+    <!-- Druid of the fund bookplate -->
+    <field name="fund_facet" type="string" indexed="true" stored="false" multiValued="true" />
+
     <!-- Course Reserve Fields -->
     <field name="crez_course_id_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="crez_course_name_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
