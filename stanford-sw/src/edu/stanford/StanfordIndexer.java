@@ -218,6 +218,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     collectionType = null;
     displayType.clear();
     fileId.clear();
+    bookplatesDisplay.clear();
+    fundFacet.clear();
 
     collectionDruids.add("sirsi");
     displayType.add("sirsi");
