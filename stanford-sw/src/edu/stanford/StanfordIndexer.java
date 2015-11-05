@@ -1799,7 +1799,7 @@ private void setBookplatesDisplay(final Record record) {
     String subC = MarcUtils.getSubfieldData(df, 'c');
     if (!subC.equalsIgnoreCase("no content metadata")) {
       String[] druid = MarcUtils.getSubfieldData(df, 'b').split(":");
-      bookplatesDisplay.add( MarcUtils.getSubfieldData(df, 'a') + sep +
+      bookplatesDisplay.add( MarcUtils.getSubfieldData(df, 'f') + sep +
                              druid[1] + sep +
                              subC + sep +
                              MarcUtils.getSubfieldData(df, 'd'));

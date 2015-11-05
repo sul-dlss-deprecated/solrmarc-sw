@@ -36,7 +36,7 @@ public class BookplatesDisplayTests extends AbstractStanfordTest
   {
     Record record = factory.newRecord();
     DataField df = factory.newDataField("979", ' ', ' ');
-    df.addSubfield(factory.newSubfield('a', "BAILEYT"));
+    df.addSubfield(factory.newSubfield('f', "BAILEYT"));
     df.addSubfield(factory.newSubfield('b', "druid:tf882hn2198"));
     df.addSubfield(factory.newSubfield('c', "tf882hn2198_00_0001.jp2"));
     df.addSubfield(factory.newSubfield('d', "Annie Nelson Bailey Memorial Book Fund"));
@@ -52,19 +52,19 @@ public class BookplatesDisplayTests extends AbstractStanfordTest
   {
     Record record = factory.newRecord();
     DataField df = factory.newDataField("979", ' ', ' ');
-    df.addSubfield(factory.newSubfield('a', "BAILEYT"));
+    df.addSubfield(factory.newSubfield('f', "BAILEYT"));
     df.addSubfield(factory.newSubfield('b', "druid:tf882hn2198"));
     df.addSubfield(factory.newSubfield('c', "tf882hn2198_00_0001.jp2"));
     df.addSubfield(factory.newSubfield('d', "Annie Nelson Bailey Memorial Book Fund"));
     record.addVariableField(df);
     df = factory.newDataField("979", ' ', ' ');
-    df.addSubfield(factory.newSubfield('a', "HARRISL"));
+    df.addSubfield(factory.newSubfield('f', "HARRISL"));
     df.addSubfield(factory.newSubfield('b', "druid:bm267dr4255"));
     df.addSubfield(factory.newSubfield('c', "No content metadata"));
     df.addSubfield(factory.newSubfield('d', "Lucie King Harris Fund"));
     record.addVariableField(df);
     df = factory.newDataField("979", ' ', ' ');
-    df.addSubfield(factory.newSubfield('a', "BENDERRM"));
+    df.addSubfield(factory.newSubfield('f', "BENDERRM"));
     df.addSubfield(factory.newSubfield('b', "druid:hd360gv1231"));
     df.addSubfield(factory.newSubfield('c', "hd360gv1231_00_0001.jp2"));
     df.addSubfield(factory.newSubfield('d', "Stanford Bookstore : Centennial"));
@@ -83,7 +83,7 @@ public class BookplatesDisplayTests extends AbstractStanfordTest
   {
     Record record = factory.newRecord();
     DataField df = factory.newDataField("979", ' ', ' ');
-    df.addSubfield(factory.newSubfield('a', "HARRISL"));
+    df.addSubfield(factory.newSubfield('f', "HARRISL"));
     df.addSubfield(factory.newSubfield('b', "druid:bm267dr4255"));
     df.addSubfield(factory.newSubfield('c', "No content metadata"));
     df.addSubfield(factory.newSubfield('d', "Lucie King Harris Fund"));
@@ -102,7 +102,7 @@ public class BookplatesDisplayTests extends AbstractStanfordTest
     createFreshIx(testDataFname);
     Record record = factory.newRecord();
     DataField df = factory.newDataField("979", ' ', ' ');
-    df.addSubfield(factory.newSubfield('a', "BENDERRM"));
+    df.addSubfield(factory.newSubfield('f', "BENDERRM"));
     df.addSubfield(factory.newSubfield('b', "druid:hd360gv1231"));
     df.addSubfield(factory.newSubfield('c', "hd360gv1231_00_0001.jp2"));
     df.addSubfield(factory.newSubfield('d', "Stanford Bookstore : Centennial"));
@@ -118,19 +118,19 @@ public class BookplatesDisplayTests extends AbstractStanfordTest
   {
     Record record = factory.newRecord();
     DataField df = factory.newDataField("979", ' ', ' ');
-    df.addSubfield(factory.newSubfield('a', "BENDERRM"));
+    df.addSubfield(factory.newSubfield('f', "BENDERRM"));
     df.addSubfield(factory.newSubfield('b', "druid:hd360gv1231"));
     df.addSubfield(factory.newSubfield('c', "hd360gv1231_00_0001.jp2"));
     df.addSubfield(factory.newSubfield('d', "Stanford Bookstore : Centennial"));
     record.addVariableField(df);
     df = factory.newDataField("979", ' ', ' ');
-    df.addSubfield(factory.newSubfield('a', "BAILEYT"));
+    df.addSubfield(factory.newSubfield('f', "BAILEYT"));
     df.addSubfield(factory.newSubfield('b', "druid:tf882hn2198"));
     df.addSubfield(factory.newSubfield('c', "tf882hn2198_00_0001.jp2"));
     df.addSubfield(factory.newSubfield('d', "Annie Nelson Bailey Memorial Book Fund"));
     record.addVariableField(df);
     df = factory.newDataField("979", ' ', ' ');
-    df.addSubfield(factory.newSubfield('a', "HARRISL"));
+    df.addSubfield(factory.newSubfield('f', "HARRISL"));
     df.addSubfield(factory.newSubfield('b', "druid:bm267dr4255"));
     df.addSubfield(factory.newSubfield('c', "No content metadata"));
     df.addSubfield(factory.newSubfield('d', "Lucie King Harris Fund"));
