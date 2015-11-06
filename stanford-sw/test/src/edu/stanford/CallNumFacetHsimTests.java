@@ -763,7 +763,7 @@ public class CallNumFacetHsimTests extends AbstractStanfordTest
 	{
 	    String firstPart = CallNumUtils.GOV_DOC_TOP_FACET_VAL + "|";
 		solrFldMapTest.assertSolrFldValue(testFilePath, "2557826", fldName, firstPart + CallNumUtils.GOV_DOC_FED_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "5511738", fldName, firstPart + CallNumUtils.GOV_DOC_UNKNOWN_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5511738", fldName, firstPart + CallNumUtils.GOV_DOC_FED_FACET_VAL);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "2678655", fldName, firstPart + CallNumUtils.GOV_DOC_FED_FACET_VAL);
 	}
 

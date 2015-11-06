@@ -266,7 +266,7 @@ public class ItemOnlineTests extends AbstractStanfordTest
 	    String firstPart = CallNumUtils.GOV_DOC_TOP_FACET_VAL + "|";
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "086-1", fldName, firstPart + CallNumUtils.GOV_DOC_UNKNOWN_FACET_VAL);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "082086", fldName, firstPart + CallNumUtils.GOV_DOC_UNKNOWN_FACET_VAL);
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "086-2", fldName, firstPart + CallNumUtils.GOV_DOC_UNKNOWN_FACET_VAL);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "086-2", fldName, firstPart + CallNumUtils.GOV_DOC_FED_FACET_VAL);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "086050", fldName, firstPart + CallNumUtils.GOV_DOC_UNKNOWN_FACET_VAL);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "086090", fldName, firstPart + CallNumUtils.GOV_DOC_UNKNOWN_FACET_VAL);
 

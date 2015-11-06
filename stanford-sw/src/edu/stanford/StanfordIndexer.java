@@ -1739,7 +1739,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
    * Assign type of government doc based on:
    *   callnumber scheme of SUDOC
    *   location in 999
-   *   presence of 086 field (use all 99s that aren't to be skipped)
+   *   presence of 086 field (use all 999s that aren't to be skipped)
+   *   additional criteria for type https://jirasul.stanford.edu/jira/browse/INDEX-140
    * @param record a marc4j Record object
    */
   private void setGovDocCats(final Record record)
@@ -1751,8 +1752,32 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     for (Item item : itemSet) {
       if (item.hasGovDocLoc() || has086
         || item.getCallnumType() == CallNumberType.SUDOC) {
-        String rawLoc = item.getHomeLoc();
-        govDocCats.add(CallNumUtils.getGovDocTypeFromLocCode(rawLoc));
+        String rawLoc = CallNumUtils.getGovDocTypeFromLocCode(item.getHomeLoc());
+        if (rawLoc == "Other") {
+          if (has086) {
+            List<VariableField> list086 = record.getVariableFields("086");
+            for (VariableField vf : list086)
+            {
+              DataField df = (DataField) vf;
+              String sub2 = MarcUtils.getSubfieldData(df, '2');
+              if (sub2 == "cadocs") {
+                govDocCats.add("California");
+              } else if (sub2 == "sudocs") {
+                govDocCats.add("Federal");
+              } else if (sub2 == "undocs") {
+                govDocCats.add("International");
+              } else if (df.getIndicator1() == '0') {
+                  govDocCats.add("Federal");
+              } else {
+                govDocCats.add(rawLoc);
+              }
+            }
+          } else {
+            govDocCats.add(rawLoc);
+          }
+        } else {
+          govDocCats.add(rawLoc);
+        }
       }
     }
   }
