@@ -592,7 +592,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
       }
     }
 
-    /** Based upon SW-1489, if the record if for a certain format (MARC, MRDF,
+    /** Based upon SW-1489, if the record is for a certain format (MARC, MRDF,
      *  MAP, SERIAL, or VM and not SCORE, RECORDING, and MANUSCRIPT) and it has
      *  something in the 008/28 byte, I’m supposed to give it a genre type of
      *  government document

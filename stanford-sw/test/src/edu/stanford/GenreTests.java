@@ -429,6 +429,13 @@ public class GenreTests extends AbstractStanfordTest
     record.addVariableField(df502);
     solrFldMapTest.assertSolrFldValue(record, genreFldName, genrefldVal);
 
+    // Serial
+    record = factory.newRecord();
+    record.setLeader(factory.newLeader("01952cas  2200457Ia 4500"));
+    cf008.setData("780930m19391944nyu          i000 0 eng d");
+    record.addVariableField(cf008);
+    solrFldMapTest.assertSolrFldValue(record, genreFldName, genrefldVal);
+
     // Video
     // based on 10169038
     record = factory.newRecord();
