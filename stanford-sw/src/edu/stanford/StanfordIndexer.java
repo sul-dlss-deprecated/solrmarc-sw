@@ -603,7 +603,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
           !main_formats.contains(Format.MANUSCRIPT_ARCHIVE.toString()) &&
           cf008.find("^.{28}[a-z]"))
       {
-        resultSet.add(Genre.GOVERNMENT_DOCUMENTS.toString());
+        resultSet.add(Genre.GOVERNMENT_DOCUMENT.toString());
       }
     }
 

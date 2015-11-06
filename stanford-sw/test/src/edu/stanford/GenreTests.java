@@ -374,7 +374,7 @@ public class GenreTests extends AbstractStanfordTest
 @Test
   public final void GovDocs()
   {
-    String genrefldVal = Genre.GOVERNMENT_DOCUMENTS.toString();
+    String genrefldVal = Genre.GOVERNMENT_DOCUMENT.toString();
     DataField df502 = factory.newDataField("502", ' ', ' ');
     df502.addSubfield(factory.newSubfield('a', "I exist"));
 

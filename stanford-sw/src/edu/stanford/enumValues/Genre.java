@@ -6,7 +6,7 @@ package edu.stanford.enumValues;
  */
 public enum Genre {
 	CONFERENCE_PROCEEDINGS,
-	GOVERNMENT_DOCUMENTS,
+	GOVERNMENT_DOCUMENT,
 	THESIS;
 
 	/**
@@ -17,8 +17,8 @@ public enum Genre {
 		switch (this) {
 			case CONFERENCE_PROCEEDINGS:
 				return "Conference proceedings";
-			case GOVERNMENT_DOCUMENTS:
-				return "Government documents";
+			case GOVERNMENT_DOCUMENT:
+				return "Government document";
 			case THESIS:
 				return "Thesis/Dissertation";
 			default:
