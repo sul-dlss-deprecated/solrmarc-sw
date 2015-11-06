@@ -592,6 +592,20 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
       }
     }
 
+    /** Based upon SW-1489, if the record if for a certain format (MARC, MRDF,
+     *  MAP, SERIAL, or VM and not SCORE, RECORDING, and MANUSCRIPT) and it has
+     *  something in the 008/28 byte, I’m supposed to give it a genre type of
+     *  government document
+    **/
+    if (cf008 != null && cf008.getData().length() >= 29) {
+      if (!main_formats.contains(Format.MUSIC_SCORE.toString()) &&
+          !main_formats.contains(Format.MUSIC_RECORDING.toString()) &&
+          !main_formats.contains(Format.MANUSCRIPT_ARCHIVE.toString()) &&
+          cf008.find("^.{28}[a-z]"))
+      {
+        resultSet.add(Genre.GOVERNMENT_DOCUMENTS.toString());
+      }
+    }
 
     return resultSet;
   }
