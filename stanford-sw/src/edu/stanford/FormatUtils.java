@@ -578,7 +578,7 @@ public class FormatUtils {
    * VIDEO_CD - 300$b or 347$b = VCD, Video CD, or VideoCD
    *
    * SW-1531 - Add piano and organ rolls as a media type
-   * Assign physical format if 338$a or 300$a contains "audio roll"
+   * Assign physical format if 338$a or 300$a contains "audio, piano, or organ roll"
 
    * @param record
    * @return String containing Physical Format enum value, or null
@@ -599,7 +599,11 @@ public class FormatUtils {
     Set<String> f338a = MarcUtils.getSubfieldDataAsSet(record, "338", "a", "");
     Set<String> f300a = MarcUtils.getSubfieldDataAsSet(record, "300", "a", "");
     if (Utils.setItemContains(f338a, "audio roll") ||
-        Utils.setItemContains(f300a, "audio roll"))
+        Utils.setItemContains(f338a, "piano roll") ||
+        Utils.setItemContains(f338a, "organ roll") ||
+        Utils.setItemContains(f300a, "audio roll") ||
+        Utils.setItemContains(f300a, "piano roll") ||
+        Utils.setItemContains(f300a, "organ roll"))
       result.add(FormatPhysical.PIANO_ORGAN_ROLL.toString());
     return result;
   }
