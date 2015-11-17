@@ -81,7 +81,7 @@ public enum FormatPhysical
       case REEL_TO_REEL:
         return "Reel-to-reel tape";
       case PIANO_ORGAN_ROLL:
-        return "Piano/organ roll";
+        return "Piano/Organ roll";
       case OTHER_RECORDING:
         return "Other recording";
 
