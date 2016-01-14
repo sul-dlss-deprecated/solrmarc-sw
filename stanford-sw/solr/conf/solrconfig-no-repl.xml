@@ -97,6 +97,7 @@
             <str name="f.genre_ssim.facet.method">enum</str>
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">language</str>
+          <str name="facet.field">location_facet</str>
           <str name="facet.field">pub_year_tisim</str>
           <str name="facet.field">topic_facet</str>
         </lst>

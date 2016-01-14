@@ -37,6 +37,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
   static Set<String> BIZ_SHELBY_LOCS = null;
   /** call numbers that should not be displayed */
   static Set<String> SKIPPED_CALLNUMS = null;
+  /** locations indicating art library item is in the locked stacks */
+  static Set<String> ART_LOCKED_LOCS = null;
 
   /**
    * Default constructor
@@ -64,6 +66,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         SHELBY_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "locations_shelby_list.properties");
         BIZ_SHELBY_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "locations_biz_shelby_list.properties");
         SKIPPED_CALLNUMS = PropertiesUtils.loadPropertiesSet(propertyDirs, "callnums_skipped_list.properties");
+        ART_LOCKED_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "art_locked_location_list.properties");
+
         // try to reuse HashSet, etc. objects instead of creating fresh each time
         old_formats = new LinkedHashSet<String>();
         main_formats = new LinkedHashSet<String>();
@@ -81,6 +85,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         fileId = new HashSet<String>();
         bookplatesDisplay = new LinkedHashSet<String>();
         fundFacet = new LinkedHashSet<String>();
+        locationFacet = new LinkedHashSet<String>();
   }
 
   // variables used in more than one method
@@ -115,6 +120,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
   Set<String> fileId;
   Set<String> bookplatesDisplay;
   Set<String> fundFacet;
+  Set<String> locationFacet;
 
   /** 008 field */
   ControlField cf008 = null;
@@ -220,12 +226,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     fileId.clear();
     bookplatesDisplay.clear();
     fundFacet.clear();
+    locationFacet.clear();
 
     collectionDruids.add("sirsi");
     displayType.add("sirsi");
     processManaged856s(record);
     setBookplatesDisplay(record);
     setFundFacet(record);
+    setLocationFacet(record);
 
   }
 
@@ -1563,8 +1571,18 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     buildings.clear();
     for (Item item : itemSet) {
       String buildingStr = item.getLibrary();
-      if (buildingStr.length() > 0)
+      if (buildingStr.length() > 0) {
         buildings.add(buildingStr);
+        // https://github.com/sul-dlss/solrmarc-sw/issues/101
+        // Per Peter Blank - items with library = SAL3 and location = PAGE-AR
+        // should be given two library facet values:
+        // SAL3 (off-campus storage) <- they are currently getting this
+        // and Art & Architecture (Bowes) <- new requirement
+        String type = item.getType();
+        if (buildingStr.equals("SAL3") && type.equals("PAGE_AR")) {
+          buildings.add("ART");
+        }
+      }
     }
   }
 
@@ -1874,6 +1892,42 @@ private void setFundFacet(final Record record) {
     }
   }
 }
+
+/**
+ * returns locations based upon the data in the 852 subfield c or 999 subfield t
+ * @param record a marc4j Record object
+ */
+ public Set<String> getLocationFacet(final Record record)
+ {
+  return locationFacet;
+ }
+
+/**
+* set locations based upon the value in the 852 subfield c or 999 subfield t
+* "Art Locked Stacks"
+* @param record a marc4j Record object
+*/
+private void setLocationFacet(final Record record) {
+
+  for (Item item : itemSet) {
+    if (item.hasArtLockedLoc()) {
+      // TODO: if we get more values for locationFacet, make it an enum like Genre
+      locationFacet.add("Art Locked Stacks");
+    }
+  }
+
+  List<VariableField> list852 = record.getVariableFields("852");
+  for (VariableField vf : list852)
+  {
+    DataField df = (DataField) vf;
+    String subC = MarcUtils.getSubfieldData(df, 'c');
+    if (ART_LOCKED_LOCS.contains(subC)){
+      // TODO: if we get more values for locationFacet, make it an enum like Genre
+      locationFacet.add("Art Locked Stacks");
+    }
+  }
+}
+
 
 // Vernacular Methods --------------- Begin ----------------- Vernacular Methods
 
