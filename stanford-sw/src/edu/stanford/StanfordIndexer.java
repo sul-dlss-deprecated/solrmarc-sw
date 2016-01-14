@@ -1639,23 +1639,26 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     Set<String> result = new LinkedHashSet<String>();
     String sep = ItemUtils.SEP;
 
-    // if there are no 999s and no 596s, then it's on order and cannot determine ordering library
-    if (!has999s) {
+    if (has999s) {
+      result.addAll(ItemUtils.getItemDisplay(itemSet, isSerial, id));
+    } else {
+      // if there are no 999s, then it is on order
       accessMethods.add(Access.ON_ORDER.toString());
-      if (!has596s) {
-        result.add("" + sep +  "" + sep + "ON-ORDER" + sep + "ON-ORDER" + sep + ""
-                + sep + "" + sep + "" + sep + "" + sep + "" + sep + "");
-      } else {
+      // if has 596, ordering library can be determined
+      if (has596s) {
         // Pass info into item_display from 596 if there is no 999
         Set<String> onOrderLibs = getOnOrderLibraries(record);
         for (String buildingStr : onOrderLibs) {
-          result.add("" + sep + buildingStr + sep + "ON-ORDER" + sep +
+          String onOrderLib = Utils.remap(buildingStr, findTranslationMap(ON_ORDER_LOCS), true);
+          result.add("" + sep + onOrderLib + sep + "ON-ORDER" + sep +
             "ON-ORDER" + sep + "" + sep + "" + sep + "" + sep + "" + sep + "" + sep + "");
-          buildings.add(buildingStr);
+          buildings.add(onOrderLib);
         }
+      } else {
+        // Doesn't have 999 or 596 so just on order
+        result.add("" + sep +  "" + sep + "ON-ORDER" + sep + "ON-ORDER" + sep + ""
+                + sep + "" + sep + "" + sep + "" + sep + "" + sep + "");
       }
-    } else {
-      result.addAll(ItemUtils.getItemDisplay(itemSet, isSerial, id));
     }
     return result;
   }

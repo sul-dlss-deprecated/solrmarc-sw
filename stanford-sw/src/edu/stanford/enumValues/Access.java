@@ -1,6 +1,6 @@
 package edu.stanford.enumValues;
 
-/** 
+/**
  * access facet values for Stanford University
  * INDEX-92 - Add "On order" as an access facet
  * @author - Naomi Dushay, Laney McGlohon
@@ -8,7 +8,7 @@ package edu.stanford.enumValues;
 public enum Access {
 	ONLINE,
 	AT_LIBRARY,
-    ON_ORDER;
+	ON_ORDER;
 
 	/**
 	 * need to override for text of multiple words
@@ -28,4 +28,3 @@ public enum Access {
 		return lc.replaceFirst(".{1}", firstchar);
 	}
 }
-
