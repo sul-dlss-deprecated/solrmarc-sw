@@ -234,6 +234,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     setBookplatesDisplay(record);
     setFundFacet(record);
     setLocationFacet(record);
+    addSDRfrom856s(record);
 
   }
 
@@ -2215,6 +2216,32 @@ private void setLocationFacet(final Record record) {
             setCollectionType();
           }
           setDisplayType(subxs.get(2));
+        }
+      }
+    }
+  }
+
+  /**
+   * If an 856 has purl.stanford.edu, add SDR to building facet
+   * @param record a marc4j Record object
+   */
+  private void addSDRfrom856s(final Record record) {
+
+    Pattern MANAGED_PATTERN = Pattern.compile("purl.stanford.edu");
+
+    List<VariableField> list856 = record.getVariableFields("856");
+    for (VariableField vf : list856)
+    {
+      DataField df = (DataField) vf;
+      List<String> subus = MarcUtils.getSubfieldStrings(df, 'u');
+      if (subus.size() > 0)
+      {
+        for (String subu : subus) {
+          Matcher matcher = MANAGED_PATTERN.matcher(subu);
+          if (matcher.find())
+          {
+            buildings.add("SDR");
+          }
         }
       }
     }
