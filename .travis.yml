@@ -4,6 +4,8 @@ env:
   - TEST_SUITE=test_site
 script: "ant $TEST_SUITE"
 jdk:
+  # prod, test: Java HostSpot 64-bit Server VM;
+  #   Java(TM) SE Runtime Environment (build 1.6.0_33-b03)
   - openjdk6
   - openjdk7
   - oraclejdk7
