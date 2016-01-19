@@ -9,9 +9,11 @@ jdk:
   - openjdk6
   - openjdk7
   - oraclejdk7
+  - oraclejdk8
 
 notifications:
   email:
     - ndushay@stanford.edu
     - laneymcg@stanford.edu
 
+sudo: false
