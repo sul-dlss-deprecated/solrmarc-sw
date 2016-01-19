@@ -208,6 +208,10 @@
     <!-- Druid of the fund bookplate -->
     <field name="fund_facet" type="string" indexed="true" stored="false" multiValued="true" />
 
+    <!-- Location facet -->
+    <field name="location_facet" type="string" indexed="true" stored="false" multiValued="true" />
+
+
     <!-- Course Reserve Fields -->
     <field name="crez_course_id_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="crez_course_name_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
