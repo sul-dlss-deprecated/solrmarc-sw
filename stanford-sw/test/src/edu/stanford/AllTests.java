@@ -52,6 +52,7 @@ import org.junit.runners.Suite;
       PhysicsLibraryItemTests.class,
       PublicationTests.class,
       PublicationUtilsUnitTests.class,
+      SDRfrom856sTests.class,
       SeriesTests.class,
       StandardNumberTests.class,
       SubjectSearchTests.class,
