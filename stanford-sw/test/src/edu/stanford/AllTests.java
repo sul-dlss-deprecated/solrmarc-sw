@@ -35,6 +35,7 @@ import org.junit.runners.Suite;
       ItemNoCallNumberTests.class,
       ItemObjectTests.class,
       ItemOnlineTests.class,
+      ItemOnOrderTests.class,
       ItemPreferredBarcodeTests.class,
       ItemSkippedTests.class,
       ItemsSplitTests.class,

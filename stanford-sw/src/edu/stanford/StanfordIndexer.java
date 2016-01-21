@@ -22,6 +22,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
   /** name of map used to translate raw location code to display value
    *   map used to determine if call numbers should be lopped */
   private static String LOCATION_MAP_NAME = null;
+  /** locations indicating item is on-order
+   * INDEX-92 - Add on-order library as a library facet */
+  private static String ON_ORDER_LOCS = null;
 
   /** locations indicating item should not be displayed */
   static Set<String> SKIPPED_LOCS = null;
@@ -53,6 +56,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         try
         {
           LOCATION_MAP_NAME = loadTranslationMap(null, "location_map.properties");
+          /** INDEX-92 - Add on-order library as a library facet */
+          ON_ORDER_LOCS = loadTranslationMap(null, "library_on_order_map.properties");
         }
         catch (IllegalArgumentException e)
         {
@@ -86,6 +91,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         bookplatesDisplay = new LinkedHashSet<String>();
         fundFacet = new LinkedHashSet<String>();
         locationFacet = new LinkedHashSet<String>();
+        onOrderLibraries = new HashSet<String>();
   }
 
   // variables used in more than one method
@@ -146,12 +152,15 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
   /** true if the record has items, false otherwise.  Used to detect on-order records */
   boolean has999s = false;
+  boolean has596s = false;
 
   /** all LC call numbers from the items without skipped locations */
   Set<String> lcCallnums;
   /** all Dewey call numbers from the items without skipped locations */
   Set<String> deweyCallnums;
 
+  /** used for on order ordering libraries */
+  Set<String> onOrderLibraries;
   /**
    * Method from superclass allowing processing that can be done once per
    * record, rather than repeatedly for several indexing specifications,
@@ -174,6 +183,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
     List<VariableField> list999df = record.getVariableFields("999");
     has999s = !list999df.isEmpty();
+    List<VariableField> list596df = record.getVariableFields("596");
+    has596s = !list596df.isEmpty();
 
     setId(record);
     boolean getBrowseCallnumFromBib = true;
@@ -1102,6 +1113,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
   /**
    * sets the accessMethods for a record.
+   * INDEX-92 - Add "On order" as an access facet
    * @param record a marc4j Record object
    * @return Set of Strings containing access facet values.
    */
@@ -1111,6 +1123,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     for (Item item : itemSet) {
       if (item.isOnline())
         accessMethods.add(Access.ONLINE.toString());
+      else if (item.isOnOrder())
+        accessMethods.add(Access.ON_ORDER.toString());
       else
         accessMethods.add(Access.AT_LIBRARY.toString());
     }
@@ -1622,25 +1636,47 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
    */
   public Set<String> getItemDisplay(final Record record)
   {
+
     Set<String> result = new LinkedHashSet<String>();
+    String sep = ItemUtils.SEP;
 
-    // if there are no 999s, then it's on order
-    if (!has999s) {
-      String sep = ItemUtils.SEP;
-      result.add( "" + sep +  // barcode
-                  "" + sep +   // library
-                  "ON-ORDER" + sep +  // home loc
-                  "ON-ORDER" + sep +  // current loc
-                  "" + sep +  // item type
-                  "" + sep +   // lopped Callnum
-                  "" + sep +   // shelfkey
-                  "" + sep +   // reverse shelfkey
-                  "" + sep +   // fullCallnum
-                  "");   // volSort
+    if (has999s) {
+      result.addAll(ItemUtils.getItemDisplay(itemSet, isSerial, id));
+    } else {
+      // if there are no 999s, then it is on order
+      accessMethods.add(Access.ON_ORDER.toString());
+      // if has 596, ordering library can be determined
+      if (has596s) {
+        // Pass info into item_display from 596 if there is no 999
+        Set<String> onOrderLibs = getOnOrderLibraries(record);
+        for (String buildingStr : onOrderLibs) {
+          String onOrderLib = Utils.remap(buildingStr, findTranslationMap(ON_ORDER_LOCS), true);
+          result.add("" + sep + onOrderLib + sep + "ON-ORDER" + sep +
+            "ON-ORDER" + sep + "" + sep + "" + sep + "" + sep + "" + sep + "" + sep + "");
+          buildings.add(onOrderLib);
+        }
+      } else {
+        // Doesn't have 999 or 596 so just on order
+        result.add("" + sep +  "" + sep + "ON-ORDER" + sep + "ON-ORDER" + sep + ""
+                + sep + "" + sep + "" + sep + "" + sep + "" + sep + "");
+      }
     }
-    else result.addAll(ItemUtils.getItemDisplay(itemSet, isSerial, id));
-
     return result;
+  }
+
+  public Set<String> getOnOrderLibraries(final Record record)
+  {
+    Set<String> onOrderLibrariesSet = new LinkedHashSet<String>();
+    List<VariableField> list596df = record.getVariableFields("596");
+    for (VariableField vf : list596df) {
+      List<Subfield> subfieldList = ((DataField) vf).getSubfields();
+      for (Subfield sf : subfieldList) {
+        if (sf.getCode() == 'a') {
+          onOrderLibrariesSet.add(sf.getData());
+        }
+      }
+    }
+    return onOrderLibrariesSet;
   }
 
 // Item Related Methods -------------  End  --------------- Item Related Methods
