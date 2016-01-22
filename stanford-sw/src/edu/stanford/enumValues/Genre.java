@@ -7,6 +7,7 @@ package edu.stanford.enumValues;
 public enum Genre {
 	CONFERENCE_PROCEEDINGS,
 	GOVERNMENT_DOCUMENT,
+	TECHRPTS,
 	THESIS;
 
 	/**
@@ -19,6 +20,8 @@ public enum Genre {
 				return "Conference proceedings";
 			case GOVERNMENT_DOCUMENT:
 				return "Government document";
+			case TECHRPTS:
+				return "Technical report";
 			case THESIS:
 				return "Thesis/Dissertation";
 			default:
