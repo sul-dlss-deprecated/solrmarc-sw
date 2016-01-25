@@ -17,6 +17,7 @@ public class GenreTests extends AbstractStanfordTest
   private final String genreFldName = "genre_ssim";
   private final MarcFactory factory = MarcFactory.newInstance();
   private ControlField cf008 = factory.newControlField("008");
+  private ControlField cf006 = factory.newControlField("006");
   private final DataField df650 = factory.newDataField("650", ' ', '0');
   {
     df650.addSubfield(factory.newSubfield('a', "subject"));
@@ -36,7 +37,7 @@ public class GenreTests extends AbstractStanfordTest
 @Test
   public final void testConferenceProceedings()
   {
-      String fldVal = Genre.CONFERENCE_PROCEEDINGS.toString();
+    String fldVal = Genre.CONFERENCE_PROCEEDINGS.toString();
     Record record = factory.newRecord();
 
     // Book
@@ -445,4 +446,55 @@ public class GenreTests extends AbstractStanfordTest
     record.addVariableField(df502);
     solrFldMapTest.assertSolrFldValue(record, genreFldName, genrefldVal);
   }
+
+/**
+ * something is marked as a technical report
+ */
+@Test
+  public final void TechReport027()
+  {
+    // Presence of 027
+    Record record = factory.newRecord();
+    String genrefldVal = Genre.TECHRPTS.toString();
+    DataField df027 = factory.newDataField("027", ' ', ' ');
+    df027.addSubfield(factory.newSubfield('a', "I exist"));
+    record.addVariableField(df027);
+    solrFldMapTest.assertSolrFldValue(record, genreFldName, genrefldVal);
+  }
+
+@Test
+  public final void TechReport088()
+  {
+    // Presence of 088
+    Record record = factory.newRecord();
+    String genrefldVal = Genre.TECHRPTS.toString();
+    DataField df088 = factory.newDataField("088", ' ', ' ');
+    df088.addSubfield(factory.newSubfield('a', "I exist"));
+    record.addVariableField(df088);
+    solrFldMapTest.assertSolrFldValue(record, genreFldName, genrefldVal);
+  }
+
+@Test
+  public final void TechReport006008()
+  {
+    // leader/06: a or t AND 008/24-27 (any position, i.e. 24, 25, 26, or 27): t
+    Record record = factory.newRecord();
+    String genrefldVal = Genre.TECHRPTS.toString();
+    record.setLeader(factory.newLeader("15069nam a2200409 a 4500"));
+    cf008.setData("091123s2014    si a    sbt   101 0 eng d");
+    record.addVariableField(cf008);
+    solrFldMapTest.assertSolrFldValue(record, genreFldName, genrefldVal);
+  }
+
+@Test
+  public final void TechReport006()
+  {
+    // 006/00: a or t AND 006/7-10 (any position, i.e. 7, 8, 9, or 10): t
+    Record record = factory.newRecord();
+    String genrefldVal = Genre.TECHRPTS.toString();
+    cf006.setData("t||||||||t|f||||||");
+    record.addVariableField(cf006);
+    solrFldMapTest.assertSolrFldValue(record, genreFldName, genrefldVal);
+  }
+
 }

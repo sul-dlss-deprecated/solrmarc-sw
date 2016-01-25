@@ -134,6 +134,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
   String cf008date1 = null;
   /** 007 field */
   ControlField cf007 = null;
+  /** 006 field */
+  ControlField cf006 = null;
+
   /** date260c is a four character String containing year from 260c
    * "cleaned" per DateUtils.cleanDate() */
   String date260c = null;
@@ -169,6 +172,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
    */
   @SuppressWarnings("unchecked")
   protected void perRecordInit(Record record) {
+    cf006 = (ControlField) record.getVariableField("006");
     cf007 = (ControlField) record.getVariableField("007");
     cf008 = (ControlField) record.getVariableField("008");
     if (cf008 != null)
@@ -578,6 +582,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
   {
     String leaderStr = record.getLeader().marshal();
     char leaderChar07 = leaderStr.charAt(7);
+    char leaderChar06 = leaderStr.charAt(6);
 
     Set<String> resultSet = new HashSet<String>();
 
@@ -626,7 +631,30 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         resultSet.add(Genre.GOVERNMENT_DOCUMENT.toString());
       }
     }
-
+    /** Based upon SW-1506 - add technical report as a genre if
+     *  leader/06: a or t AND 008/24-27 (any position, i.e. 24, 25, 26, or 27): t
+     *    OR
+     *  Presence of 027 OR 088
+     *    OR
+     *  006/00: a or t AND 006/7-10 (any position, i.e. 7, 8, 9, or 10): t
+    **/
+    if (cf008 != null && cf008.getData().length() >= 28) {
+      String tech_rpt008 = cf008.getData().substring(24, 28);
+      if ((leaderChar06 == 'a' || leaderChar06 == 't') &&
+          tech_rpt008.contains("t")) {
+        resultSet.add(Genre.TECHRPTS.toString());
+      }
+    } else if (!record.getVariableFields("027").isEmpty() ||
+        !record.getVariableFields("088").isEmpty()) {
+      resultSet.add(Genre.TECHRPTS.toString());
+    } else if (cf006 != null && cf006.getData().length() >= 11) {
+      String cf00601 = cf006.getData().substring(0, 1);
+      String tech_rpt006 = cf006.getData().substring(7, 11);
+      if ((cf00601.contains("a") || cf00601.contains("t")) &&
+          tech_rpt006.contains("t")) {
+        resultSet.add(Genre.TECHRPTS.toString());
+      }
+    }
     return resultSet;
   }
 
