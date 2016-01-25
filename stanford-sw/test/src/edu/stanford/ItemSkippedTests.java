@@ -16,25 +16,25 @@ import edu.stanford.enumValues.CallNumberType;
  * unit tests for edu.stanford.Item methods
  * @author Naomi Dushay
  */
-public class ItemSkippedTests extends AbstractStanfordTest 
+public class ItemSkippedTests extends AbstractStanfordTest
 {
 	static String fldName = "item_display";
 	static String SEP = " -|- ";
 	static String testDataFname = "itemSkippedTests.xml";
 	String testFilePath = testDataParentPath + File.separator + testDataFname;
 	static boolean isSerial = true;
-	
+
 @Before
-	public final void setup() 
+	public final void setup()
 	{
 		mappingTestInit();
-	}	
-	
+	}
+
 	/**
 	 * test that a record with only skipped items does not get indexed.
 	 */
 @Test
-	public void testAllSkipped() 
+	public void testAllSkipped()
 		throws ParserConfigurationException, SAXException, IOException, SolrServerException
 	{
 		String fldName = "id";
@@ -64,10 +64,10 @@ public class ItemSkippedTests extends AbstractStanfordTest
 		String fldVal = "KEEP -|- GREEN -|- STACKS" + SEP + SEP + "STKS" + SEP + callnum + SEP +
 				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.OTHER;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-	    
+
 	    id = "OnePlusEdiRemove";
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-	    
+
 	    callnum = "SKIP";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.OTHER, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -88,13 +88,14 @@ public class ItemSkippedTests extends AbstractStanfordTest
 				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.OTHER;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
-	    callnum = "SKIPTEMP";
-		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.OTHER, id).toLowerCase();
-		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
-		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, CallNumberType.OTHER, !isSerial, id);
-		fldVal = "SKIPTEMP -|- RUMSEYMAP -|- STACKS" + SEP + SEP + SEP + callnum + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.OTHER;
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
+		// Don't skip RUMSEY for morison for testing
+	  //   callnum = "SKIPTEMP";
+		// shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.OTHER, id).toLowerCase();
+		// reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		// volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, CallNumberType.OTHER, !isSerial, id);
+		// fldVal = "SKIPTEMP -|- RUMSEYMAP -|- STACKS" + SEP + SEP + SEP + callnum + SEP +
+		// 		shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.OTHER;
+	  //   solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	}
 
 
