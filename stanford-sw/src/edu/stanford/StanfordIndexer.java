@@ -1617,12 +1617,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
       if (buildingStr.length() > 0) {
         buildings.add(buildingStr);
         // https://github.com/sul-dlss/solrmarc-sw/issues/101
-        // Per Peter Blank - items with library = SAL3 and location = PAGE-AR
+        // Per Peter Blank - items with library = SAL3 and home location = PAGE-AR
         // should be given two library facet values:
         // SAL3 (off-campus storage) <- they are currently getting this
         // and Art & Architecture (Bowes) <- new requirement
-        String type = item.getType();
-        if (buildingStr.equals("SAL3") && type.equals("PAGE_AR")) {
+        String home_loc = item.getHomeLoc();
+        if (buildingStr.equals("SAL3") && home_loc.equals("PAGE-AR")) {
           buildings.add("ART");
         }
       }

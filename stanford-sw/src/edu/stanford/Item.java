@@ -125,7 +125,7 @@ public class Item {
 		else
 			hasLaneLoc = false;
 
-		if (StanfordIndexer.ART_LOCKED_LOCS.contains(itemType))
+		if (StanfordIndexer.ART_LOCKED_LOCS.contains(homeLoc))
 			hasArtLockedLoc = true;
 		else
 			hasArtLockedLoc = false;
