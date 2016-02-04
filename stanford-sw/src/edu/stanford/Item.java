@@ -140,7 +140,7 @@ public class Item {
 
 		if (StanfordIndexer.SKIPPED_CALLNUMS.contains(rawCallnum)
 				|| rawCallnum.startsWith(ECALLNUM)
-				|| rawCallnum.startsWith(TMP_CALLNUM_PREFIX))
+				|| (rawCallnum.startsWith(TMP_CALLNUM_PREFIX) && !(library.equals("HV-ARCHIVE"))))
 			hasIgnoredCallnum = true;
 		else
 			hasIgnoredCallnum = false;
@@ -401,7 +401,8 @@ public class Item {
 			if (skeyCallnum != null && skeyCallnum.length() > 0
 				&& !StanfordIndexer.SKIPPED_CALLNUMS.contains(skeyCallnum)
 				&& !skeyCallnum.startsWith(ECALLNUM)
-				&& !skeyCallnum.startsWith(TMP_CALLNUM_PREFIX) )
+				&& (!skeyCallnum.startsWith(TMP_CALLNUM_PREFIX)
+				|| (skeyCallnum.startsWith(TMP_CALLNUM_PREFIX) && library.equals("HV-ARCHIVE")) ))
 				loppedShelfkey = edu.stanford.CallNumUtils.getShelfKey(skeyCallnum, callnumType, recId);
 		}
 	}
@@ -518,7 +519,7 @@ public class Item {
 				isOnOrder = true;
 			else if (currLoc.equals("INPROCESS"))
 				isInProcess = true;
-			else if (shouldBeSkipped || currLoc.equals("LAC") || homeLoc.equals("LAC"))
+			else if (shouldBeSkipped || currLoc.equals("LAC") || homeLoc.equals("LAC") || library.equals("HV-ARCHIVE"))
 				; // we're okay
 			else if (currLoc.length() > 0) {
 				System.err.println("record " + recId + " has XX callnumber but current location is not ON-ORDER or INPROCESS or shadowy");

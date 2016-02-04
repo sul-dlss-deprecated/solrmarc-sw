@@ -1433,7 +1433,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 
 	/**
 	 * test if item_display field is populated correctly, focused on call number types
-	 * Cull Number Types are 	ALPHANUM, DEWEY, LC, SUDOC, THESIS, XX, OTHER
+	 * Call Number Types are 	ALPHANUM, DEWEY, LC, SUDOC, THESIS, XX, OTHER
 	 *  item_display contains:  (separator is " -|- ")
 	 *    barcode -|- library(short version) -|- location -|-
 	 *     lopped call number (no volume/part info) -|-
@@ -1520,33 +1520,51 @@ public class ItemInfoTests extends AbstractStanfordTest {
 
 	    // THESIS
 	    callnum = "71 15446";
-		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.OTHER,"").toLowerCase();
-		lopped = CallNumUtils.removeLCVolSuffix(callnum) + " ...";
-		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
-		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.OTHER, !isSerial, "");
+			shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.OTHER,"").toLowerCase();
+			lopped = CallNumUtils.removeLCVolSuffix(callnum) + " ...";
+			reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+			volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.OTHER, !isSerial, "");
 
 	    record = factory.newRecord();
-		ldr = factory.newLeader("01247cas a2200337 a 4500");
-		record.setLeader(ldr);
+			ldr = factory.newLeader("01247cas a2200337 a 4500");
+			record.setLeader(ldr);
 	    df = factory.newDataField("999", ' ', ' ');
 	    df.addSubfield(factory.newSubfield('a', callnum));
 	    df.addSubfield(factory.newSubfield('w', "THESIS"));
 	    record.addVariableField(df);
-		expFldVal = SEP + SEP +  SEP + SEP + SEP +  callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + "OTHER";
+			expFldVal = SEP + SEP +  SEP + SEP + SEP +  callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + "OTHER";
 	    solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
 
 	    // XX
 	    callnum = "XX(3195846.2579)";
 
 	    record = factory.newRecord();
-		ldr = factory.newLeader("01247cas a2200337 a 4500");
-		record.setLeader(ldr);
+			ldr = factory.newLeader("01247cas a2200337 a 4500");
+			record.setLeader(ldr);
 	    df = factory.newDataField("999", ' ', ' ');
 	    df.addSubfield(factory.newSubfield('a', callnum));
 	    df.addSubfield(factory.newSubfield('w', "XX"));
 	    record.addVariableField(df);
-		expFldVal = SEP + SEP +  SEP + SEP + SEP +  SEP + SEP + SEP +  SEP + SEP + SEP + "OTHER";
+			expFldVal = SEP + SEP +  SEP + SEP + SEP +  SEP + SEP + SEP +  SEP + SEP + SEP + "OTHER";
 	    solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
+
+			// Hoover Archives with call numbers starting with XX
+			callnum = "XX066 BOX 11";
+			shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.ALPHANUM,"").toLowerCase();
+			lopped = CallNumUtils.removeLCVolSuffix(callnum) + " ...";
+			reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+			volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.ALPHANUM, !isSerial, "");
+
+	    record = factory.newRecord();
+			ldr = factory.newLeader("01247cas a2200337 a 4500");
+			record.setLeader(ldr);
+	    df = factory.newDataField("999", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', callnum));
+	    df.addSubfield(factory.newSubfield('m', "HV-ARCHIVE"));
+			df.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+	    record.addVariableField(df);
+			expFldVal = SEP + "HV-ARCHIVE" + SEP + SEP + SEP + SEP + callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + "ALPHANUM";
+			solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
 
 	    // ASIS
 	    callnum = "INTERNET RESOURCE";
