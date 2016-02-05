@@ -1532,7 +1532,7 @@ public class PublicationTests extends AbstractStanfordTest
 
 
 	/**
-	 * functional test: pub_date_display field
+	 * functional test: pub_date field (which is @deprecated)
 	 */
 @Test
 	public final void testPubDateForDisplay()
