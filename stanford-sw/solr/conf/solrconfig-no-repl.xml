@@ -964,7 +964,7 @@
         production_year_isi,
         original_year_isi,
         copyright_year_isi,
-        pub_date_display,
+        pub_year_ss,
         summary_display,
         title_245a_display,           vern_title_245a_display,
         title_245c_display,           vern_title_245c_display,
