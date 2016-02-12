@@ -937,6 +937,8 @@
         db_az_subject,
         display_type,
         file_id,
+        set,
+        set_with_title,
         format,
         format_main_ssim,
         format_physical_ssim,
