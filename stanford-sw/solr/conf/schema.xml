@@ -239,6 +239,10 @@
     <field name="collection_type" type="string" indexed="true" stored="true" multiValued="true" />
     <!-- file_id:  ids of files (including images) in the digital stacks -->
     <field name="file_id" type="string" indexed="false" stored="true" multiValued="true"/>
+    <!-- set (facet and display): for DOR items that are part of a virtual objects, the id of their virtual object -->
+    <field name="set" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
+    <!-- set_with_title: easy way to indicate item's virtual object title in UI -->
+    <field name="set_with_title" type="string" indexed="false" stored="true" multiValued="true" />
 
     <!-- *************** dynamic field types  ****************** -->
 <!--
