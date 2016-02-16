@@ -94,10 +94,12 @@
             <str name="f.format_main_ssim.facet.method">enum</str>
           <str name="facet.field">format_physical_ssim</str>
             <str name="f.format_physical_ssim.facet.method">enum</str>
+          <str name="facet.field">fund_facet</str>
           <str name="facet.field">genre_ssim</str>
             <str name="f.genre_ssim.facet.method">enum</str>
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">language</str>
+          <str name="facet.field">location_facet</str>
           <str name="facet.field">pub_year_tisim</str>
           <str name="facet.field">topic_facet</str>
         </lst>
@@ -131,10 +133,12 @@
             <str name="f.format_main_ssim.facet.method">enum</str>
           <str name="facet.field">format_physical_ssim</str>
             <str name="f.format_physical_ssim.facet.method">enum</str>
+          <str name="facet.field">fund_facet</str>
           <str name="facet.field">genre_ssim</str>
             <str name="f.genre_ssim.facet.method">enum</str>
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">language</str>
+          <str name="facet.field">location_facet</str>
           <str name="facet.field">pub_year_tisim</str>
           <str name="facet.field">topic_facet</str>
         </lst>
@@ -924,12 +928,14 @@
       <str name="facet.field">format_physical_ssim</str>
         <int name="f.format_physical_ssim.facet.limit">20</int>
         <str name="f.format_physical_ssim.facet.method">enum</str>
+      <str name="facet.field">format</str> # <!-- deprecated: left for continuity in UI URLs for old formats -->
+        <str name="f.format.facet.method">enum</str>
+      <str name="facet.field">fund_facet</str>
       <str name="facet.field">genre_ssim</str>
         <str name="f.genre_ssim.facet.method">enum</str>
-      <str name="facet.field">format</str>
-        <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
+      <str name="facet.field">location_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">pub_year_tisim</str>
       <str name="facet.field">topic_facet</str>
