@@ -146,7 +146,7 @@
          requests or to gain autowarming data from. ("fast warmup") -->
     <listener event="firstSearcher" class="solr.QuerySenderListener">
       <arr name="queries">
-        <!-- facets for default query for all objects -->
+        <!-- facets for default query for all objects (home page) -->
         <lst>
           <int name="rows">0</int>
           <str name="fl">score</str>
@@ -159,6 +159,7 @@
             <str name="f.building_facet.facet.method">enum</str>
           <str name="facet.field">format_main_ssim</str>
             <str name="f.format_main_ssim.facet.method">enum</str>
+          <str name="facet.field">language</str>
         </lst>
         <!-- single object query to populate filter and fieldValue cache -->
         <lst>
@@ -175,6 +176,7 @@
             <str name="f.building_facet.facet.method">enum</str>
           <str name="facet.field">format_main_ssim</str>
             <str name="f.format_main_ssim.facet.method">enum</str>
+          <str name="facet.field">language</str>
         </lst>
         <!-- should there be warming for different sorts? -->
       </arr>
