@@ -16,7 +16,8 @@
     <field name="all_unstem_search" type="textNoStem" indexed="true" stored="false" />
     <field name="vern_all_search" type="text" indexed="true" stored="false" />
 
-    <!-- Format Field: facet and display -->
+    <!-- Format Field: facet and display
+      (deprecated in favor of format_main_ssim, left for continuity in UI URLs for old formats) -->
     <field name="format" type="string" indexed="true" stored="true" multiValued="true" />
 
     <!-- Language Field: facet and display -->
