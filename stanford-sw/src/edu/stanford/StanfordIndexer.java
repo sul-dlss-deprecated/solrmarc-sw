@@ -88,7 +88,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         collectionsWithTitles = new HashSet<String>();
         setDruids = new HashSet<String>();
         setsWithTitles = new HashSet<String>();
-        displayType = new HashSet<String>();
         fileId = new HashSet<String>();
         bookplatesDisplay = new LinkedHashSet<String>();
         fundFacet = new LinkedHashSet<String>();
@@ -123,11 +122,11 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
   Set<String> collectionDruids;
   /** collectionsWithTitles are used in UI to display corresponding collections for digitized items */
   Set<String> collectionsWithTitles;
+
   /** setDruids are used in UI to display corresponding virtual objects for digitized items */
   Set<String> setDruids;
   /** setsWithTitles are used in UI to display corresponding virtual objects for digitized items */
   Set<String> setsWithTitles;
-  Set<String> displayType;
   String collectionType = null;
   Set<String> fileId;
   Set<String> bookplatesDisplay;
@@ -245,14 +244,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     setDruids.clear();
     setsWithTitles.clear();
     collectionType = null;
-    displayType.clear();
     fileId.clear();
     bookplatesDisplay.clear();
     fundFacet.clear();
     locationFacet.clear();
 
     collectionDruids.add("sirsi");
-    displayType.add("sirsi");
     processManaged856s(record);
     setBookplatesDisplay(record);
     setFundFacet(record);
@@ -2153,28 +2150,6 @@ private void setLocationFacet(final Record record) {
   }
 
   /**
-   * returns the display_type that is passed through StanfordSync 856 subfield x #3
-   * @param record a marc4j Record object
-   */
-  public Set<String> getDisplayType(final Record record)
-  {
-    return displayType;
-  }
-
-  /**
-   * assign display_type from the third 856 subfield x in 856s
-   *   managed through StanfordSync
-   * @param record a marc4j Record object
-   */
-  private void setDisplayType(String display) {
-    if (display.toLowerCase().contains("image") || display.toLowerCase().contains("map") || display.toLowerCase().contains("manuscript")) {
-      displayType.add("image");
-    } else {
-      displayType.add("file");
-    }
-  }
-
-  /**
    * returns the file Ids that is passed through StanfordSync 856 subfield x #5
    * @param record a marc4j Record object
    */
@@ -2333,7 +2308,6 @@ private void setLocationFacet(final Record record) {
           } else if (subxs.get(1).equalsIgnoreCase("collection")) {
             setCollectionType();
           }
-          setDisplayType(subxs.get(2));
         }
       }
     }

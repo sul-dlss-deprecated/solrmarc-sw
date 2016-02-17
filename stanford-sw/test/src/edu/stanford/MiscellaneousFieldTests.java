@@ -71,24 +71,6 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest
 
 
 	/**
-	 * display_type is supposed to be a sort of "hidden" facet to allow UI
-	 *  to look at appropriate types of records for different "views"
-	 *  (e.g.  Images, Maps, Book Reader ...)
-	 */
-@Test
-	public final void testDisplayTypeField()
-	    throws ParserConfigurationException, IOException, SAXException, SolrServerException
-	{
-		closeSolrProxy();  // need to reset the solrProxy to get the right request handling
-		createFreshIx("idTests.mrc", true, false);
-	    String fldName = "display_type";
-
-	    // all MARC records from Symphony
-        assertEquals("docs aren't all display_type sirsi", 3, getNumMatchingDocs(fldName, "sirsi"));
-	}
-
-
-	/**
 	 * test preservation of field ordering from marc input to marc stored in record
 	 */
 @Test

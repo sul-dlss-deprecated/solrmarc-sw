@@ -46,21 +46,6 @@ public class ManagedPurlTests extends AbstractStanfordTest
 		assertDocHasNoFieldValue("ManagedAnd2UnmanagedPurlCollection", fldName, "https://purl.stanford.edu/yy000zz0000");
 	}
 
-	/**
-	 * Test method for display_type.
-	 */
-@Test
-	public final void testDisplayType() throws IOException, ParserConfigurationException, SAXException
-	{
-		String fldName = "display_type";
-
-		assertDocHasFieldValue("managedPurlItem3Collections", fldName, "file");
-		assertDocHasFieldValue("ManagedAnd2UnmanagedPurlCollection", fldName, "image");
-
-		assertDocHasFieldValue("NoManagedPurlItem", fldName, "sirsi");
-		assertDocHasNoFieldValue("ManagedAnd2UnmanagedPurlCollection", fldName, "book");
-	}
-
 /**
  * Test method for fileId.
  */
