@@ -86,6 +86,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         itemSet = new LinkedHashSet<Item>();
         collectionDruids = new HashSet<String>();
         collectionsWithTitles = new HashSet<String>();
+        setDruids = new HashSet<String>();
+        setsWithTitles = new HashSet<String>();
         displayType = new HashSet<String>();
         fileId = new HashSet<String>();
         bookplatesDisplay = new LinkedHashSet<String>();
@@ -121,6 +123,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
   Set<String> collectionDruids;
   /** collectionsWithTitles are used in UI to display corresponding collections for digitized items */
   Set<String> collectionsWithTitles;
+  /** setDruids are used in UI to display corresponding virtual objects for digitized items */
+  Set<String> setDruids;
+  /** setsWithTitles are used in UI to display corresponding virtual objects for digitized items */
+  Set<String> setsWithTitles;
   Set<String> displayType;
   String collectionType = null;
   Set<String> fileId;
@@ -236,6 +242,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     managedPurls.clear();
     collectionDruids.clear();
     collectionsWithTitles.clear();
+    setDruids.clear();
+    setsWithTitles.clear();
     collectionType = null;
     displayType.clear();
     fileId.clear();
@@ -2223,6 +2231,44 @@ private void setLocationFacet(final Record record) {
   }
 
   /**
+   * returns the set druids for items that are managed through StanfordSync
+   *   856 subfield x #7..n
+   * @param record a marc4j Record object
+   */
+  public Set<String> getSetDruids(final Record record)
+  {
+    return setDruids;
+  }
+
+  /**
+   * assign set druids from the items managed through StanfordSync
+   *   856 subfield #7..n
+   * @param set druid
+   */
+  private void setSetDruids(String set_druid) {
+    setDruids.add(set_druid);
+  }
+
+  /**
+   * returns set druids and titles from the items managed through StanfordSync
+   *   856 subfield #7..n
+   * @param record a marc4j Record object
+   */
+  public Set<String> getSetsWithTitles(final Record record)
+  {
+    return setsWithTitles;
+  }
+
+  /**
+   * assigns set druids and titles from the items managed through StanfordSync
+   *   856 subfield #7..n
+   * @param record a marc4j Record object
+   */
+  private void setSetsWithTitles(String set_with_title) {
+    setsWithTitles.add(set_with_title);
+  }
+
+  /**
    * returns the collection_type that is set to "Digital Collection" if managed 856 from
    *   StanfordSync is a collection object
    * @param record a marc4j Record object
@@ -2273,6 +2319,14 @@ private void setLocationFacet(final Record record) {
                 } else {
                   setCollectionsWithTitles(coll_split[1] + "-|-" + coll_split[3]);
                   setCollectionDruids(coll_split[1]);
+                }
+              } else if (coll_split[0].equalsIgnoreCase("set")) {
+                if (coll_split[2].length() > 2) {
+                  setSetsWithTitles(coll_split[2] + "-|-" + coll_split[3]);
+                  setSetDruids(coll_split[2]);
+                } else {
+                  setSetsWithTitles(coll_split[1] + "-|-" + coll_split[3]);
+                  setSetDruids(coll_split[1]);
                 }
               }
             }
