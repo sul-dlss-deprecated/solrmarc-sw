@@ -84,6 +84,7 @@
           <str name="facet.field">db_az_subject</str>
             <str name="f.db_az_subject.facet.sort">index</str>
             <str name="f.db_az_subject.facet.method">enum</str>
+            <!-- display_type can be removed after all DOR objects and MARC records are reindexed in Feb/March 2016 -->
           <str name="facet.field">display_type</str>
             <str name="f.display_type.facet.method">enum</str>
           <str name="facet.field">era_facet</str>
@@ -124,6 +125,7 @@
           <str name="facet.field">db_az_subject</str>
             <str name="f.db_az_subject.facet.sort">index</str>
             <str name="f.db_az_subject.facet.method">enum</str>
+          <!-- display_type can be removed after all DOR objects and MARC records are reindexed in Feb/March 2016 -->
           <str name="facet.field">display_type</str>
             <str name="f.display_type.facet.method">enum</str>
           <str name="facet.field">era_facet</str>
@@ -904,6 +906,7 @@
       <str name="facet.field">db_az_subject</str>
         <str name="f.db_az_subject.facet.method">enum</str>
         <str name="f.db_az_subject.facet.sort">index</str>
+      <!-- display_type can be removed after all DOR objects and MARC records are reindexed in Feb/March 2016 -->
       <str name="facet.field">display_type</str>
         <str name="f.display_type.facet.method">enum</str>
       <str name="facet.field">era_facet</str>
@@ -941,6 +944,7 @@
         collection_with_title,
         crez_course_info,
         db_az_subject,
+        <!-- display_type can be removed after all DOR objects and MARC records are reindexed in Feb/March 2016 -->
         display_type,
         file_id,
         set,
