@@ -1624,8 +1624,6 @@ public class PublicationTests extends AbstractStanfordTest
 	{
 		Record record = factory.newRecord();
 		record.addVariableField(factory.newControlField("008", "      " + byte06 + date1str + date2str));
-		solrFldMapTest.assertSolrFldValue(record, "date_1_008_raw_ssi", date1str);
-		solrFldMapTest.assertSolrFldValue(record, "date_2_008_raw_ssi", date2str);
 	    solrFldMapTest.assertNoSolrFld(record, "beginning_year_isi");
 	    solrFldMapTest.assertNoSolrFld(record, "earliest_year_isi");
 	    solrFldMapTest.assertNoSolrFld(record, "earliest_poss_year_isi");
