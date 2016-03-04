@@ -93,8 +93,6 @@ public class Item {
 		if (StanfordIndexer.SKIPPED_LOCS.contains(currLoc)
 					|| StanfordIndexer.SKIPPED_LOCS.contains(homeLoc)
 					|| itemType.equals("EDI-REMOVE")
-					// Temporarily skip RUMSEYMAP Library # David Rumsey Map Center
-					|| (library.equals("RUMSEYMAP"))
 					// SW-849 skip PHYSICS items that aren't location PHYSTEMP
 					|| (library.equals("PHYSICS") && (!homeLoc.equals("PHYSTEMP") && !currLoc.equals("PHYSTEMP"))))
 			shouldBeSkipped = true;
