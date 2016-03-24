@@ -2283,7 +2283,7 @@ private void setLocationFacet(final Record record) {
           buildings.add("SDR");
           accessMethods.add(Access.ONLINE.toString());
           if (subxs.get(1).equalsIgnoreCase("item")) {
-            for(int i=3; i<subxs.size(); i++){
+            for(int i=0; i<subxs.size(); i++){
               String[] coll_split = subxs.get(i).split(":");
               if (coll_split[0].equalsIgnoreCase("file")) {
                 setFileId(coll_split[1]);

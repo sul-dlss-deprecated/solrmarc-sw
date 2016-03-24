@@ -11,7 +11,6 @@
       <subfield code="u">https://purl.stanford.edu/nz353cp1092</subfield>
       <subfield code="x">SDR-PURL</subfield>
       <subfield code="x">item</subfield>
-      <subfield code="x">image</subfield>
       <subfield code="x">file:file1.jpg</subfield>
       <subfield code="x">collection:yg867hg1375:9615156:Francis E. Stafford photographs, 1909-1933</subfield>
     </datafield>
@@ -27,7 +26,6 @@
       <subfield code="u">https://purl.stanford.edu/wd297xz1362</subfield>
       <subfield code="x">SDR-PURL</subfield>
       <subfield code="x">item</subfield>
-      <subfield code="x">citation</subfield>
       <subfield code="x">file:file1.jpg</subfield>
       <subfield code="x">collection:yg867hg1375:9615156:Francis E. Stafford photographs, 1909-1933</subfield>
       <subfield code="x">collection:aa000bb1111:123456789:Test Collection, 1963-2015</subfield>
@@ -45,7 +43,6 @@
       <subfield code="u">https://purl.stanford.edu/ct961sj2730</subfield>
       <subfield code="x">SDR-PURL</subfield>
       <subfield code="x">collection</subfield>
-      <subfield code="x">image</subfield>
     </datafield>
   </record>
   <record>
@@ -59,7 +56,6 @@
       <subfield code="u">https://purl.stanford.edu/ct961sj2730</subfield>
       <subfield code="x">DDR-PURL</subfield>
       <subfield code="x">item</subfield>
-      <subfield code="x">image</subfield>
       <subfield code="x">file:file1.jpg</subfield>
       <subfield code="x">collection:aa000bb1111:123456789:Test Collection, 1963-2015</subfield>
     </datafield>
@@ -75,7 +71,6 @@
       <subfield code="u">https://purl.stanford.edu/ct961sj2730</subfield>
       <subfield code="x">DDR-PURL</subfield>
       <subfield code="x">collection</subfield>
-      <subfield code="x">image</subfield>
     </datafield>
   </record>
   <record>
@@ -89,19 +84,16 @@
       <subfield code="u">https://purl.stanford.edu/yy000zz0000</subfield>
       <subfield code="x">DDR-PURL</subfield>
       <subfield code="x">collection</subfield>
-      <subfield code="x">book</subfield>
     </datafield>
     <datafield tag="856" ind1="4" ind2="0">
       <subfield code="u">https://purl.stanford.edu/ct961sj2730</subfield>
       <subfield code="x">SDR-PURL</subfield>
       <subfield code="x">collection</subfield>
-      <subfield code="x">image</subfield>
     </datafield>
     <datafield tag="856" ind1="4" ind2="0">
       <subfield code="u">https://purl.stanford.edu/aa000bb1111</subfield>
       <subfield code="x">DDR-PURL</subfield>
       <subfield code="x">collection</subfield>
-      <subfield code="x">image</subfield>
     </datafield>
   </record>
   <record>
@@ -115,7 +107,6 @@
       <subfield code="u">https://purl.stanford.edu/nz353cp1092</subfield>
       <subfield code="x">SDR-PURL</subfield>
       <subfield code="x">item</subfield>
-      <subfield code="x">image</subfield>
       <subfield code="x">file:file1.jpg</subfield>
       <subfield code="x">collection:yg867hg1375:9615156:Francis E. Stafford photographs, 1909-1933</subfield>
       <subfield code="x">set:aa000bb1111:123456789:Test Set, 1963-2015</subfield>
@@ -132,7 +123,6 @@
       <subfield code="u">https://purl.stanford.edu/wd297xz1362</subfield>
       <subfield code="x">SDR-PURL</subfield>
       <subfield code="x">item</subfield>
-      <subfield code="x">citation</subfield>
       <subfield code="x">file:file1.jpg</subfield>
       <subfield code="x">collection:yg867hg1375:9615156:Francis E. Stafford photographs, 1909-1933</subfield>
       <subfield code="x">collection:aa000bb1111:123456789:Test Collection, 1963-2015</subfield>
