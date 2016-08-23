@@ -4,6 +4,8 @@
 #
 # added index_sirsi_1050_1099.sh
 # Laney McGlohon 2014-06-16
+# added index_sirsi_1100_1199.sh
+# Laney McGlohon 2016-08-23
 # updated for Naomi's FORK of solrmarc 2011-01-23
 # Naomi Dushay 2013-08-14
 
@@ -28,6 +30,7 @@ ant -buildfile $SOLRMARC_BASEDIR/build.xml dist_site
 /home/blacklight/solrmarc-sw/stanford-sw/scripts/index_sirsi_0800_0899.sh $LOG_SUBDIR &
 /home/blacklight/solrmarc-sw/stanford-sw/scripts/index_sirsi_0900_0999.sh $LOG_SUBDIR &
 /home/blacklight/solrmarc-sw/stanford-sw/scripts/index_sirsi_1000_1099.sh $LOG_SUBDIR &
+/home/blacklight/solrmarc-sw/stanford-sw/scripts/index_sirsi_1100_1199.sh $LOG_SUBDIR &
 #curl http://localhost:8983/solr/update?commit=true
 
 echo "!!! SOLR COMMIT  curl http://localhost:8983/solr/update?commit=true !!!"
