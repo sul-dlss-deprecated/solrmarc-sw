@@ -13,7 +13,6 @@ import org.solrmarc.tools.*;
         CommandLineUtilTests.class,
         DateUtilsTests.class,
         GetFormatMixinTest.class,
-        HathiJsonReaderTest.class,
 //        IndexSmokeTest.class, // duplicated in RemoteServerTest
         MergeSummaryHoldingsTests.class,
         MarcCombiningReaderTests.class,
