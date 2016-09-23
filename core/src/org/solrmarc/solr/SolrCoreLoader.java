@@ -161,12 +161,12 @@ public class SolrCoreLoader
     {
         SolrProxy solrProxy = null;
         String urlString = solrHostUpdateURL.replaceAll("[/\\\\]update$", "");
-        HttpSolrServer httpSolrServer;
+        HttpSolrClient httpSolrServer;
 // possibly replaced by ConcurrentUpdateSolrServer;  possibly same bug of swallowing errors
 //            if (useStreamingServer)
 //                httpSolrServer = new StreamingUpdateSolrServer(urlString, 100, 2);
 //            else
-            httpSolrServer = new HttpSolrServer(urlString);
+            httpSolrServer = new HttpSolrClient(urlString);
 
         // binary response parser is used by default in Solr 4
 //        if (useBinaryRequestHandler)

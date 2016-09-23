@@ -3,8 +3,10 @@ package org.solrmarc.solr;
 import java.io.IOException;
 import java.util.*;
 
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.common.SolrInputDocument;
 import org.solrmarc.tools.SolrUtils;
 
@@ -15,10 +17,14 @@ import org.solrmarc.tools.SolrUtils;
 public class SolrServerProxy implements SolrProxy
 {
     SolrServer solrJSolrServer;
+    SolrClient solrJSolrClient;
 
     public SolrServerProxy(SolrServer solrJSolrServer)
     {
         this.solrJSolrServer = solrJSolrServer;
+    }
+
+    public SolrServerProxy(HttpSolrClient httpSolrServer) {
     }
 
 
@@ -81,7 +87,7 @@ public class SolrServerProxy implements SolrProxy
     }
 
     /**
-     * delete doc from the index
+     * delete doc frsolrom the index
      * @param id the unique identifier of the document to be deleted
      */
     public void delete(String id, boolean fromCommitted, boolean fromPending) throws IOException
