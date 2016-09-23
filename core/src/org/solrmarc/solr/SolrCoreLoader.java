@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.net.*;
 
 import org.apache.log4j.Logger;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.impl.*;
 import org.apache.solr.client.solrj.request.RequestWriter;
@@ -143,7 +144,7 @@ public class SolrCoreLoader
                     }
                 }
 
-            return(new SolrServerProxy((SolrServer) solrServerObj));
+            return(new SolrServerProxy((HttpSolrClient) solrServerObj));
         }
         catch (Exception e)
         {

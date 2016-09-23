@@ -27,7 +27,7 @@ public class SolrReIndexer extends MarcImporter
     protected String solrFieldContainingEncodedMarcRecord;
     protected boolean doUpdate = true;
     protected MarcWriter output = null;
-    protected SolrServer solrServer= null;
+    protected SolrClient solrServer= null;
     private boolean getIdsOnly = false;
     /** name of Solr field containing ids */
     String id_fname = "id";

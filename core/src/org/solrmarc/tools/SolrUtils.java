@@ -18,14 +18,14 @@ public class SolrUtils
 	/**
 	 * Given a Solr field name and value and the name of a requestHandler,
 	 *  query Solr and return the matching Solr documents
-	 * @param SolrServer - the initialized SolrJ SolrServer object to be used
+	 * @param SolrClient - the initialized SolrJ SolrServer object to be used
 	 *  to interact with the Solr index.
 	 * @param solrFldName - the name of the field to be matched
 	 * @param solrFldVal - the field value to be matched
 	 * @param requestHandlerName - the name of the request handler to be used
 	 * @return the matching Solr documents, as a SolrDocumentList
 	 */
-	public static SolrDocumentList getDocsFromFieldedQuery(SolrServer solrServer, String solrFldName, String solrFldVal, String requestHandlerName)
+	public static SolrDocumentList getDocsFromFieldedQuery(SolrClient solrClient, String solrFldName, String solrFldVal, String requestHandlerName)
 	{
 	    SolrQuery query = new SolrQuery();
 	    query.setQuery(solrFldName + ":" + solrFldVal);
@@ -33,7 +33,7 @@ public class SolrUtils
 	    query.setFacet(false);
 	    try
 	    {
-	        QueryResponse response = solrServer.query(query);
+	        QueryResponse response = solrClient.query(query);
 	        return response.getResults();
 	    }
 	    catch (SolrServerException e)
@@ -47,13 +47,13 @@ public class SolrUtils
 	/**
 	 * Do a fielded query using the requestHandler, return the matching Solr
 	 * documents with all their (stored) fields
-	 * @param SolrServer - the initialized SolrJ SolrServer object to be used to interact with the Solr index.
+	 * @param SolrClient - the initialized SolrJ SolrServer object to be used to interact with the Solr index.
 	 * @param solrFldName - the name of the field to be matched
 	 * @param solrFldVal - the field value to be matched
 	 * @param requestHandlerName - the name of the request handler to be used
 	 * @return the matching Solr documents, as a SolrDocumentList
 	 */
-	public static SolrDocumentList getFullDocsFromFieldedQuery(SolrServer solrServer, String solrFldName, String solrFldVal, String requestHandlerName)
+	public static SolrDocumentList getFullDocsFromFieldedQuery(SolrClient solrClient, String solrFldName, String solrFldVal, String requestHandlerName)
 	{
 	    SolrQuery query = new SolrQuery();
 	    query.setQuery(solrFldName + ":" + solrFldVal);
@@ -62,7 +62,7 @@ public class SolrUtils
 	    query.setParam("fl", "*");
 	    try
 	    {
-	        QueryResponse response = solrServer.query(query);
+	        QueryResponse response = solrClient.query(query);
 	        return response.getResults();
 	    }
 	    catch (SolrServerException e)
