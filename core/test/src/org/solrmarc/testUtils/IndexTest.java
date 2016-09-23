@@ -364,7 +364,12 @@ public abstract class IndexTest
 	 */
 	public final void assertDocPresent(String doc_id)
 	{
-		SolrDocument doc = getDocument(doc_id);
+		SolrDocument doc = null;
+		try {
+			doc = getDocument(doc_id);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		assertTrue("Found no document with id \"" + doc_id + "\"", doc != null);
 	}
 
@@ -373,13 +378,23 @@ public abstract class IndexTest
 	 */
 	public final void assertDocNotPresent(String doc_id)
 	{
-		SolrDocument doc = getDocument(doc_id);
+		SolrDocument doc = null;
+		try {
+			doc = getDocument(doc_id);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		assertTrue("Unexpectedly found document with id \"" + doc_id + "\"", doc == null);
 	}
 
 	public final void assertDocHasFieldValue(String doc_id, String fldName,	String fldVal)
 	{
-		SolrDocument doc = getDocument(doc_id);
+		SolrDocument doc = null;
+		try {
+			doc = getDocument(doc_id);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		if (doc != null)
 		{
 			Collection<Object> valObjs = doc.getFieldValues(fldName);
@@ -398,7 +413,12 @@ public abstract class IndexTest
 
 	public final void assertDocHasNoFieldValue(String doc_id, String fldName, String expFldVal)
 	{
-		SolrDocument doc = getDocument(doc_id);
+		SolrDocument doc = null;
+		try {
+			doc = getDocument(doc_id);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		if (doc != null)
 		{
 			Collection<Object> valObjects = doc.getFieldValues(fldName);
@@ -419,7 +439,12 @@ public abstract class IndexTest
 	@SuppressWarnings("unchecked")
 	public final void assertDocHasNoField(String doc_id, String fldName)
 	{
-		SolrDocument doc = getDocument(doc_id);
+		SolrDocument doc = null;
+		try {
+			doc = getDocument(doc_id);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		if (doc == null)
 			fail("Document " + doc_id + " was not found");
 		else
@@ -440,8 +465,7 @@ public abstract class IndexTest
 	 * @param fldVal - value of the field to be searched
 	 * @param docIds - Set of doc ids expected to be in the results
 	 */
-	public final void assertSearchResults(String fldName, String fldVal, Set<String> docIds)
-	{
+	public final void assertSearchResults(String fldName, String fldVal, Set<String> docIds) throws IOException {
 		SolrDocumentList sdl = getDocList(fldName, fldVal);
 
 		assertTrue("Expected " + docIds.size() + " documents for " + fldName + " search \"" + fldVal + "\" but got " + sdl.size(),
@@ -506,7 +530,12 @@ public abstract class IndexTest
 	 */
 	public final void assertResultSize(String fldName, String fldVal, int numExp)
 	{
-		int numActual = getNumMatchingDocs(fldName, fldVal);
+		int numActual = 0;
+		try {
+			numActual = getNumMatchingDocs(fldName, fldVal);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		assertTrue("Expected " + numExp + " documents for " + fldName + " search \"" + fldVal + "\" but got " + numActual,
 					numActual == numExp);
 	}
@@ -520,8 +549,7 @@ public abstract class IndexTest
 	 * @param fld - the name of the field to be searched in the lucene index
 	 * @param value - the string to be searched in the given field
 	 */
-	public int getNumMatchingDocs(String fld, String value)
-	{
+	public int getNumMatchingDocs(String fld, String value) throws IOException {
 		return (getDocList(fld, value).size());
 	}
 
@@ -535,8 +563,7 @@ public abstract class IndexTest
 	 * @param sortfld - name of the field by which results should be sorted (ascending)
 	 * @return org.apache.solr.common.SolrDocumentList
 	 */
-	public final SolrDocumentList getAscSortDocs(String fld, String value, String sortfld)
-	{
+	public final SolrDocumentList getAscSortDocs(String fld, String value, String sortfld) throws IOException {
 		return getSortedDocs(fld, value, sortfld, SolrQuery.ORDER.asc);
 	}
 
@@ -550,8 +577,7 @@ public abstract class IndexTest
 	 * @param sortfld - name of the field by which results should be sorted (descending)
 	 * @return org.apache.solr.common.SolrDocumentList
 	 */
-	public final SolrDocumentList getDescSortDocs(String fld, String value,	String sortfld)
-	{
+	public final SolrDocumentList getDescSortDocs(String fld, String value,	String sortfld) throws IOException {
 		return getSortedDocs(fld, value, sortfld, SolrQuery.ORDER.desc);
 	}
 
@@ -566,8 +592,7 @@ public abstract class IndexTest
 	 * @param sortOrder = SolrQuery.ORDER.asc  or  SolrQuery.ORDER.desc
 	 * @return org.apache.solr.common.SolrDocumentList
 	 */
-	public final SolrDocumentList getSortedDocs(String fld, String value, String sortfld, SolrQuery.ORDER sortOrder)
-	{
+	public final SolrDocumentList getSortedDocs(String fld, String value, String sortfld, SolrQuery.ORDER sortOrder) throws IOException {
 		return getSortedDocs(fld, value, sortfld, sortOrder, luceneReqHandler);
 	}
 
@@ -583,12 +608,11 @@ public abstract class IndexTest
 	 * @param reqHandler - the Solr request handler to be used
 	 * @return org.apache.solr.common.SolrDocumentList
 	 */
-	public final SolrDocumentList getSortedDocs(String fld, String value, String sortfld, SolrQuery.ORDER sortOrder, String reqHandler)
-	{
+	public final SolrDocumentList getSortedDocs(String fld, String value, String sortfld, SolrQuery.ORDER sortOrder, String reqHandler) throws IOException {
 		SolrQuery query = new SolrQuery(fld + ":" + value);
-		query.setQueryType(reqHandler);
+		query.setRequestHandler(reqHandler);
 		query.setFacet(false);
-		query.setSortField(sortfld, sortOrder);
+		query.setSort(sortfld, sortOrder);
 		query.setRows(75);
 		try
 		{
@@ -608,8 +632,7 @@ public abstract class IndexTest
 	 * @param doc_id - the unique id of the lucene document in the index
 	 * @return SolrDocument matching the given id
 	 */
-	public final SolrDocument getDocument(String doc_id)
-	{
+	public final SolrDocument getDocument(String doc_id) throws IOException {
 		SolrDocumentList sdl = getDocList(docIDfname, doc_id);
 		switch (sdl.size())
 		{
@@ -630,8 +653,7 @@ public abstract class IndexTest
 	 * @param value - the string to be searched in the given field
 	 * @return org.apache.solr.common.SolrDocumentList
 	 */
-	public final SolrDocumentList getDocList(String field, String value)
-	{
+	public final SolrDocumentList getDocList(String field, String value) throws IOException {
 		return getDocList(field, value, luceneReqHandler);
 	}
 
@@ -643,10 +665,9 @@ public abstract class IndexTest
 	 * @param reqHandler - the Solr request handler to use
 	 * @return org.apache.solr.common.SolrDocumentList
 	 */
-	public final SolrDocumentList getDocList(String field, String value, String reqHandler)
-	{
+	public final SolrDocumentList getDocList(String field, String value, String reqHandler) throws IOException {
 		SolrQuery query = new SolrQuery(field + ":" + value);
-		query.setQueryType(reqHandler);
+		query.setRequestHandler(reqHandler);
 		query.setFields("*");
 		query.setFacet(false);
 		query.setRows(35);
@@ -671,8 +692,7 @@ public abstract class IndexTest
 	 *
 	 *  @param desiredFld - the field from which we want the value
 	 */
-	public String getFirstFieldValViaJSON(String id, String desiredFld)
-	{
+	public String getFirstFieldValViaJSON(String id, String desiredFld) throws IOException {
 		return getFirstFieldValViaJSON(id, desiredFld, luceneReqHandler);
 	}
 
@@ -686,17 +706,16 @@ public abstract class IndexTest
 	 *  @param desiredFld - the field from which we want the value
 	 *  @param reqHandler - the Solr request handler to use
 	 */
-	public String getFirstFieldValViaJSON(String id, String desiredFld, String reqHandler)
-	{
+	public String getFirstFieldValViaJSON(String id, String desiredFld, String reqHandler) throws IOException {
 		SolrDocument doc = null;
 
 		SolrQuery query = new SolrQuery(docIDfname + ":" + id);
-		query.setQueryType(reqHandler);
+		query.setRequestHandler(reqHandler);
 		query.setFacet(false);
 		query.setParam(CommonParams.WT, "json");
 		try
 		{
-			QueryResponse response = ((HttpSolrServer) solrJSolrServer).query(query);
+			QueryResponse response = solrJSolrServer.query(query);
 			SolrDocumentList docList = response.getResults();
 			for (SolrDocument d : docList)
 				doc = d;

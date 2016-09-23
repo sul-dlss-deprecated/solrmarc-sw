@@ -1,5 +1,6 @@
 package org.solrmarc.tools;
 
+import java.io.IOException;
 import java.util.*;
 
 import org.apache.solr.common.SolrDocumentList;
@@ -25,8 +26,7 @@ public class SolrUtils
 	 * @param requestHandlerName - the name of the request handler to be used
 	 * @return the matching Solr documents, as a SolrDocumentList
 	 */
-	public static SolrDocumentList getDocsFromFieldedQuery(SolrServer solrServer, String solrFldName, String solrFldVal, String requestHandlerName)
-	{
+	public static SolrDocumentList getDocsFromFieldedQuery(SolrServer solrServer, String solrFldName, String solrFldVal, String requestHandlerName) throws IOException {
 	    SolrQuery query = new SolrQuery();
 	    query.setQuery(solrFldName + ":" + solrFldVal);
 	    query.setRequestHandler(requestHandlerName);
@@ -53,8 +53,7 @@ public class SolrUtils
 	 * @param requestHandlerName - the name of the request handler to be used
 	 * @return the matching Solr documents, as a SolrDocumentList
 	 */
-	public static SolrDocumentList getFullDocsFromFieldedQuery(SolrServer solrServer, String solrFldName, String solrFldVal, String requestHandlerName)
-	{
+	public static SolrDocumentList getFullDocsFromFieldedQuery(SolrServer solrServer, String solrFldName, String solrFldVal, String requestHandlerName) throws IOException {
 	    SolrQuery query = new SolrQuery();
 	    query.setQuery(solrFldName + ":" + solrFldVal);
 	    query.setRequestHandler(requestHandlerName);
