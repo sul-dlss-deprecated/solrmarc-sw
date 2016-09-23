@@ -1,5 +1,6 @@
 package org.solrmarc.tools;
 
+import java.io.IOException;
 import java.util.*;
 
 import org.apache.solr.common.SolrDocumentList;
@@ -39,9 +40,11 @@ public class SolrUtils
 	    catch (SolrServerException e)
 	    {
 	        e.printStackTrace();
-	    }
+	    } catch (IOException e) {
+			e.printStackTrace();
+		}
 
-	    return null;
+		return null;
 	}
 
 	/**
@@ -68,9 +71,11 @@ public class SolrUtils
 	    catch (SolrServerException e)
 	    {
 	        e.printStackTrace();
-	    }
+	    } catch (IOException e) {
+			e.printStackTrace();
+		}
 
-	    return null;
+		return null;
 	}
 
 	/**

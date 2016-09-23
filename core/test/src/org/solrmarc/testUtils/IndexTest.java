@@ -600,8 +600,11 @@ public abstract class IndexTest
 		{
 			e.printStackTrace();
 			return (new SolrDocumentList());
-		}
-	}
+		} catch (IOException e) {
+            e.printStackTrace();
+            return (new SolrDocumentList());
+        }
+    }
 
 	/**
 	 * Get the Lucene document with the given id from the solr index at the solrDataDir
@@ -659,8 +662,10 @@ public abstract class IndexTest
 		{
 			e.getCause().printStackTrace();
 			fail("caught exception while searching for value " + value + " in field " + field);
-		}
-		return (new SolrDocumentList());
+		} catch (IOException e) {
+            e.printStackTrace();
+        }
+        return (new SolrDocumentList());
 	}
 
 	/**
@@ -706,9 +711,11 @@ public abstract class IndexTest
 		{
 			e.getCause().printStackTrace();
 			// e.printStackTrace();
-		}
+		} catch (IOException e) {
+            e.printStackTrace();
+        }
 
-		if (doc == null)
+        if (doc == null)
 			return null;
 		Object fieldValObj = doc.getFieldValue(desiredFld);
 		if (fieldValObj.getClass() == java.lang.String.class)
