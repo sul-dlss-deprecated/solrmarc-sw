@@ -273,7 +273,7 @@ public class SolrReIndexer extends MarcImporter
 
         SolrQuery query = new SolrQuery();
         query.setQuery(queryForRecordsToUpdate);
-        query.setQueryType(reqHandler);
+        query.setRequestHandler(reqHandler);
         query.setFacet(false);
         query.setRows(1000);
         query.setFields("id");
@@ -300,6 +300,11 @@ public class SolrReIndexer extends MarcImporter
             } while (totalProcessed < totalHits);
         }
         catch (SolrServerException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (IOException e)
         {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -334,7 +339,7 @@ public class SolrReIndexer extends MarcImporter
         // grab them 1000 at a time
         SolrQuery query = new SolrQuery();
         query.setQuery(queryForRecordsToUpdate);
-        query.setQueryType(reqHandler);
+        query.setRequestHandler(reqHandler);
         query.setFacet(false);
         query.setRows(1000);
         int totalHits = -1;
@@ -360,6 +365,11 @@ public class SolrReIndexer extends MarcImporter
             } while (totalProcessed < totalHits);
         }
         catch (SolrServerException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (IOException e)
         {
             // TODO Auto-generated catch block
             e.printStackTrace();

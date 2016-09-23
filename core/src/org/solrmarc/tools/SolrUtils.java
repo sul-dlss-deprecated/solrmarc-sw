@@ -29,7 +29,7 @@ public class SolrUtils
 	{
 	    SolrQuery query = new SolrQuery();
 	    query.setQuery(solrFldName + ":" + solrFldVal);
-	    query.setQueryType(requestHandlerName);
+	    query.setRequestHandler(requestHandlerName);
 	    query.setFacet(false);
 	    try
 	    {
@@ -57,7 +57,7 @@ public class SolrUtils
 	{
 	    SolrQuery query = new SolrQuery();
 	    query.setQuery(solrFldName + ":" + solrFldVal);
-	    query.setQueryType(requestHandlerName);
+	    query.setRequestHandler(requestHandlerName);
 	    query.setFacet(false);
 	    query.setParam("fl", "*");
 	    try
