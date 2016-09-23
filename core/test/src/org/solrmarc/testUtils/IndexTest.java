@@ -12,6 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.*;
 import org.apache.solr.client.solrj.*;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.*;
@@ -27,7 +28,7 @@ public abstract class IndexTest
 
 	protected static MarcImporter importer;
 	protected static SolrProxy solrProxy;
-	protected static SolrServer solrJSolrServer;
+	protected static SolrClient solrJSolrClient;
 	protected static SolrJettyProcess solrJettyProcess = null;
 
 	protected static String docIDfname = "id";
@@ -162,7 +163,7 @@ public abstract class IndexTest
 
 //		solrProxy.deleteAllDocs();
 //		solrProxy.commit(false); // don't optimize
-		solrJSolrServer.deleteByQuery("*:*");
+		solrJSolrClient.deleteByQuery("*:*");
 		logger.debug("just deleted all docs known to the solrProxy");
 
 		runMarcImporter(configPropFilename, testDataParentPath, marcTestDataFname);
@@ -219,7 +220,7 @@ public abstract class IndexTest
 	}
 
 	/**
-	 * Check required properties; if needed, assign solrProxy and solrJSolrServer
+	 * Check required properties; if needed, assign solrProxy and solrJSolrClient
 	 * @param useBinaryRequestHandler - true to use the binary request handler
 	 * @param useStreamingProxy - true to use streaming proxy (multiple records added at a time)
 	 * @param testSolrUrl - url for test solr instance, as a string
@@ -231,7 +232,7 @@ public abstract class IndexTest
 
 		solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
 		logger.debug("just set solrProxy to remote server at "	+ testSolrUrl + " - " + solrProxy.toString());
-		solrJSolrServer = ((SolrServerProxy) solrProxy).getSolrServer();
+		solrJSolrClient = ((SolrServerProxy) solrProxy).getSolrServer();
 	}
 
 	/**
@@ -263,11 +264,11 @@ public abstract class IndexTest
 		if (solrJettyProcess == null)
 			startTestJetty();
 
-		solrJSolrServer = ((SolrServerProxy) solrProxy).getSolrServer();
+		solrJSolrClient = ((SolrServerProxy) solrProxy).getSolrServer();
 		try
 		{
-			solrJSolrServer.deleteByQuery("*:*");
-			solrJSolrServer.commit();
+			solrJSolrClient.deleteByQuery("*:*");
+			solrJSolrClient.commit();
 		}
 		catch (SolrServerException e)
 		{
@@ -592,7 +593,7 @@ public abstract class IndexTest
 		query.setRows(75);
 		try
 		{
-			QueryResponse response = solrJSolrServer.query(query);
+			QueryResponse response = solrJSolrClient.query(query);
 			return (response.getResults());
 		}
 		catch (SolrServerException e)
@@ -652,7 +653,7 @@ public abstract class IndexTest
 		query.setRows(35);
 		try
 		{
-			QueryResponse response = solrJSolrServer.query(query);
+			QueryResponse response = solrJSolrClient.query(query);
 			return (response.getResults());
 		} catch (SolrServerException e)
 		{
@@ -696,7 +697,7 @@ public abstract class IndexTest
 		query.setParam(CommonParams.WT, "json");
 		try
 		{
-			QueryResponse response = ((HttpSolrServer) solrJSolrServer).query(query);
+			QueryResponse response = ((HttpSolrClient) solrJSolrClient).query(query);
 			SolrDocumentList docList = response.getResults();
 			for (SolrDocument d : docList)
 				doc = d;
