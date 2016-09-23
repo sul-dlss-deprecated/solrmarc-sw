@@ -589,7 +589,7 @@ public abstract class IndexTest
 		SolrQuery query = new SolrQuery(fld + ":" + value);
 		query.setRequestHandler(reqHandler);
 		query.setFacet(false);
-		query.setSortField(sortfld, sortOrder);
+		query.setSort(sortfld, sortOrder);
 		query.setRows(75);
 		try
 		{
