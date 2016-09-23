@@ -587,7 +587,7 @@ public abstract class IndexTest
 	public final SolrDocumentList getSortedDocs(String fld, String value, String sortfld, SolrQuery.ORDER sortOrder, String reqHandler)
 	{
 		SolrQuery query = new SolrQuery(fld + ":" + value);
-		query.setQueryType(reqHandler);
+		query.setRequestHandler(reqHandler);
 		query.setFacet(false);
 		query.setSortField(sortfld, sortOrder);
 		query.setRows(75);
@@ -647,7 +647,7 @@ public abstract class IndexTest
 	public final SolrDocumentList getDocList(String field, String value, String reqHandler)
 	{
 		SolrQuery query = new SolrQuery(field + ":" + value);
-		query.setQueryType(reqHandler);
+		query.setRequestHandler(reqHandler);
 		query.setFields("*");
 		query.setFacet(false);
 		query.setRows(35);
@@ -692,7 +692,7 @@ public abstract class IndexTest
 		SolrDocument doc = null;
 
 		SolrQuery query = new SolrQuery(docIDfname + ":" + id);
-		query.setQueryType(reqHandler);
+		query.setRequestHandler(reqHandler);
 		query.setFacet(false);
 		query.setParam(CommonParams.WT, "json");
 		try
