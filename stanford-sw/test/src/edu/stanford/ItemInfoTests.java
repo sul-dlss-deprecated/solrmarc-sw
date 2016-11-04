@@ -142,7 +142,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	    // INDEX-168 Meyer no longer exists
 	    assertZeroResults(fldName, "\"MEYER\"");
 
-      // Skip RUMSEYMAP library until UI is ready
+      // Skip SCIENCE library until UI is ready
 	    assertZeroResults(fldName, "\"SCIENCE\"");
 
 	}
