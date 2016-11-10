@@ -147,4 +147,30 @@
             <subfield code="t">STKS-MONO</subfield>
         </datafield>
     </record>
+    <!-- Temporarily skip SCIENCE library for indexing items-->
+    <record>
+        <leader>01149nam a22002891  4500</leader>
+        <controlfield tag="001">akeepOneTemp</controlfield>
+        <controlfield tag="008">840514s1962    enk      b    000 0 eng  </controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">keep one temp, skip one temp</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">KEEPTEMP</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">KEEPTEMP</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="t">STKS</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">SKIPTEMP</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">2</subfield>
+            <subfield code="i">SKIPTEMP</subfield>
+            <subfield code="m">SCIENCE</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+        </datafield>
+    </record>
 </collection>

@@ -808,6 +808,22 @@
       <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
+  <record>
+    <leader>01341nam a2200289 a 4500</leader>
+    <controlfield tag="001">a11847684</controlfield>
+    <controlfield tag="008">160929t20172017enka     b    001 0 eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">SCIENCE = Science (Li and Ma)</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">TP155 .C62 2017</subfield>
+      <subfield code="w">LC</subfield>
+      <subfield code="i">36105225457808</subfield>
+      <subfield code="l">POPSCI</subfield>
+      <subfield code="m">SCIENCE</subfield>
+      <subfield code="t">STKS</subfield>
+    </datafield>
+  </record>
 
 
 </collection>
