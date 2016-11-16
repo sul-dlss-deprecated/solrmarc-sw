@@ -59,8 +59,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	    assertSingleResult("10421123", fldName, "Lathrop");
 	    assertSingleResult("2797608", fldName, "\"Media & Microtext Center\"");
 			assertSingleResult("2797609", fldName, "\"David Rumsey Map Center\"");
-      // Temporarily skip this test until SCIENCE library go live
-      // assertSingleResult("11847684", fldName, "\"Science (Li and Ma)\"");
+      assertSingleResult("11847684", fldName, "\"Science (Li and Ma)\"");
 
 	    // hoover tests are a separate method below
 
@@ -141,9 +140,6 @@ public class ItemInfoTests extends AbstractStanfordTest {
 
 	    // INDEX-168 Meyer no longer exists
 	    assertZeroResults(fldName, "\"MEYER\"");
-
-      // Skip SCIENCE library until UI is ready
-	    assertZeroResults(fldName, "\"SCIENCE\"");
 
 	}
 
@@ -467,7 +463,17 @@ public class ItemInfoTests extends AbstractStanfordTest {
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
-		// SPEC-COLL
+    // SCIENCE
+    id = "11847684";
+    callnum = "TP155 .C62 2017";
+    shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.LC, id).toLowerCase();
+		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, CallNumberType.LC, !isSerial, id);
+    fldVal = "36105225457808 -|- SCIENCE -|- POPSCI -|- " + SEP + "STKS" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort + SEP + SEP + CallNumberType.LC;
+	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
+
+    // SPEC-COLL
 		id = "4258089";
 		callnum = "NAS 1.26:205100";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.SUDOC, id).toLowerCase();
