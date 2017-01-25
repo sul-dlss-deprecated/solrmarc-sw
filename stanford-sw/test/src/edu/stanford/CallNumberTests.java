@@ -233,7 +233,7 @@ public class CallNumberTests extends AbstractStanfordTest
 	    df.addSubfield(factory.newSubfield('w', "LC"));
 	    df.addSubfield(factory.newSubfield('i', "36105111222333"));
 	    df.addSubfield(factory.newSubfield('l', "SHELBYTITL"));
-	    df.addSubfield(factory.newSubfield('m', "CHEMCHMENG"));
+	    df.addSubfield(factory.newSubfield('m', "SCIENCE"));
 	    record.addVariableField(df);
 	    df = factory.newDataField("999", ' ', ' ');
 	    df.addSubfield(factory.newSubfield('a', "PQ9661 .P31 C6 1946"));
@@ -241,14 +241,14 @@ public class CallNumberTests extends AbstractStanfordTest
 	    df.addSubfield(factory.newSubfield('i', "36105111222333"));
 	    df.addSubfield(factory.newSubfield('k', "SHELBYSER"));
 	    df.addSubfield(factory.newSubfield('l', "INPROCESS"));
-	    df.addSubfield(factory.newSubfield('m', "CHEMCHMENG"));
+	    df.addSubfield(factory.newSubfield('m', "SCIENCE"));
 	    record.addVariableField(df);
 	    df = factory.newDataField("999", ' ', ' ');
 	    df.addSubfield(factory.newSubfield('a', "PQ9661 .P31 C6 1946"));
 	    df.addSubfield(factory.newSubfield('w', "LC"));
 	    df.addSubfield(factory.newSubfield('i', "36105111222333"));
 	    df.addSubfield(factory.newSubfield('l', "STORBYTITL"));
-	    df.addSubfield(factory.newSubfield('m', "CHEMCHMENG"));
+	    df.addSubfield(factory.newSubfield('m', "SCIENCE"));
 	    record.addVariableField(df);
 	    solrFldMapTest.assertSolrFldHasNoValue(record, fldName, "PQ9661");
 	}
