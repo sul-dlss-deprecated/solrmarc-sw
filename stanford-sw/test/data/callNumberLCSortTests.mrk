@@ -1,0 +1,136 @@
+=LDR  00255cam a2200073 a 4500
+=001  a999LC2
+=008  870909s1986\\\\enka\\\\\\\\\\000\0\eng\d
+=245  00$a999 LC begins with 2 letters, no decimal digits before Cutter
+=999  \\$aHG6046 .V28 1986$wLC$i36105034181003$lSTACKS$mSAL3$tSTKS-MONO
+
+=LDR  00293cam a2200073 a 4500
+=001  a999LC1dec
+=008  891204s1990\\\\ru\\\\\\\\\\\\000\0\rus\\
+=245  10$a999 LC begins with 1 letter; decimal digits before Cutter; Space before Cutter decimal point
+=999  \\$aD764.7 .K72 1990$wLC$c1$i36105043140537$lSTACKS$mGREEN$tSTKS-MONO
+
+=LDR  00214cam a2200073 a 4500
+=001  a999LC2NoDec
+=008  921105s1992\\\\sz\\\\\\\\\\\\000\1\fre\\
+=245  14$atwo cutters
+=999  \\$aPQ2678.I26 P54 1992$wLC$i36105043436257$lSTACKS$mGREEN$tSTKS-MONO
+
+=LDR  00256cam a2200073 a 4500
+=001  a999LC3Dec
+=008  921105s1992\\\\sz\\\\\\\\\\\\000\1\fre\\
+=245  14$a999 LC begins with 3 letters, decimal digits in class
+=999  \\$aKJH666.4.I26 P54 1992$wLC$i36105043436259$lSTACKS$mGREEN$tSTKS-MONO
+
+=LDR  00289cam a2200073 a 4500
+=001  a999LC3DecSpace
+=008  921105s1992\\\\sz\\\\\\\\\\\\000\1\fre\\
+=245  14$a999 LC begins with 3 letters, decimal in class: Space before Cutter decimal point
+=999  \\$aKJH66.6 .I26 P54 1992$wLC$i36105043436255$lSTACKS$mGREEN$tSTKS-MONO
+
+=LDR  00272cam a2200073 a 4500
+=001  a999LC3NoDec
+=008  921105s1992\\\\sz\\\\\\\\\\\\000\1\fre\\
+=245  14$a999 LC begins with 3 letters, two cutters, sufix after second cutter
+=999  \\$aKJH2678.I26 P54 1992$wLC$i36105043436258$lSTACKS$mGREEN$tSTKS-MONO
+
+=LDR  00245nam a22000735? 4500
+=001  a999LC22
+=008  910118s1990||||gw\|||||||||||||||||ger|d
+=245  14$atwo part suffix after first cutter
+=999  \\$aCB3 .A6 SUPPL. V.31$wLC$i36105035087092$kCHECKEDOUT$lSTACKS$mGREEN$tSTKS-MONO
+
+=LDR  00242cam a2200073K  45 0
+=001  a1111
+=008  870518s1946\\\\bl\\\\\\\\\\\\000\0\por\d
+=245  13$aSHELBYTITL - ignore call number
+=999  \\$aPQ9661 .P31 C6 VOL 1 1946$wLC$i36105129694373$lSHELBYTITL$mSCIENCE$tSTKS-MONO
+
+=LDR  00245cam a2200073K  45 0
+=001  a2211
+=008  870518s1946\\\\bl\\\\\\\\\\\\000\0\por\d
+=245  13$aSHELBYSER - ignore call number
+=999  \\$aPQ9661 .P31 C6 1946 VOL 1 1946$wLC$i36105129694374$lSHELBYSER$mSCIENCE$tSTKS-MONO
+
+=LDR  00242cam a2200073K  45 0
+=001  a3311
+=008  870518s1946\\\\bl\\\\\\\\\\\\000\0\por\d
+=245  13$aSTORBYTITL - ignore call number
+=999  \\$aPQ9661 .P31 C6 VOL 1 1946$wLC$i36105129694375$lSTORBYTITL$mSCIENCE$tSTKS-MONO
+
+=LDR  00213cas a2200073 a 4500
+=001  a460947
+=008  830415c19809999vauuu\\\\a\\\\0\\\\0eng\\
+=245  00$a999 LCPER
+=999  \\$aE184.S75 R47A V.1 1980$wLCPER$i36105007402873$lSTACKS$mGREEN$tSTKS-MONO
+
+=LDR  00285nam a2200085ua 4500
+=001  a1033119
+=008  830224s1982\\\\ilua\\\\\b\\\\001\0deng\\
+=245  10$aTwo 999 LC
+=999  \\$aBX4659.E85 W44$wLC$i36105037439663$lSTACKS$mGREEN$tSTKS-MONO
+=999  \\$aBX4659 .E85 W44 1982$wLC$i36105001623284$lSTACKS$mSAL$tSTKS-MONO
+
+=LDR  00279nam a22000851  4500
+=001  a1732616
+=008  840514s1962\\\\enk\\\\\\b\\\\000\0\eng\\
+=245  10$a Two 999 LC
+=999  \\$aQA273 .C83 1962$wLC$i36105033142303$lSTACKS$mMATH-CS$tSTKS
+=999  \\$aQA273 .C83 1962$wLC$i36105033142311$lSTACKS$mSAL$tSTKS-MONO
+
+=LDR  00418cam a2200097   4500
+=001  a2328381
+=008  770114s1920\\\\xx\\\\\\\\\\\\000\0\eng\\
+=245  12$aThree 999: Two LC, one Dewey
+=999  \\$aPR3724.T3$wLC$i36105003934432$lSTACKS$mSAL$tSTKS-MONO$zDIGI-SENT
+=999  \\$aPR3724.T3$wLC$i36105003934424$lSTACKS$mSAL$tSTKS-MONO$zDIGI-SENT$o.TECHSTAFF. tf:MEYER 03/99 batch
+=999  \\$a827.5 .S97TG$wDEWEY$i36105048104132$lSTACKS$mSAL3$tSTKS-MONO
+
+=LDR  00205cam a2200073 i 4500
+=001  a2557826
+=008  790520m1977\\\\dcua\\\\\\\\\f000\0\eng\d
+=245  10$a999 SUDOC
+=999  \\$aE 1.28:COO-4274-1$wSUDOC$i001AMR5851$lFED-DOCS$mGREEN$tGOVSTKS
+
+=LDR  00263nam a22000735a 4500
+=001  a3277173
+=008  910725s1991\\\\fr\af\\\\\\\\\00000\fre\\
+=245  14$a999 withdrawn (subfield k) - no call number should be assigned/
+=999  \\$aWDRNALW4497$wASIS$i001ALW4497$kWITHDRAWN$lSTACKS$mGREEN$tSTKS-MONO
+
+=LDR  00249cam a2200073Ia 4500
+=001  a3400092
+=008  970424s1996\\\\fr\\\\\\\b\\\\000\0\fre\d
+=245  12$a999 LC with decimal digit before the Cutter period
+=999  \\$aDC34.5 .A78 L4 1996$wLC$i36105020376997$lSTACKS$mGREEN$tSTKS-MONO
+
+=LDR  00244cam a22000737  45 0
+=001  a4578538
+=008  850909|||||||||xx\|||||||||||||||||eng||
+=245  10$aHF high data rate compressive spectrum analyzer.
+=999  \\$aSUSEL-69048$wALPHANUM$i36105046377987$lSTACKS$mSAL3$tSTKS-MONO
+
+=LDR  00215cam a2200073 i 4500
+=001  a6661112
+=008  790220||||||||||||\\\\\\\\\\\|||\|\eng\\
+=245  12$a999 LC begins with 1 letter
+=999  \\$aZ3871.Z8$wLC$i36105082101390$lSAL-PAGE$mSAL$tSTKS-MONO
+
+=LDR  00217cam a2200073Li 4500
+=001  a7233951
+=008  980209s1851\\\\ohu\\\\\s\\\\\00|\0\eng\u
+=245  14$a999 bad LC (starts with X)
+=999  \\$aX578 .S64 1851$wLC$iLL124341$lASK@LANE$mLANE-MED$tMEDICAL
+
+=LDR  00213cam a2200073Li 4500
+=001  a7370014
+=008  980209s1969\\\\sz\\\\\\\\\\\\00|\0\ger\u
+=245  10$a999 LC "NO CALL NUMBER"
+=999  \\$aNO CALL NUMBER$wLC$iLL94379$lASK@LANE$mLANE-MED$tMEDICAL
+
+=LDR  00258cam a2200073Mi 45 0
+=001  a7772223
+=008  060502s2005\\\\mx\\\\\\\\\\\\000\0\spa\d
+=245  13$a999 LC begins with 1 letter, Space before Cutter decimal point
+=999  \\$aF1356 .M464 2005$wLC$i36105122224160$lSTACKS$mGREEN$tSTKS-MONO
+

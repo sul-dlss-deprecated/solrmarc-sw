@@ -73,6 +73,33 @@
             <subfield code="m">GREEN</subfield>
             <subfield code="t">STKS-MONO</subfield>
         </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">Z7164.T23.W45</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">111</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">BIOLOGY</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">Z7164.T23.W45</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">111</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">CHEMCHMENG</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">Z7164.T23.W45</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">111</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">MATH-CS</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+        </datafield>
     </record>
     <!-- No Items -->
     <record>
