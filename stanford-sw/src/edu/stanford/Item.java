@@ -94,7 +94,8 @@ public class Item {
 					|| StanfordIndexer.SKIPPED_LOCS.contains(homeLoc)
 					|| itemType.equals("EDI-REMOVE")
 					// SW-849 skip PHYSICS items that aren't location PHYSTEMP
-					|| (library.equals("PHYSICS") && (!homeLoc.equals("PHYSTEMP") && !currLoc.equals("PHYSTEMP"))))
+					|| (library.equals("PHYSICS") && (!homeLoc.equals("PHYSTEMP") && !currLoc.equals("PHYSTEMP")))
+          || StanfordIndexer.CLOSED_LIBS.contains(library))
 			shouldBeSkipped = true;
 		else
 			shouldBeSkipped = false;

@@ -42,6 +42,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
   static Set<String> SKIPPED_CALLNUMS = null;
   /** locations indicating art library item is in the locked stacks */
   static Set<String> ART_LOCKED_LOCS = null;
+  /** libraries that are closed, item should not be displayed */
+  static Set<String> CLOSED_LIBS = null;
 
   /**
    * Default constructor
@@ -72,6 +74,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         BIZ_SHELBY_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "locations_biz_shelby_list.properties");
         SKIPPED_CALLNUMS = PropertiesUtils.loadPropertiesSet(propertyDirs, "callnums_skipped_list.properties");
         ART_LOCKED_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "art_locked_location_list.properties");
+        CLOSED_LIBS = PropertiesUtils.loadPropertiesSet(propertyDirs, "library_closed.properties");
 
         // try to reuse HashSet, etc. objects instead of creating fresh each time
         old_formats = new LinkedHashSet<String>();
