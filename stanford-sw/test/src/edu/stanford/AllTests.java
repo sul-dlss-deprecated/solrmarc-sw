@@ -19,6 +19,7 @@ import org.junit.runners.Suite;
       CallNumLongestComnPfxTests.class,
       CallNumLoppingUnitTests.class,
       CallNumUtilsLoppingUnitTests.class,
+      ClosedLibrariesTests.class,
       DatabaseAZSubjectTests.class,
       DiacriticTests.class,
       FormatDatabaseTests.class,
