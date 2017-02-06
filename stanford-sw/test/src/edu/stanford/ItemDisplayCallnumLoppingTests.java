@@ -779,7 +779,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String fullItemCallnum = shelByTitl + " " + volSuffix;
 		String volSort = CallNumUtils.getVolumeSortCallnum(fullItemCallnum, shelByTitl, shelfkey, CallNumberType.DEWEY, isSerial, recId);
-		String fldVal = "36105121608587 -|- CHEMCHMENG -|- SHELBYTITL" + SEP + SEP + "PERI2" + SEP +
+		String fldVal = "36105121608587 -|- SCIENCE -|- SHELBYTITL" + SEP + SEP + "PERI2" + SEP +
 				shelByTitl + SEP + shelfkey + SEP + reversekey + SEP + fullItemCallnum + SEP + volSort + SEP + SEP + CallNumberType.DEWEY;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
 
@@ -787,7 +787,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest
 		volSuffix = "V.458:543--1212 2009";
 		fullItemCallnum = shelByTitl + " " + volSuffix;
 		volSort = CallNumUtils.getVolumeSortCallnum(fullItemCallnum, shelByTitl, shelfkey, CallNumberType.OTHER, isSerial, recId);
-		fldVal = "36105123660933 -|- CHEMCHMENG -|- SHELBYTITL" + SEP + SEP + "PERI2" + SEP +
+		fldVal = "36105123660933 -|- SCIENCE -|- SHELBYTITL" + SEP + SEP + "PERI2" + SEP +
 				shelByTitl + SEP + shelfkey + SEP + reversekey + SEP + fullItemCallnum + SEP + volSort + SEP + SEP + CallNumberType.DEWEY;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
 	}
