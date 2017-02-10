@@ -44,6 +44,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
   static Set<String> ART_LOCKED_LOCS = null;
   /** libraries that are closed, item should not be displayed */
   static Set<String> CLOSED_LIBS = null;
+  /** resrve locations indicating item should be indexed */
+  static Set<String> RESV_LOCS = null;
 
   /**
    * Default constructor
@@ -75,6 +77,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         SKIPPED_CALLNUMS = PropertiesUtils.loadPropertiesSet(propertyDirs, "callnums_skipped_list.properties");
         ART_LOCKED_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "art_locked_location_list.properties");
         CLOSED_LIBS = PropertiesUtils.loadPropertiesSet(propertyDirs, "library_closed.properties");
+        RESV_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "locations_reserves_list.properties");
 
         // try to reuse HashSet, etc. objects instead of creating fresh each time
         old_formats = new LinkedHashSet<String>();
@@ -1623,15 +1626,20 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     for (Item item : itemSet) {
       String buildingStr = item.getLibrary();
       if (buildingStr.length() > 0) {
-        buildings.add(buildingStr);
-        // https://github.com/sul-dlss/solrmarc-sw/issues/101
-        // Per Peter Blank - items with library = SAL3 and home location = PAGE-AR
-        // should be given two library facet values:
-        // SAL3 (off-campus storage) <- they are currently getting this
-        // and Art & Architecture (Bowes) <- new requirement
-        String home_loc = item.getHomeLoc();
-        if (buildingStr.equals("SAL3") && home_loc.equals("PAGE-AR")) {
-          buildings.add("ART");
+        if (RESV_LOCS.contains(item.getCurrLoc())) {
+          buildings.add(item.getCurrLoc());
+        }
+        else {
+          buildings.add(buildingStr);
+          // https://github.com/sul-dlss/solrmarc-sw/issues/101
+          // Per Peter Blank - items with library = SAL3 and home location = PAGE-AR
+          // should be given two library facet values:
+          // SAL3 (off-campus storage) <- they are currently getting this
+          // and Art & Architecture (Bowes) <- new requirement
+          String home_loc = item.getHomeLoc();
+          if (buildingStr.equals("SAL3") && home_loc.equals("PAGE-AR")) {
+            buildings.add("ART");
+          }
         }
       }
     }
