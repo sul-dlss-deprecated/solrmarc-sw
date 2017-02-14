@@ -224,7 +224,7 @@
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
       <int name="rows">20</int>
       <str name="q.alt">*:*</str>
-      <str name="mm">6&lt;-1 6&lt;90%</str>
+      <str name="mm">8&lt;-1 8&lt;90%</str>
       <int name="qs">1</int>
       <int name="ps">0</int>
       <float name="tie">0.01</float>
