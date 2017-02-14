@@ -91,7 +91,7 @@
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
       <int name="rows">20</int>
       <str name="q.alt">*:*</str>
-      <str name="mm">6&lt;-1 6&lt;90%</str>
+      <str name="mm">8&lt;-1 8&lt;90%</str>
       <int name="qs">1</int>
       <int name="ps">0</int>
       <float name="tie">0.01</float>
@@ -145,7 +145,7 @@
         context_search^2               vern_context_search^2
         summary_unstem_search^5
         summary_search^2               vern_summary_search^2
-        
+
         pub_date_search^2
         isbn_search^1.5
         issn_search^1.5
@@ -249,7 +249,7 @@
         title_variant_search^40        vern_title_variant_search^40
         title_related_search^30        vern_title_related_search^30
         series_search^20               vern_series_search^20
-        
+
         author_1xx_search^50           vern_author_1xx_search^50
         author_7xx_search^40           vern_author_7xx_search^40
         author_8xx_search^20           vern_author_8xx_search^20
@@ -262,7 +262,7 @@
         geographic_subz_search^10      vern_geographic_subz_search^10
         subject_other_subvy_search^10  vern_subject_other_subvy_search^10
         subject_all_search^10          vern_subject_all_search^10
-        
+
         toc_search^5                   vern_toc_search^5
         context_search^5               vern_context_search^5
         summary_search^5               vern_summary_search^5
