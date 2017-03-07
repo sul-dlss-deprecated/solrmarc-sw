@@ -588,6 +588,45 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     return physicalFormats;
   }
 
+  public Set<String> getAllGenres(final Record record)
+  {
+    Set<String> allGenres = getGenres(record);
+    allGenres.addAll(getFreeFormGenre(record));
+    return allGenres;
+  }
+
+  /**
+   * Returns all 655av and the subfield v (repeatable) in list of 6xx fields
+   * @param record a marc4j Record object
+   * @return Set of strings containing genre_ssim values without trailing chars
+   */
+    @SuppressWarnings("unchecked")
+  public Set<String> getFreeFormGenre(final Record record)
+  {
+    Set<String> values = MarcUtils.getFieldList(record, "655av");
+    // look for subfield v (repeatable) in specific 6XX tags
+    String desiredTagFldSpec = "600:610:611:630:647:648:650:651:654:656:657";
+    List<VariableField> list6XXvf = MarcUtils.getVariableFields(record, desiredTagFldSpec);
+    for (VariableField vf : list6XXvf)
+    {
+      DataField df = (DataField) vf;
+      List<String> subList = MarcUtils.getSubfieldStrings(df, 'v');
+      for (int i = 0; i<subList.size(); i++) {
+        values.add(subList.get(i));
+      }
+    }
+
+    // Normalize values
+    Set<String> resultSet = new LinkedHashSet<String>();
+    String charsB4periodRegEx = "([\\p{L}\\p{N}]{4}|\\.*?[\\s)]|[..{2,}]|[AMUaw][adir][cirt])";
+    for (String val : values) {
+        // remove trailing punctuataion
+        String result = Utils.removeAllTrailingCharAndPeriod(val, "([\\\\,;:])+", charsB4periodRegEx);
+        result = Utils.cleanFacetPunct(result);
+      resultSet.add(result);
+    }
+    return resultSet;
+  }
 
   public Set<String> getGenres(final Record record)
   {
@@ -1005,7 +1044,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
       resultSet.removeAll(f655suba);
     resultSet.remove("nomesh");
     return resultSet;
-  }
+    }
 
   /**
    * Gets the value strings, but skips over 655a values when Lane is one of
@@ -1033,11 +1072,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     public Set<String> getTopicWithoutTrailingPunct(final Record record, final String fieldSpec, String charsToReplaceRegEx, String charsB4periodRegEx)
     {
       Set<String> resultSet = removeTrailingPunct(record, fieldSpec, charsToReplaceRegEx, charsB4periodRegEx);
-    if (buildings.contains("LANE-MED"))
-      resultSet.removeAll(f655suba);
-    resultSet.remove("nomesh");
-    return resultSet;
-  }
+      resultSet.remove("nomesh");
+      return resultSet;
+    }
 
   /**
    * Returns all 651a and the first subfield z in any 6xx field
@@ -1081,7 +1118,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
     return resultSet;
   }
-
 
   /**
    * given that there is a Format.DATABASE_A_Z assigned to the record,
@@ -2354,32 +2390,33 @@ private void setLocationFacet(final Record record) {
 
 // Generic Methods ---------------- Begin ---------------------- Generic Methods
 
-  /**
-   * Removes trailing characters indicated in regular expression, PLUS
-   * trailing period if it is preceded by its regular expression.
-   *
-   * @param record a marc4j Record object
-     * @param fieldSpec - which marc fields / subfields to use as values
-     * @param charsToReplaceRegEx a regular expression of trailing chars to be
-     *   replaced (see java Pattern class).  Note that the regular expression
-     *   should NOT have '$' at the end.
-     *   (e.g. " *[,/;:]" replaces any commas, slashes, semicolons or colons
-     *     at the end of the string, and these chars may optionally be preceded
-     *     by a space)
-     * @param charsB4periodRegEx a regular expression that must immediately
-     *  precede a trailing period IN ORDER FOR THE PERIOD TO BE REMOVED.
-     *  Note that the regular expression will NOT have the period or '$' at
-     *  the end.
-     *   (e.g. "[a-zA-Z]{3,}" means at least three letters must immediately
-     *   precede the period for it to be removed.)
-   *
-   * @return Set of strings containing values without trailing characters
-   */
-    public Set<String> removeTrailingPunct(final Record record, final String fieldSpec, String charsToReplaceRegEx, String charsB4periodRegEx)
-    {
+/**
+ * Removes trailing characters indicated in regular expression, PLUS
+ * trailing period if it is preceded by its regular expression.
+ *
+ * @param record a marc4j Record object
+   * @param fieldSpec - which marc fields / subfields to use as values
+   * @param charsToReplaceRegEx a regular expression of trailing chars to be
+   *   replaced (see java Pattern class).  Note that the regular expression
+   *   should NOT have '$' at the end.
+   *   (e.g. " *[,/;:]" replaces any commas, slashes, semicolons or colons
+   *     at the end of the string, and these chars may optionally be preceded
+   *     by a space)
+   * @param charsB4periodRegEx a regular expression that must immediately
+   *  precede a trailing period IN ORDER FOR THE PERIOD TO BE REMOVED.
+   *  Note that the regular expression will NOT have the period or '$' at
+   *  the end.
+   *   (e.g. "[a-zA-Z]{3,}" means at least three letters must immediately
+   *   precede the period for it to be removed.)
+ *
+ * @return Set of strings containing values without trailing characters
+ */
+  public Set<String> removeTrailingPunct(final Record record, final String fieldSpec, String charsToReplaceRegEx, String charsB4periodRegEx)
+  {
     Set<String> resultSet = new LinkedHashSet<String>();
     for (String val : MarcUtils.getFieldList(record, fieldSpec)) {
-        String result = Utils.removeAllTrailingCharAndPeriod(val, "(" + charsToReplaceRegEx + ")+", charsB4periodRegEx);
+      String result = Utils.removeAllTrailingCharAndPeriod(val, "(" + charsToReplaceRegEx + ")+", charsB4periodRegEx);
+      result = Utils.cleanFacetPunct(result);
       resultSet.add(result);
     }
 

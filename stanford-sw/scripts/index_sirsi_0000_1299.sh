@@ -31,6 +31,7 @@ ant -buildfile $SOLRMARC_BASEDIR/build.xml dist_site
 /home/blacklight/solrmarc-sw/stanford-sw/scripts/index_sirsi_0900_0999.sh $LOG_SUBDIR &
 /home/blacklight/solrmarc-sw/stanford-sw/scripts/index_sirsi_1000_1099.sh $LOG_SUBDIR &
 /home/blacklight/solrmarc-sw/stanford-sw/scripts/index_sirsi_1100_1199.sh $LOG_SUBDIR &
+/home/blacklight/solrmarc-sw/stanford-sw/scripts/index_sirsi_1200_1299.sh $LOG_SUBDIR &
 #curl http://localhost:8983/solr/update?commit=true
 
 echo "!!! SOLR COMMIT  curl http://localhost:8983/solr/update?commit=true !!!"

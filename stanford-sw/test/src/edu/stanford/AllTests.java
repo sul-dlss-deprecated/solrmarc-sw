@@ -26,6 +26,7 @@ import org.junit.runners.Suite;
       FormatMainTests.class,
       FormatOldTests.class,
       FormatPhysicalTests.class,
+      GenreFacetTests.class,
       GenreTests.class,
       GeographicFacetTests.class,
       IncrementalUpdateTests.class,
