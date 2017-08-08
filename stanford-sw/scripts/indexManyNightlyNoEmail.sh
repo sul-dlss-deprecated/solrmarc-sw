@@ -11,5 +11,5 @@ LANG="en_US.UTF-8"
 export LANG
 (source /usr/local/rvm/scripts/rvm && cd /home/blacklight/crez-sw-ingest && ./bin/index_latest_no_email.sh -s prod )
 
-echo "!!! RUN GDOR, SEARCHWORKS TESTS before putting index into production !!!"
+echo "!!! RUN SEARCHWORKS TESTS before putting index into production !!!"
 echo "!!! CHGRP before putting index into production !!!"

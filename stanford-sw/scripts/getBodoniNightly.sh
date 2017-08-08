@@ -1,6 +1,6 @@
 #! /bin/bash
 # getBodoniNightly.sh
-# Pull the nightly update files from Sirsi bodoni-local
+# Pull the nightly update files from Sirsi bodoni
 # defaults to most recent; can take a date arg in the form yymmdd
 #  Naomi Dushay 2010-01-08
 
