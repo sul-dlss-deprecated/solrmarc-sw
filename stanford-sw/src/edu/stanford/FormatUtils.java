@@ -45,74 +45,80 @@ public class FormatUtils {
     char leaderChar07 = leaderStr.charAt(7);
     char leaderChar06 = leaderStr.charAt(6);
     switch (leaderChar06) {
-    case 'a':
-      if (leaderChar07 == 'a' || leaderChar07 == 'm')
-        result.add(Format.BOOK.toString());
-      // INDEX-75 Move "Other" collections to Archive/Manuscript
-      // look for Leader/06 = a and Leader/07 = c
-      if (leaderChar07 == 'c')
+      case 'a':
+        if (leaderChar07 == 'a' || leaderChar07 == 'm')
+          result.add(Format.BOOK.toString());
+        // INDEX-75 Move "Other" collections to Archive/Manuscript
+        // look for Leader/06 = a and Leader/07 = c
+        if (leaderChar07 == 'c')
+          result.add(Format.MANUSCRIPT_ARCHIVE.toString());
+        break;
+      case 'b':
+      case 'p':
         result.add(Format.MANUSCRIPT_ARCHIVE.toString());
-      break;
-    case 'b':
-    case 'p':
-      result.add(Format.MANUSCRIPT_ARCHIVE.toString());
-      break;
-    case 'c':
-    case 'd':
-      result.add(Format.MUSIC_SCORE.toString());
-      break;
-    case 'e':
-    case 'f':
-      result.add(Format.MAP.toString());
-      break;
-    case 'g':
-      // INDEX-120 Additional criteria for video and image
-      // VIDEO: 008/33 = f m v [I would also include the values |, blank, and any numerals]
-      // IMAGE: 008/33 = a c i k l n o p s t [some of these should not be used with Leader/06 = g but let's assume the worst]
-      // 008 field, char 33 (count starts at 0)
-      if (cf008 != null)
-      {
-        if (cf008.find("^.{33}[ |0-9fmv]"))
-          result.add(Format.VIDEO.toString());
-        else if (cf008.find("^.{33}[aciklnopst]"))
+        break;
+      case 'c':
+        result.add(Format.MUSIC_SCORE.toString());
+        break;
+      case 'd':
+        result.add(Format.MUSIC_SCORE.toString());
+        result.add(Format.MANUSCRIPT_ARCHIVE.toString());
+        break;
+      case 'e':
+        result.add(Format.MAP.toString());
+        break;
+      case 'f':
+        result.add(Format.MAP.toString());
+        result.add(Format.MANUSCRIPT_ARCHIVE.toString());
+        break;
+      case 'g':
+        // INDEX-120 Additional criteria for video and image
+        // VIDEO: 008/33 = f m v [I would also include the values |, blank, and any numerals]
+        // IMAGE: 008/33 = a c i k l n o p s t [some of these should not be used with Leader/06 = g but let's assume the worst]
+        // 008 field, char 33 (count starts at 0)
+        if (cf008 != null)
+        {
+          if (cf008.find("^.{33}[ |0-9fmv]"))
+            result.add(Format.VIDEO.toString());
+          else if (cf008.find("^.{33}[aciklnopst]"))
+            result.add(Format.IMAGE.toString());
+        }
+        break;
+      case 'i':
+        result.add(Format.SOUND_RECORDING.toString());
+        break;
+      case 'j':
+        result.add(Format.MUSIC_RECORDING.toString());
+        break;
+      case 'k':
+        // INDEX-120 Additional criteria for image
+        // IMAGE: 008/33 = a c i k l n o p s t [and I would include values |, blank, and any numerals]
+            // 008 field, char 33 (count starts at 0)
+        if (cf008 != null && cf008.find("^.{33}[ |0-9aciklnopst]"))
           result.add(Format.IMAGE.toString());
-      }
-      break;
-    case 'i':
-      result.add(Format.SOUND_RECORDING.toString());
-      break;
-    case 'j':
-      result.add(Format.MUSIC_RECORDING.toString());
-      break;
-    case 'k':
-      // INDEX-120 Additional criteria for image
-      // IMAGE: 008/33 = a c i k l n o p s t [and I would include values |, blank, and any numerals]
-          // 008 field, char 33 (count starts at 0)
-      if (cf008 != null && cf008.find("^.{33}[ |0-9aciklnopst]"))
-        result.add(Format.IMAGE.toString());
-      break;
-    case 'm':
-      // look for a in 008 field, char 26 (count starts at 0)
-      if (cf008 != null && cf008.find("^.{26}a"))
-        result.add(Format.DATASET.toString());
-      else
-        result.add(Format.COMPUTER_FILE.toString());
-      break;
-    case 'o': // instructional kit
-      result.add(Format.OTHER.toString());
-      break;
-    case 'r': // 3D object
-      // INDEX-18 implement 3D object resource type
-      result.add(Format.OBJECT.toString());
-      break;
-    case 't':
-      if (leaderChar07 == 'a' || leaderChar07 == 'm')
-        result.add(Format.BOOK.toString());
-      // INDEX-122 Move "Other" collections to Archive/Manuscript
-      // look for Leader/06 = t and Leader/07 = c
-      if (leaderChar07 == 'c')
-        result.add(Format.MANUSCRIPT_ARCHIVE.toString());
-      break;
+        break;
+      case 'm':
+        // look for a in 008 field, char 26 (count starts at 0)
+        if (cf008 != null && cf008.find("^.{26}a"))
+          result.add(Format.DATASET.toString());
+        else
+          result.add(Format.COMPUTER_FILE.toString());
+        break;
+      case 'o': // instructional kit
+        result.add(Format.OTHER.toString());
+        break;
+      case 'r': // 3D object
+        // INDEX-18 implement 3D object resource type
+        result.add(Format.OBJECT.toString());
+        break;
+      case 't':
+        if (leaderChar07 == 'a' || leaderChar07 == 'm')
+          result.add(Format.BOOK.toString());
+        // INDEX-122 Move "Other" collections to Archive/Manuscript
+        // look for Leader/06 = t and Leader/07 = c
+        if (leaderChar07 == 'c')
+          result.add(Format.MANUSCRIPT_ARCHIVE.toString());
+        break;
     } // end switch
 
     return result;
