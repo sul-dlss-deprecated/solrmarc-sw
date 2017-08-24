@@ -2027,16 +2027,17 @@ private void setFundFacet(final Record record) {
  }
 
 /**
-* set locations based upon the value in the 852 subfield c or 999 subfield t
-* "Art Locked Stacks"
+* set locations based upon the value in the 852 subfield c or 999 subfield l
 * @param record a marc4j Record object
 */
 private void setLocationFacet(final Record record) {
 
   for (Item item : itemSet) {
     if (item.hasArtLockedLoc()) {
-      // TODO: if we get more values for locationFacet, make it an enum like Genre
-      locationFacet.add("Art Locked Stacks");
+      locationFacet.add(Location.ART_LOCKED.toString());
+    }
+    if (item.hasCurriculumLoc()) {
+      locationFacet.add(Location.CURRICULUM.toString());
     }
   }
 
@@ -2046,8 +2047,10 @@ private void setLocationFacet(final Record record) {
     DataField df = (DataField) vf;
     String subC = MarcUtils.getSubfieldData(df, 'c');
     if (ART_LOCKED_LOCS.contains(subC)){
-      // TODO: if we get more values for locationFacet, make it an enum like Genre
-      locationFacet.add("Art Locked Stacks");
+      locationFacet.add(Location.ART_LOCKED.toString());
+    }
+    if (subC != null && subC.equals("CURRICULUM")) {
+      locationFacet.add(Location.CURRICULUM.toString());
     }
   }
 }
