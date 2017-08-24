@@ -43,7 +43,7 @@ import org.junit.runners.Suite;
       ItemsSplitTests.class,
       ItemUtilsUnitTests.class,
       LanguageTests.class,
-      LockedStacksLocationTests.class,
+      LocationFacetTests.class,
       ManagedPurlTests.class,
       MergeMhldFldsIntoBibsReaderTests.class,
       MhldDisplayUnitTests.class,

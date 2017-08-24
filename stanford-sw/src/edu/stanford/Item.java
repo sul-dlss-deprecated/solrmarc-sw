@@ -34,6 +34,7 @@ public class Item {
   private final boolean hasBizShelbyLoc;
   private final boolean hasLaneLoc;
   private final boolean hasArtLockedLoc;
+  private final boolean hasCurriculumLoc;
 
   /* normal instance variables */
   private CallNumberType callnumType;
@@ -131,6 +132,11 @@ public class Item {
       hasArtLockedLoc = true;
     else
       hasArtLockedLoc = false;
+
+    if (homeLoc.equals("CURRICULUM"))
+      hasCurriculumLoc = true;
+    else
+      hasCurriculumLoc = false;
 
     if (StanfordIndexer.SHELBY_LOCS.contains(currLoc)
         || StanfordIndexer.SHELBY_LOCS.contains(homeLoc) )
@@ -282,6 +288,13 @@ public class Item {
    */
   public boolean hasArtLockedLoc() {
     return hasArtLockedLoc;
+  }
+
+  /**
+   * @return true if item has a value for the location facet
+   */
+  public boolean hasCurriculumLoc() {
+    return hasCurriculumLoc;
   }
 
   /**
