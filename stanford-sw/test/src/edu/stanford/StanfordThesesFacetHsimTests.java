@@ -20,6 +20,7 @@ import org.xml.sax.SAXException;
 public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
 {
   private final String fldName = "stanford_theses_facet_hsim";
+  private final String otherFldName = "stanford_dept_sim";
   private final MarcFactory factory = MarcFactory.newInstance();
 
 @Before
@@ -45,7 +46,7 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Bachelor's|Bachelor of Arts (BA)");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|Department of Geophysics");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "Department of Geophysics");
     solrFldMapTest.assertSolrFldHasNoValue(record, fldName, "Type of degree|Bachelor's|Undergraduate honors thesis");
   }
 
@@ -68,7 +69,7 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Doctoral|Doctor of Musical Arts (DMA)");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|Department of Music");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "Department of Music");
     solrFldMapTest.assertSolrFldHasNoValue(record, fldName, "Type of degree|Master's|Master of Arts (MA)");
   }
 
@@ -92,8 +93,9 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Doctoral|Doctor of Education (EdD)");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|Department of School of Education");
-    solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 2);
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "Department of School of Education");
+    solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 1);
+    solrFldMapTest.assertSolrFldHasNumValues(record, otherFldName, 1);
   }
 
   @Test
@@ -160,7 +162,7 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Master's|Engineer");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|Department of Aeronautics and Astronautics");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "Department of Aeronautics and Astronautics");
   }
 
   @Test
@@ -182,7 +184,7 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Master's|Engineer");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|Department of Geology");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "Department of Geology");
   }
 
   @Test
@@ -204,7 +206,7 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Master's|Engineer");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|Department of Civil Engineering");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "Department of Civil Engineering");
   }
 
   @Test
@@ -253,7 +255,7 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Doctoral|Doctor of the Science of Law (JSD)");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|School of Law");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "School of Law");
   }
 
   @Test
@@ -301,7 +303,7 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Master's|Master of Arts (MA)");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|Department of Chemistry");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "Department of Chemistry");
   }
 
   @Test
@@ -381,8 +383,8 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Doctoral|Doctor of Medicine (MD)");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|School of Medicine");
-    solrFldMapTest.assertSolrFldHasNoValue(record, fldName, "Department, school, or program|Department of Medicine");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "School of Medicine");
+    solrFldMapTest.assertSolrFldHasNoValue(record, otherFldName, "Department of Medicine");
   }
 
   @Test
@@ -407,8 +409,8 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Master's|Master of Fine Arts (MFA)");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|Master of Fine Arts");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|Department of Art and Art History");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "Master of Fine Arts");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "Department of Art and Art History");
   }
 
   @Test
@@ -428,7 +430,7 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Master's|Master of Liberal Arts (MLA)");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|Master of Liberal Arts Program");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "Master of Liberal Arts Program");
   }
 
   @Test
@@ -447,7 +449,7 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Master's|Master of Legal Studies (MLS)");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|Stanford Program in International Legal Studies");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "Stanford Program in International Legal Studies");
   }
 
   @Test
@@ -467,7 +469,7 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Master's|Master of Science (MS)");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|Department of Applied Earth Sciences");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "Department of Applied Earth Sciences");
   }
 
   @Test
@@ -489,7 +491,7 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Master's|Master of Science (MS)");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|Department of Biological Sciences");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "Department of Biological Sciences");
   }
 
   @Test
@@ -509,7 +511,7 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Doctoral|Doctor of Philosophy (PhD)");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|Department of Electrical Engineering");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "Department of Electrical Engineering");
   }
 
   @Test
@@ -529,7 +531,7 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Other|Student report");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|Department of Petroleum Engineering");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "Department of Petroleum Engineering");
   }
 
   @Test
@@ -551,7 +553,7 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Doctoral|Unspecified");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|Graduate School of Business");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "Graduate School of Business");
   }
 
   @Test
@@ -771,7 +773,7 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
 
     solrFldMapTest.assertNoSolrFld(record, fldName);
     solrFldMapTest.assertSolrFldHasNoValue(record, fldName, "Type of degree|Master's|Master of Arts (MA)");
-    solrFldMapTest.assertSolrFldHasNoValue(record, fldName, "Department, school, or program|Department of English");
+    solrFldMapTest.assertSolrFldHasNoValue(record, otherFldName, "Department of English");
   }
 
   @Test
@@ -794,8 +796,8 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Doctoral|Doctor of Philosophy (PhD)");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|Department of Pharmacology");
-    solrFldMapTest.assertSolrFldHasNoValue(record, fldName, "Department, school, or program|School of Medicine");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "Department of Pharmacology");
+    solrFldMapTest.assertSolrFldHasNoValue(record, otherFldName, "School of Medicine");
   }
 
   @Test
@@ -820,8 +822,8 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Doctoral|Doctor of Philosophy (PhD)");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|Stanford Linear Accelerator Center");
-    solrFldMapTest.assertSolrFldHasNoValue(record, fldName, "Department, school, or program|Dept. of Energy");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "Stanford Linear Accelerator Center");
+    solrFldMapTest.assertSolrFldHasNoValue(record, otherFldName, "Dept. of Energy");
   }
 
   @Test
@@ -844,9 +846,9 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Doctoral|Doctor of Philosophy (PhD)");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|Stanford University");
-    solrFldMapTest.assertSolrFldHasNoValue(record, fldName, "Department, school, or program|");
-    solrFldMapTest.assertSolrFldHasNoValue(record, fldName, "Department, school, or program");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "Stanford University");
+    solrFldMapTest.assertSolrFldHasNoValue(record, otherFldName, "");
+    // solrFldMapTest.assertSolrFldHasNoValue(record, fldName, "Department, school, or program");
   }
 
   @Test
@@ -866,7 +868,7 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
     record.addVariableField(df);
 
     solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Doctoral|Doctor of Philosophy (PhD)");
-    solrFldMapTest.assertSolrFldValue(record, fldName, "Department, school, or program|Department of Material Sci & Eng");
+    solrFldMapTest.assertSolrFldValue(record, otherFldName, "Department of Material Sci & Eng");
   }
 
 }
