@@ -100,6 +100,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         locationFacet = new LinkedHashSet<String>();
         onOrderLibraries = new HashSet<String>();
         stanfordThesesFacet = new LinkedHashSet<String>();
+        stanfordDeptFacet = new LinkedHashSet<String>();
   }
 
   // variables used in more than one method
@@ -140,6 +141,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
   Set<String> fundFacet;
   Set<String> locationFacet;
   Set<String> stanfordThesesFacet;
+  Set<String> stanfordDeptFacet;
 
   /** 008 field */
   ControlField cf008 = null;
@@ -257,6 +259,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     fundFacet.clear();
     locationFacet.clear();
     stanfordThesesFacet.clear();
+    stanfordDeptFacet.clear();
 
     collectionDruids.add("sirsi");
     processManaged856s(record);
@@ -267,6 +270,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
     if (isStanfordDissertationOrThesis(record)) {
       setStanfordThesesFacet(record);
+      setStanfordDeptFacet(record);
     }
 
   }
@@ -2071,14 +2075,10 @@ private void setLocationFacet(final Record record) {
 
   /**
    * Get hierarchical values for Stanford dissertations and theses facet
-   *  for Type of degree:
+   *  Type of degree:
    *    "Type of degree|Degree level|Degree"
    *      e.g. "Type of degree|Master's|Engineer"
    *      e.g. "Type of degree|Doctoral|Doctor of Education (EdD)"
-   *  for department, school, or program:
-   *    "Department, school, or program|(Stanford University Dept., school, or program)"
-   *      e.g. "Department, school, or program|Department of Molecular Pharmacology"
-   *      e.g. "Department, school, or program|Department of Electrical Engineering"
    *
    *  it is expected that these values will go to a field analyzed with
    *   solr.PathHierarchyTokenizerFactory  so a value like
@@ -2097,7 +2097,6 @@ private void setLocationFacet(final Record record) {
   private void setStanfordThesesFacet(final Record record)
   {
     stanfordThesesFacet.addAll(getDegreeTypes(record));
-    stanfordThesesFacet.addAll(getDeptValues(record));
   }
 
   public Set<String> getDegreeTypes(final Record record)
@@ -2190,11 +2189,21 @@ private void setLocationFacet(final Record record) {
   }
 
   /**
+   * Get facet values for Stanford school and departments
    * Returns first 710b if 710a contains "Stanford"
    * Returns 710a if it contains "Stanford" and no subfield b
    * @param record a marc4j Record object
    * @return Set of strings containing stanford_theses_facet_hsim values without trailing chars
    */
+   public Set<String> getStanfordDeptFacet(final Record record)
+   {
+     return stanfordDeptFacet;
+   }
+
+   private void setStanfordDeptFacet(final Record record)
+   {
+     stanfordDeptFacet.addAll(getDeptValues(record));
+   }
    @SuppressWarnings("unchecked")
   public Set<String> getDeptValues (final Record record)
   {
@@ -2223,7 +2232,7 @@ private void setLocationFacet(final Record record) {
         String result = Utils.removeAllTrailingCharAndPeriod(deptVal, "(" + charsToReplaceRegEx + ")+", charsB4periodRegEx);
         result = Utils.cleanFacetPunct(result);
         result = result.replace("Dept.", "Department");
-        resultSet.add("Department, school, or program|" + result);
+        resultSet.add(result);
       }
     }
     return resultSet;
