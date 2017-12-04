@@ -14,7 +14,7 @@ import org.xml.sax.SAXException;
  * junit4 tests for location facet for locked stacks
  * @author Laney McGlohon
  */
-public class LockedStacksLocationTests extends AbstractStanfordTest
+public class LocationTestsLockedStacks extends AbstractStanfordTest
 {
   private static String fldName = "location_facet";
   private static String fldBldgName = "building_facet";
@@ -30,7 +30,7 @@ public class LockedStacksLocationTests extends AbstractStanfordTest
    * Test population of location_facet from the 852 subfield c
    */
 @Test
-  public void testLocationFacetFrom852()
+  public void testArtLockedLocationFacetFrom852()
   {
     Record record = factory.newRecord();
     DataField df = factory.newDataField("852", ' ', ' ');
@@ -42,10 +42,10 @@ public class LockedStacksLocationTests extends AbstractStanfordTest
   }
 
   /**
-   * Test population of location_facet from 999 subfield t
+   * Test population of location_facet from 999 subfield l
    */
 @Test
-  public void testLocationFacetFrom999()
+  public void testArtLockedLocationFacetFrom999()
   {
     Record record = factory.newRecord();
     DataField df = factory.newDataField("999", ' ', ' ');
@@ -62,10 +62,10 @@ public class LockedStacksLocationTests extends AbstractStanfordTest
   }
 
 /**
- * Test no location_facet if not appropriate value in either 852$c or 999$t
+ * Test no location_facet if not appropriate value in either 852$c or 999$l
  */
 @Test
-  public void testNoLocationFacet()
+  public void testNoArtLockedLocationFacet()
   {
     Record record = factory.newRecord();
     DataField df = factory.newDataField("852", ' ', ' ');

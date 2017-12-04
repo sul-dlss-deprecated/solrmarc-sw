@@ -848,6 +848,10 @@
       <str name="facet.field">callnum_facet_hsim</str>
         <str name="f.callnum_facet_hsim.facet.method">enum</str>
         <int name="f.callnum_facet_hsim.facet.limit">-1</int>
+      <str name="facet.field">stanford_theses_facet_hsim</str>
+        <str name="f.stanford_theses_facet_hsim.facet.method">enum</str>
+        <int name="f.stanford_theses_facet_hsim.facet.limit">-1</int>
+      <str name="facet.field">stanford_dept_sim</str>
       <str name="facet.field">collection</str>
         <str name="f.collection.facet.method">enum</str>
       <str name="facet.field">db_az_subject</str>
