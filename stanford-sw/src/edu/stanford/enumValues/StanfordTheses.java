@@ -12,6 +12,7 @@ public enum StanfordTheses {
   EDM,
   EDS,
   ENGINEER,
+  JD,
   JSD,
   JSM,
   LLM,
@@ -43,6 +44,8 @@ public enum StanfordTheses {
         return "Type of degree|Other|Educational Specialist (EdS)";
       case ENGINEER:
         return "Type of degree|Master's|Engineer";
+      case JD:
+        return "Type of degree|Doctoral|Doctor of Jurisprudence (JD)";
       case JSD:
         return "Type of degree|Doctoral|Doctor of the Science of Law (JSD)";
       case JSM:

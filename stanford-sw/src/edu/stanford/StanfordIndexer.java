@@ -2128,6 +2128,9 @@ private void setLocationFacet(final Record record) {
       // Engineer engineer[i]?[n]?[g]?|
       else if (lowerCaseDf502.matches("(.*)(eng[^l]{1,}\\.?r?\\.?)(.*)"))
         result.add(StanfordTheses.ENGINEER.toString());
+      // JD
+      else if (lowerCaseDf502.matches("(.*)j\\.?\\s?d\\.?(.*)"))
+        result.add(StanfordTheses.JD.toString());
       // JSD
       else if (lowerCaseDf502.matches("(.*)j\\.?\\s?s\\.?\\s?d\\.?(.*)"))
         result.add(StanfordTheses.JSD.toString());

@@ -239,6 +239,22 @@ public class StanfordThesesFacetHsimTests extends AbstractStanfordTest
   }
 
   @Test
+  public void test502JD()
+  {
+    Record record = factory.newRecord();
+    record.setLeader(factory.newLeader("01737cam a2200445Ka 4500"));
+    ControlField cf = factory.newControlField("001", "a1795310");
+    record.addVariableField(cf);
+    DataField df = factory.newDataField("502", ' ', ' ');
+    df.addSubfield(factory.newSubfield('b', "J.D."));
+    df.addSubfield(factory.newSubfield('c', "Stanford University"));
+    df.addSubfield(factory.newSubfield('d', "1929"));
+    record.addVariableField(df);
+
+    solrFldMapTest.assertSolrFldValue(record, fldName, "Type of degree|Doctoral|Doctor of Jurisprudence (JD)");
+  }
+
+  @Test
   public void test502JSD()
   {
     Record record = factory.newRecord();
