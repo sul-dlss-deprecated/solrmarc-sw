@@ -58,6 +58,7 @@ import org.junit.runners.Suite;
       SDRfrom856sTests.class,
       SeriesTests.class,
       StandardNumberTests.class,
+      StanfordWorkFacetHsimTests.class,
       SubjectSearchTests.class,
       SubjectTests.class,
       TitleSearchTests.class,

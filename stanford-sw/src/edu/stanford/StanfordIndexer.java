@@ -99,6 +99,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         fundFacet = new LinkedHashSet<String>();
         locationFacet = new LinkedHashSet<String>();
         onOrderLibraries = new HashSet<String>();
+        stanfordWorkFacet = new LinkedHashSet<String>();
+        stanfordDeptFacet = new LinkedHashSet<String>();
   }
 
   // variables used in more than one method
@@ -138,6 +140,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
   Set<String> bookplatesDisplay;
   Set<String> fundFacet;
   Set<String> locationFacet;
+  Set<String> stanfordWorkFacet;
+  Set<String> stanfordDeptFacet;
 
   /** 008 field */
   ControlField cf008 = null;
@@ -254,13 +258,19 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     bookplatesDisplay.clear();
     fundFacet.clear();
     locationFacet.clear();
-
+    stanfordWorkFacet.clear();
+    stanfordDeptFacet.clear();
     collectionDruids.add("sirsi");
     processManaged856s(record);
     setBookplatesDisplay(record);
     setFundFacet(record);
     setLocationFacet(record);
     addSDRfrom856s(record);
+
+    if (isStanfordDissertationOrThesis(record)) {
+      setStanfordWorkFacet(record);
+      setStanfordDeptFacet(record);
+    }
 
   }
 
@@ -2048,6 +2058,180 @@ private void setLocationFacet(final Record record) {
   }
 }
 
+  /**
+   * use regex to determine if record is for a Stanford dissertation or thesis
+   * @param record - marc4j record object
+   * @return true if there is a 502 that contains the string "Stanford",
+   *  false otherwise
+   */
+  static boolean isStanfordDissertationOrThesis(Record record) {
+    Set<String> df502Set = MarcUtils.getAllAlphaSubfields(record, "502");
+    if (Utils.setItemContains(df502Set, "(.*)[Ss]tanford(.*)"))
+      return true;
+    else
+      return false;
+  }
+
+  /**
+   * Get hierarchical values for Stanford student work facet
+   *  Thesis/Dissertation:
+   *    "Thesis/Dissertation|Degree level|Degree"
+   *      e.g. "Thesis/Dissertation|Master's|Engineer"
+   *      e.g. "Thesis/Dissertation|Doctoral|Doctor of Education (EdD)"
+   *
+   *  it is expected that these values will go to a field analyzed with
+   *   solr.PathHierarchyTokenizerFactory  so a value like
+   *    "Thesis/Dissertation|Master's|Engineer"
+   *  will be indexed as 3 values:
+   *    "Thesis/Dissertation|Master's|Engineer"
+   *    "Thesis/Dissertation|Master's"
+   *    "Thesis/Dissertation"
+   * @param record a marc4j Record object
+   */
+  public Set<String> getStanfordWorkFacet(final Record record)
+  {
+    return stanfordWorkFacet;
+  }
+
+  private void setStanfordWorkFacet(final Record record)
+  {
+    stanfordWorkFacet.addAll(getDegreeTypes(record));
+  }
+
+  public Set<String> getDegreeTypes(final Record record)
+  {
+    Set<String> result = new HashSet<String>();
+
+    // check in all alpha subfields
+    Set<String> df502Set = MarcUtils.getAllAlphaSubfields(record, "502");
+    for (String df502 : df502Set)
+    {
+      String lowerCaseDf502 = df502.toLowerCase();
+      // B.A.
+      if (lowerCaseDf502.matches("^thesis\\s?.?b\\.?\\s?a\\.?\\s?(.*)")
+            && !lowerCaseDf502.matches("(.*)honor'?s?(.*)"))
+        result.add(StanfordWork.BA.toString());
+      // D. M. A.
+      else if (lowerCaseDf502.matches("(.*)d\\.?\\s?m\\.?\\s?a\\.?(.*)"))
+        result.add(StanfordWork.DMA.toString());
+      // Ed.D.
+      else if (lowerCaseDf502.matches("(.*)ed\\.?\\s?d\\.?(.*)"))
+        result.add(StanfordWork.EDD.toString());
+      // Ed.M.
+      else if (lowerCaseDf502.matches("(.*)ed\\.?\\s?m\\.?(.*)"))
+        result.add(StanfordWork.EDM.toString());
+      // Engineer engineer[i]?[n]?[g]?|
+      else if (lowerCaseDf502.matches("(.*)(eng[^l]{1,}\\.?r?\\.?)(.*)"))
+        result.add(StanfordWork.ENGINEER.toString());
+      // JD
+      else if (lowerCaseDf502.matches("(.*)j\\.?\\s?d\\.?(.*)"))
+        result.add(StanfordWork.JD.toString());
+      // JSD
+      else if (lowerCaseDf502.matches("(.*)j\\.?\\s?s\\.?\\s?d\\.?(.*)"))
+        result.add(StanfordWork.JSD.toString());
+      // JSM
+      else if (lowerCaseDf502.matches("(.*)j\\.?\\s?s\\.?\\s?m\\.?(.*)"))
+        result.add(StanfordWork.JSM.toString());
+      // LLM
+      else if (lowerCaseDf502.matches("(.*)l\\.?\\s?l\\.?\\s?m\\.?(.*)"))
+        result.add(StanfordWork.LLM.toString());
+      // MA or AM
+      // periods between letters NOT optional else "masters" or "drama" matches
+      else if ((lowerCaseDf502.matches("(.*)\\s?.?a\\.\\s?m\\.\\s?(.*)")
+            || lowerCaseDf502.matches("(.*)m\\.\\s?a[\\.\\)]\\s?(.*)")
+            || lowerCaseDf502.matches("(.*)m\\.\\s?a\\.?\\s?(.*)")))
+        result.add(StanfordWork.MA.toString());
+      // MD
+      else if (lowerCaseDf502.matches("^thesis\\s?.?m\\.\\s?d\\.\\s?(.*)"))
+        result.add(StanfordWork.MD.toString());
+      // MFA
+      else if (lowerCaseDf502.matches("(.*)m\\.?\\s?f\\.?\\s?a\\.?(.*)"))
+        result.add(StanfordWork.MFA.toString());
+      // MLA
+      else if (lowerCaseDf502.matches("(.*)m\\.?\\s?l\\.?\\s?a\\.?(.*)"))
+        result.add(StanfordWork.MLA.toString());
+      // MLS
+      else if (lowerCaseDf502.matches("(.*)m\\.?\\s?l\\.?\\s?s\\.?(.*)"))
+        result.add(StanfordWork.MLS.toString());
+      // MS
+      // periods between letters NOT optional else "programs" matches
+      else if (lowerCaseDf502.matches("(.*)m\\.\\s?s\\.(.*)")
+            || lowerCaseDf502.contains("master of science"))
+        result.add(StanfordWork.MS.toString());
+      // Ph.D.
+      else if (lowerCaseDf502.matches("(.*)ph\\s?\\.?\\s?d\\.?(.*)"))
+        result.add(StanfordWork.PHD.toString());
+      // Student report
+      else if (lowerCaseDf502.contains("student report"))
+        result.add(StanfordWork.STUDENT_RPT.toString());
+      // Undergraduate honors thesis
+      else if ((lowerCaseDf502.contains("thesis")
+            || lowerCaseDf502.contains("project"))
+            && lowerCaseDf502.matches("(.*)honor'?s?(.*)"))
+        result.add(StanfordWork.UGRADHONORS.toString());
+      // Unspecified Doctoral
+      else if (lowerCaseDf502.contains("doctoral")
+            || lowerCaseDf502.contains("graduate school of business"))
+        result.add(StanfordWork.DOCTORAL.toString());
+      // Unspecified Master's
+      else if (lowerCaseDf502.matches("(.*)master'?s(.*)"))
+        result.add(StanfordWork.MASTERS.toString());
+      else
+        result.add("Thesis/Dissertation|Unspecified");
+    }
+
+    return result;
+  }
+
+  /**
+   * Get facet values for Stanford school and departments
+   * Returns first 710b if 710a contains "Stanford"
+   * Returns 710a if it contains "Stanford" and no subfield b
+   * @param record a marc4j Record object
+   * @return Set of strings containing stanford_theses_facet_hsim values without trailing chars
+   */
+   public Set<String> getStanfordDeptFacet(final Record record)
+   {
+     return stanfordDeptFacet;
+   }
+
+   private void setStanfordDeptFacet(final Record record)
+   {
+     stanfordDeptFacet.addAll(getDeptValues(record));
+   }
+   @SuppressWarnings("unchecked")
+  public Set<String> getDeptValues (final Record record)
+  {
+    Set<String> resultSet = new LinkedHashSet<String>();
+    String charsToReplaceRegEx = "([\\\\,;:])+";
+    String charsB4periodRegEx = "([\\p{L}\\p{N}]{4}|\\.*?[\\s)]|[..{2,}]|[LAE][arn][wtg])";
+    List<VariableField> list710 = record.getVariableFields("710");
+    for (VariableField vf : list710)
+    {
+      DataField df = (DataField) vf;
+      String subA = MarcUtils.getSubfieldData(df, 'a');
+      List<String> subListB = MarcUtils.getSubfieldStrings(df, 'b');
+      String deptVal;
+      // look for Stanford University in subfield a
+      if (subA.toLowerCase().contains("stanford")) {
+        if (subListB.size()>0) {
+          String subB = subListB.get(0).trim();
+          if (subB.isEmpty()) {
+            deptVal = subA;
+          } else {
+            deptVal = subB;
+          }
+        } else {
+          deptVal = subA;
+        }
+        String result = Utils.removeAllTrailingCharAndPeriod(deptVal, "(" + charsToReplaceRegEx + ")+", charsB4periodRegEx);
+        result = Utils.cleanFacetPunct(result);
+        result = result.replace("Dept.", "Department");
+        resultSet.add(result);
+      }
+    }
+    return resultSet;
+  }
 
 // Vernacular Methods --------------- Begin ----------------- Vernacular Methods
 
