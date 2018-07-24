@@ -29,7 +29,7 @@ LOG_DIR=$LOG_PARENT_DIR/$LOG_SUBDIR
 mkdir -p $LOG_DIR
 
 # index the files without commit
-nohup java -Xmx1g -Xms256m -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_00000000_00499999.marc &>$LOG_DIR/log0000-0049.txt
-nohup java -Xmx1g -Xms256m -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_00500000_00999999.marc &>$LOG_DIR/log0050-0099.txt
+nohup java -Xmx1g -Xms256m -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_00000000_00499999.marc &>$LOG_DIR/log0000-0049.txt &
+nohup java -Xmx1g -Xms256m -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_00500000_00999999.marc &>$LOG_DIR/log0050-0099.txt &
 
 exit 0
